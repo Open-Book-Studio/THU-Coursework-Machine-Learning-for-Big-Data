@@ -1,0 +1,8 @@
+(declare-fun b () Real)
+(assert (<= b 0.0))
+(declare-fun w_2 () Real)
+(assert (> b (- w_2)))
+(declare-fun w_1 () Real)
+(assert (> b (- w_1)))
+(assert (<= b (- (- w_1) w_2)))
+(check-sat)
