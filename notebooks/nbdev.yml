@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "THU-Coursework-Machine-Learning-for-Big-Data"
+  site-url: "https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data"
+  description: "这是本人学习清华大学70240403-200大数据机器学习课程的开源工作，包括对往期Assignment的实现、对Lecture的笔记与理解、对即将来的Project的实现等，欢迎各位同学一起学习一起讨论，对知识取得更好的理解。"
+  repo-branch: main
+  repo-url: "https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data"
