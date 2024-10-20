@@ -1,20 +1,72 @@
 project:
   type: website
+  preview:
+    port: 3000
+    browser: false
 
 format:
   html:
-    theme: cosmo
+    theme: Vapor
+    # theme: Pulse
+
+    # theme: cosmo
+    # theme: Superhero
+
+    # theme: Simplex
+    # theme: United
+    # theme: Sketchy
+    # theme: Quartz
     css: styles.css
     toc: true
+    toc-depth: 4
+    keep-md: true
+  commonmark: default
+  docx: default
 
 website:
   twitter-card: true
   open-graph: true
   repo-actions: [issue]
+  favicon: thu_logo.png
   navbar:
     background: primary
     search: true
+    left:
+      - text: "理论作业 Theory Assignments"
+        href: theory_assignments/index.ipynb
+      - text: "代码项目 Coding Projects"
+        href: coding_projects/index.ipynb
+      - text: "关于课程 Course Information"
+        href: https://www.xuetangx.com/course/THU08091001026/1515437
+      - text: "关于我们 About Us"
+        href: https://github.com/Open-Book-Studio
+      - text: "和我们一起讨论 Discuss with Us"
+        menu:
+          - text: "你的作业有地方写错了 Report an Issue on Assignments"
+            icon: bug
+            href: https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues
+          - text: "X9高校人工智能技术讨论  X9 AI Tech Discussion"
+            icon: chat-right-text
+            href: http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=v0Vpqbr4pScRi4IkFK3dsDUCzvu_-BtX&authKey=vyojwISealVovwzm6TQR7bkawm4oj6Wgbe4YBheQjRU5XOllK9pQ57eQjaG30dlq&noverify=0&group_code=935310031
+          - text: "联系我们 Contact Us"
+            icon: question-circle
+            href: https://github.com/2catycm
+    right:
+      - icon: github
+        href: "https://github.com/Open-Book-Studio"
+      - icon: github
+        href: "https://github.com/THU-CVML"
+        aria-label: THU-CVML 课题组
   sidebar:
     style: floating
+    contents:
+      - auto: "/*.ipynb"
+      - section: 理论作业
+        contents: theory_assignments/*
+      - section: 代码项目
+        contents: coding_projects/*
+      - section: 代码库接口 Library API
+        contents: api/*
 
-metadata-files: [nbdev.yml, sidebar.yml]
+# metadata-files: [nbdev.yml, sidebar.yml]
+metadata-files: [nbdev.yml]

@@ -1,0 +1,14 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - 00_core.ipynb
+      - section: theory_assignments
+        contents:
+          - section: A2
+            contents:
+              - "theory_assignments/A2/P_Assignment2_\u53F6\u74A8\u94ED.ipynb"
+          - section: A3
+            contents:
+              - "theory_assignments/A3/P_Assignment3_\u53F6\u74A8\u94ED.ipynb"
+        href: theory_assignments/index.ipynb
