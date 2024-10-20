@@ -8,8 +8,27 @@ documentation.
 
 ## Developer Guide
 
+如果你想加入我们一起开源作业，请阅读以下指南。
+
 If you are new to using `nbdev` here are some useful pointers to get you
 started.
+
+### 关于Quarto和nbdev一些需要配置的地方
+
+``` sh
+nbdev_install_quarto
+quarto install tinytex
+quarto install chromium
+sudo apt-get install librsvg2-bin
+```
+
+### 关于nbdev、quarto+pandoc 这一套系统支持和不支持的markdown与latex语法
+
+- latex公式：
+  - 不能用””
+  - 对于aligned公式要用
+    包裹起来,
+    [不能没有\*](https://tex.stackexchange.com/questions/256920/package-amsmath-error-beginaligned-allowed-only-in-math-mode)
 
 ### Install THU_Coursework_Machine_Learning_for_Big_Data in Development mode
 
@@ -25,6 +44,8 @@ $ nbdev_prepare
 ```
 
 ## Usage
+
+我们在学习《大数据机器学习》课程做作业的同时，也形成了一个简单的机器学习库，对李航书上的部分代码做了实现和可视化，你可以通过安装我们的库来复用我们写的代码逻辑。
 
 ### Installation
 
