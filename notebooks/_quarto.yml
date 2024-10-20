@@ -1,7 +1,7 @@
 project:
   type: website
   preview:
-    port: 3000
+    port: 19370
     browser: false
 
 format:
@@ -59,14 +59,14 @@ website:
         aria-label: THU-CVML 课题组
   sidebar:
     style: floating
-    contents:
-      - auto: "/*.ipynb"
-      - section: 理论作业
-        contents: theory_assignments/*
-      - section: 代码项目
-        contents: coding_projects/*
-      - section: 代码库接口 Library API
-        contents: api/*
+    # contents:
+    #   - auto: "/*.ipynb"
+    #   - section: 理论作业
+    #     contents: theory_assignments/*
+    #   - section: 代码项目
+    #     contents: coding_projects/*
+    #   - section: 代码库接口 Library API
+    #     contents: api/*
 
-# metadata-files: [nbdev.yml, sidebar.yml]
-metadata-files: [nbdev.yml]
+metadata-files: [nbdev.yml, sidebar.yml]
+# metadata-files: [nbdev.yml]
