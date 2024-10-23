@@ -4,7 +4,10 @@ website:
       - index.ipynb
       - 00_core.ipynb
       - section: coding_projects
-        contents: []
+        contents:
+          - section: P1_KNN
+            contents:
+              - coding_projects/P1_KNN/kd_tree.ipynb
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:

@@ -26,9 +26,8 @@ sudo apt-get install librsvg2-bin
 
 - latex公式：
   - 不能用””
-  - 对于aligned公式要用
-    包裹起来,
-    [不能没有\*](https://tex.stackexchange.com/questions/256920/package-amsmath-error-beginaligned-allowed-only-in-math-mode)
+  - 对于align公式,似乎都失败了 align, aligned和aligned\*,
+    [参考](https://tex.stackexchange.com/questions/256920/package-amsmath-error-beginaligned-allowed-only-in-math-mode)
 
 ### Install THU_Coursework_Machine_Learning_for_Big_Data in Development mode
 
