@@ -17,4 +17,7 @@ website:
           - section: A3
             contents:
               - theory_assignments/A3/P_Assignment3_yecanming.ipynb
+          - section: A4
+            contents:
+              - theory_assignments/A4/P_Assignment4_yecanming.ipynb
         href: theory_assignments/index.ipynb
