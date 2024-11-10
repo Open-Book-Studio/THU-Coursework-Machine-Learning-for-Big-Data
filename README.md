@@ -31,6 +31,8 @@ sudo apt-get install librsvg2-bin
   - MathJax引擎支持的应该支持。https://quarto.org/docs/output-formats/html-basics.html
   - VSCode也用的是 MathJax
     https://stackoverflow.com/questions/62879232/how-do-i-use-latex-in-a-jupyter-notebook-inside-visual-studio-code
+- markdown语法：
+  - 不能使用 “—”
 
 ### Install THU_Coursework_Machine_Learning_for_Big_Data in Development mode
 

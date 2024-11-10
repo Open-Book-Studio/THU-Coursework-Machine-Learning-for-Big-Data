@@ -2,7 +2,7 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_core.ipynb
+      - 00_help (library information).ipynb
       - section: coding_projects
         contents:
           - section: P1_ANOVA
@@ -15,6 +15,7 @@ website:
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:
+          - theory_assignments/template.ipynb
           - section: A1
             contents:
               - theory_assignments/A1/P_Assignment1_yecanming.ipynb
@@ -27,4 +28,7 @@ website:
           - section: A4
             contents:
               - theory_assignments/A4/P_Assignment4_yecanming.ipynb
+          - section: A5
+            contents:
+              - theory_assignments/A5/P_Assignment5_yecanming.ipynb
         href: theory_assignments/index.ipynb
