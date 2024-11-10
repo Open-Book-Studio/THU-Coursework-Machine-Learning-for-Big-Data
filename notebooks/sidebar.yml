@@ -15,7 +15,6 @@ website:
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:
-          - theory_assignments/template.ipynb
           - section: A1
             contents:
               - theory_assignments/A1/P_Assignment1_yecanming.ipynb

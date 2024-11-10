@@ -1,5 +1,7 @@
 _docs/
 _proc/
+runs
+dev_learn/
 
 *.bak
 .gitattributes
