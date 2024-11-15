@@ -1,3 +1,5 @@
+lightning_logs
+.lr_find*
 _docs/
 _proc/
 runs
