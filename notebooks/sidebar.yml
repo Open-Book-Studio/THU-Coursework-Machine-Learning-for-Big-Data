@@ -12,6 +12,9 @@ website:
           - section: P1_KNN
             contents:
               - coding_projects/P1_KNN/kd_tree.ipynb
+          - section: P2_SVM
+            contents:
+              - coding_projects/P2_SVM/svm.ipynb
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:
