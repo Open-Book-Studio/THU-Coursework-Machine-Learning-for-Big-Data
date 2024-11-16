@@ -61,7 +61,7 @@ def get_torch_dataset(X, y):
 from typing import Literal
 
 # %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 28
-ReturnType = Literal['numpy', 'torch', 'lightning', 'pandas']
+ReturnType = Literal['numpy', 'torch', 'lightning', 'pandas', 'all']
 
 def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
     X, y, categories = sklearn_to_X_y_categories(dataset_dict)
@@ -85,6 +85,10 @@ def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
         return data_module  
     elif return_type == 'pandas':
         raise NotImplementedError("Pandas not implemented yet") # 这里可以用 dataset_dict 的 frame, 但是 train test split 还有预处理。
+    elif return_type == 'all':
+        return X_train, X_val, X_test, y_train, y_val, y_test, train_set, val_set, test_set, data_module, categories
+    else:
+        raise ValueError(f"Invalid return_type: {return_type}")
 
 # %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 33
 from namable_classify.metrics import compute_classification_metrics

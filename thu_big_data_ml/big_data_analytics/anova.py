@@ -4,14 +4,11 @@
 __all__ = ['anova_oneway', 'draw_hist', 'test_normality_group', 'homogeneity_of_variance', 'auto_anova_for_df', 'draw_box',
            'auto_friedman_for_df', 'auto_kruskal_for_df']
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 14
-df.columns, df.columns[7-1] 
-
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 63
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 64
 import numpy as np
 import pandas as pd
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 64
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 65
 def anova_oneway(
     *groups: np.ndarray # 不同i的samples[i]表示不同的treatment下的实验数据。这里有个关键的地方，就是每一个group不要求有相同的长度，所以不是二维数据，而是一列不定长的np.array。
                  )->pd.DataFrame: # 返回ANOVA表格。包括我们课堂上学习的内容。
@@ -86,10 +83,10 @@ def anova_oneway(
     }
     return pd.DataFrame(anova_table)
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 76
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 77
 import seaborn as sns
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 77
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 78
 def draw_hist(df, chosen_cols, hue_col='群类别', transform = None, column_name_transform = None):
     if transform is None: transform = lambda x: x
     if column_name_transform is None: column_name_transform = lambda x: x
@@ -111,10 +108,10 @@ def draw_hist(df, chosen_cols, hue_col='群类别', transform = None, column_nam
         # 删除 f"{col}_transformed_tmp" 列
         del df[f"{col}_transformed_tmp"]
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 80
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 81
 import numpy as np
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 81
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 82
 def test_normality_group(df, interesting_col, hue_col='群类别', transform = None):
     if transform is None:
         transform = lambda x: x
@@ -135,10 +132,10 @@ def test_normality_group(df, interesting_col, hue_col='群类别', transform = N
         normality_results[name] = normality_result
     return pd.DataFrame(normality_results)
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 88
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 89
 from scipy import stats
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 89
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 90
 def homogeneity_of_variance(df, interesting_col, hue_col="群类别", transform=None):
     if transform is None:
         transform = lambda x: x
@@ -168,7 +165,7 @@ def homogeneity_of_variance(df, interesting_col, hue_col="群类别", transform=
         bartlett_result=bartlett_result
     )
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 96
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 97
 def auto_anova_for_df(df, interesting_col, hue_col="群类别", transform=None):
     if transform is None:
         transform = lambda x: x
@@ -181,7 +178,7 @@ def auto_anova_for_df(df, interesting_col, hue_col="群类别", transform=None):
     del df[new_col_name]
     return res
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 101
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 102
 def draw_box(df, chosen_cols, hue_col='群类别', transform = None, column_name_transform = None):
     if transform is None: transform = lambda x: x
     if column_name_transform is None: column_name_transform = lambda x: x
@@ -192,7 +189,7 @@ def draw_box(df, chosen_cols, hue_col='群类别', transform = None, column_name
         axs[i].set_ylabel(column_name_transform(col))
         del df[f"{col}_transformed_tmp"]
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 104
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 105
 from scipy import stats
 def auto_friedman_for_df(df, interesting_col, hue_col="群类别", transform=None):
     if transform is None:
@@ -208,7 +205,7 @@ def auto_friedman_for_df(df, interesting_col, hue_col="群类别", transform=Non
     del df[new_col_name]
     return res
 
-# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 107
+# %% ../../notebooks/coding_projects/P1_ANOVA/anova.ipynb 108
 from scipy import stats
 def auto_kruskal_for_df(df, interesting_col, hue_col="群类别", transform=None):
     if transform is None:
