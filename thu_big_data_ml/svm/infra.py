@@ -57,10 +57,10 @@ def get_torch_dataset(X, y):
     dataset = torch.utils.data.TensorDataset(X_tensor, y_tensor)
     return dataset
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 27
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 28
 from typing import Literal
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 28
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 29
 ReturnType = Literal['numpy', 'torch', 'lightning', 'pandas', 'all']
 
 def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
@@ -90,5 +90,5 @@ def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
     else:
         raise ValueError(f"Invalid return_type: {return_type}")
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 33
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 34
 from namable_classify.metrics import compute_classification_metrics

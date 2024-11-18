@@ -7,14 +7,17 @@ website:
         contents:
           - section: P1_ANOVA
             contents:
-              - coding_projects/P1_ANOVA/anova.html
               - coding_projects/P1_ANOVA/anova.ipynb
           - section: P1_KNN
             contents:
               - coding_projects/P1_KNN/kd_tree.ipynb
           - section: P2_SVM
             contents:
-              - coding_projects/P2_SVM/svm.ipynb
+              - coding_projects/P2_SVM/00svm.ipynb
+              - coding_projects/P2_SVM/01svm_use_lib.ipynb
+              - coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb
+              - coding_projects/P2_SVM/03svm_kernel_hpo.ipynb
+              - coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:

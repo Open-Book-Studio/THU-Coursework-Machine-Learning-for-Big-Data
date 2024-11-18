@@ -16,7 +16,7 @@ format:
     # theme: United
     # theme: Sketchy
     # theme: Quartz
-    css: styles.css
+    # css: styles.css
     toc: true
     toc-depth: 4
     keep-md: true

@@ -1,3 +1,3 @@
 [submodule "notebooks/coding_projects/P2_SVM/thundersvm"]
-	path = notebooks/coding_projects/P2_SVM/thundersvm
+	path = third_party/thundersvm
 	url = https://github.com/Xtra-Computing/thundersvm.git
