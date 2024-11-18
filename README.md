@@ -32,7 +32,6 @@ sudo apt-get install librsvg2-bin
   - VSCode也用的是 MathJax
     https://stackoverflow.com/questions/62879232/how-do-i-use-latex-in-a-jupyter-notebook-inside-visual-studio-code
 - markdown语法：
-  - 不能使用 “—”
 
 ### Install THU_Coursework_Machine_Learning_for_Big_Data in Development mode
 
@@ -49,7 +48,7 @@ $ nbdev_prepare
 
 ## Usage
 
-我们在学习《大数据机器学习》课程做作业的同时，也形成了一个简单的机器学习库，对李航书上的部分代码做了实现和可视化，你可以通过安装我们的库来复用我们写的代码逻辑。
+我们在学习清华大学《大数据机器学习》以及《大数据分析》两门课程完成作业的同时，也形成了一个简单的机器学习与数据分析库，对李航《统计学习方法》上的部分代码做了实现和可视化，你可以通过安装我们的库来复用我们写的代码逻辑。
 
 ### Installation
 
@@ -60,12 +59,11 @@ Install latest from the GitHub
 $ pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
 ```
 
-or from
-[conda](https://anaconda.org/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data)
-
-``` sh
+<!-- 
+or from [conda][conda]
+&#10;```sh
 $ conda install -c yecanming6666 thu_big_data_ml
-```
+``` -->
 
 or from
 [pypi](https://pypi.org/project/THU-Coursework-Machine-Learning-for-Big-Data/)
@@ -76,14 +74,14 @@ $ pip install thu_big_data_ml
 
 ### Documentation
 
-Documentation can be found hosted on this GitHub
-[repository](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data)’s
-[pages](https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/).
+Documentation can be found hosted on this
+https://thu-coursework-machine-learning-for-big-data-docs.vercel.app/ .
 Additionally you can find package manager specific guidelines on
-[conda](https://anaconda.org/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data)
-and
 [pypi](https://pypi.org/project/THU-Coursework-Machine-Learning-for-Big-Data/)
 respectively.
+
+<!-- [conda][conda] and  -->
+<!-- [conda]: https://anaconda.org/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data -->
 
 ## How to use
 
