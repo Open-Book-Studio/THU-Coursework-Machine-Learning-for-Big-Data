@@ -36,4 +36,7 @@ website:
           - section: A5
             contents:
               - theory_assignments/A5/P_Assignment5_yecanming.ipynb
+          - section: A6
+            contents:
+              - theory_assignments/A6/P_Assignment6_yecanming.ipynb
         href: theory_assignments/index.ipynb
