@@ -253,7 +253,7 @@ def configure_optimizers(self:HingeSupportVectorClassifier) -> OptimizerLRSchedu
 
 
 # %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 46
-from namable_classify.utils import append_dict_list, ensure_array
+from namable_classify.infra import append_dict_list, ensure_array
 from typing import Any
 import numpy as np
 
