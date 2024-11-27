@@ -18,6 +18,11 @@ website:
               - coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb
               - coding_projects/P2_SVM/03svm_kernel_hpo.ipynb
               - coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb
+          - section: big_data_analytics
+            contents:
+              - section: P2_Matrix-Decomposition
+                contents:
+                  - coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:

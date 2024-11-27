@@ -208,7 +208,6 @@ def objective_svm(trial:optuna.Trial, X_train_val, y_train_val, num_of_repeated=
 from ..help import runs_path
 
 # %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 25
-from ..help import runs_path
 study_path = runs_path / "optuna_studies.db"
 sqlite_url = f"sqlite:///{study_path}"
 
