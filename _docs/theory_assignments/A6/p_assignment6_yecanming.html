@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn">
+
+<title>AdaBoost算法的深入理解 – THU-Coursework-Machine-Learning-for-Big-Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../thu_logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="AdaBoost算法的深入理解 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta property="og:description" content="大数据机器学习课程第六次作业">
+<meta property="og:site_name" content="THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:title" content="AdaBoost算法的深入理解 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:description" content="大数据机器学习课程第六次作业">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">THU-Coursework-Machine-Learning-for-Big-Data</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../theory_assignments/index.html" aria-current="page"> 
+<span class="menu-text">理论作业 Theory Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding_projects/index.html"> 
+<span class="menu-text">代码项目 Coding Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.xuetangx.com/course/THU08091001026/1515437"> 
+<span class="menu-text">关于课程 Course Information</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> 
+<span class="menu-text">关于我们 About Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-discuss-with-us" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">和我们一起讨论 Discuss with Us</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-discuss-with-us">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">你的作业有地方写错了 Report an Issue on Assignments</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="http://qm.qq.com/cgi-bin/qm/qr?wv=1027&amp;k=v0Vpqbr4pScRi4IkFK3dsDUCzvu-BtX&amp;authKey=vyojwISealVovwzm6TQR7bkawm4oj6Wgbe4YBheQjRU5XOllK9pQ57eQjaG30dlq&amp;noverify=0&amp;group_code=935310031"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">X9高校人工智能技术讨论 X9 AI Tech Discussion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/2catycm"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">联系我们 Contact Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/THU-CVML"> <i class="bi bi-github" role="img" aria-label="THU-CVML 课题组">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A6/p_assignment6_yecanming.html">A6</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A6/p_assignment6_yecanming.html">AdaBoost算法的深入理解</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">THU-Coursework-Machine-Learning-for-Big-Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../help (library information).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Library Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding_projects/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">coding_projects</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_ANOVA</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_ANOVA/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索方差分析 (Analysis of Variance, ANOVA)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_KNN</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_KNN/kd_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索KD树数据结构实现的KNN算法及其在手写数字识别中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_SVM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/00svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——00绪论</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/use_lib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——01调库实现SVM手写数字识别</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_linear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——02手动实现SGD优化的软间隔线性SVM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/kernel_hpo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——03不同Kernel的SVM超参数优化</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_kernel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——04手动实现使用SMO的Kernel SVM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">big_data_analytics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_Matrix-Decomposition</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/big_data_analytics/P2_Matrix-Decomposition/decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索基于矩阵分解和协同过滤的个性化推荐系统及其在Netflix电影推荐中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../theory_assignments/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">theory_assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">A1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A1/p_assignment1_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">从数据集中进行分布参数估计: 以伯努利分布为例</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">A2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A2/p_assignment2_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">大数据机器学习课程第二次作业</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">A3</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A3/p_assignment3_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">朴素贝叶斯与决策树的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">A4</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A4/p_assignment4_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">最大熵模型以及对数几率分类模型的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">A5</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A5/p_assignment5_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">支持向量机的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">A6</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A6/p_assignment6_yecanming.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">AdaBoost算法的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">该页面内容</h2>
+   
+  <ul>
+  <li><a href="#sec-1" id="toc-sec-1" class="nav-link active" data-scroll-target="#sec-1"><span class="header-section-number">1</span> 第一题——一个例子理解 AdaBoost</a>
+  <ul>
+  <li><a href="#sec-1-analysis" id="toc-sec-1-analysis" class="nav-link" data-scroll-target="#sec-1-analysis"><span class="header-section-number">1.1</span> 审题</a></li>
+  <li><a href="#plot_binary_classification_3d" id="toc-plot_binary_classification_3d" class="nav-link" data-scroll-target="#plot_binary_classification_3d"><span class="header-section-number">1.2</span> plot_binary_classification_3d</a></li>
+  <li><a href="#sec-1-solution" id="toc-sec-1-solution" class="nav-link" data-scroll-target="#sec-1-solution"><span class="header-section-number">1.3</span> 解题</a>
+  <ul class="collapse">
+  <li><a href="#解法一手算推导法考试写解答题" id="toc-解法一手算推导法考试写解答题" class="nav-link" data-scroll-target="#解法一手算推导法考试写解答题"><span class="header-section-number">1.3.1</span> 解法一：手算推导法（考试写解答题）</a></li>
+  </ul></li>
+  <li><a href="#calculate_gini_index" id="toc-calculate_gini_index" class="nav-link" data-scroll-target="#calculate_gini_index"><span class="header-section-number">1.4</span> calculate_gini_index</a></li>
+  <li><a href="#calculate_gini_index_for_subset" id="toc-calculate_gini_index_for_subset" class="nav-link" data-scroll-target="#calculate_gini_index_for_subset"><span class="header-section-number">1.5</span> calculate_gini_index_for_subset</a>
+  <ul class="collapse">
+  <li><a href="#解法二使用python和机器学习库科研使用" id="toc-解法二使用python和机器学习库科研使用" class="nav-link" data-scroll-target="#解法二使用python和机器学习库科研使用"><span class="header-section-number">1.5.1</span> 解法二：使用Python和机器学习库（科研使用）</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sec-2" id="toc-sec-2" class="nav-link" data-scroll-target="#sec-2"><span class="header-section-number">2</span> 第二题——理解软间隔支持向量机以及其对偶形式</a>
+  <ul>
+  <li><a href="#sec-2-solution" id="toc-sec-2-solution" class="nav-link" data-scroll-target="#sec-2-solution"><span class="header-section-number">2.1</span> 解题</a></li>
+  <li><a href="#题目扩展问题" id="toc-题目扩展问题" class="nav-link" data-scroll-target="#题目扩展问题"><span class="header-section-number">2.2</span> 题目扩展问题</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div><div class="quarto-alternate-formats"><h2>其他格式</h2><ul><li><a href="p_assignment6_yecanming.html.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="p_assignment6_yecanming.html.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A6/p_assignment6_yecanming.html">A6</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A6/p_assignment6_yecanming.html">AdaBoost算法的深入理解</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">AdaBoost算法的深入理解</h1>
+<p class="subtitle lead">大数据机器学习课程第六次作业</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p>叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2024年11月24日星期日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p><img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;"></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+重要
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。</p>
+</div>
+</div>
+<section id="sec-1" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sec-1"><span class="header-section-number">1</span> 第一题——一个例子理解 AdaBoost</h2>
+<p>题目如下</p>
+<blockquote class="blockquote">
+<p>某公司招聘职员考查身体、业务能力、发展潜力这3项。身体分为合格1、不合格0两级，业务能力和发展潜力分为上1、中2、下3三级。分类为合格1、不合格-1两类。</p>
+<p>已知10个人的数据，如表格1所示。假设弱分类器为决策树桩。试用AdaBoost算法学习一个强分类器。</p>
+</blockquote>
+<p>表1：应聘人员情况数据表</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>列</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>身体</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>业务能力</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>发展潜力</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>分类</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>表1：应聘人员情况数据表</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>身体</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>业务能力</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>发展潜力</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>分类</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<section id="sec-1-analysis" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="sec-1-analysis"><span class="header-section-number">1.1</span> 审题</h3>
+<p>我们首先复习一下李航书上的内容。</p>
+<ul>
+<li><p>什么是 Boosting？</p>
+<ul>
+<li>李航书上boost是提升的意思,指的是把一个弱学习算法提升为强学习算法。因为PAC框架下被证明,如果前者存在,后者必定存在,反之亦然。</li>
+<li>我们如果已经找到弱学习算法，那当然是说明强学习算法存在，但是找到强学习算法的算法未必存在，但是我们可以尝试构造。</li>
+<li>强就是准确率高，具体多高书上没定义，弱就是比随机猜测（最大熵模型？）好。</li>
+<li>注意学习算法不是学习器，弱学习算法是说，多项式时间内训练出一个弱学习器的算法。boost操作的对象是“弱学习算法”，那个多项式时间复杂度的算法，不一定是通过操作弱学习器，当然如果你的boost只需要操作弱学习器，构造出强学习器，这个步骤本身构成了强学习算法，那这个当然也是boost。</li>
+<li>？难道其他ensemble learning算法不是把弱学习提升为强学习吗</li>
+<li>李航书上说“大多数的boosting方法”是改变训练数据的概率分布来解决提升的问题。这个或许就是和其他集成学习的区别。</li>
+</ul></li>
+<li><p>什么是 AdaBoost 算法？</p>
+<ul>
+<li>多轮学习多个弱学习分类器，每一轮的数据概率分布有所不同，依赖于上一轮的结果。</li>
+<li>上一轮若分类器错误分类的样本权值变大，正确的权值变小，权值加起来始终为1, 变化规则是 <span class="math inline">\(w_{m+1, i} = w_{mi} \frac{1}{Z_m} exp(-\alpha_m y_i G_m(x_i))\)</span>，其中<span class="math inline">\(y_i \in \{1, -1\}\)</span></li>
+<li>集成分类器 $G(x) = sign(_{m=1}^{M}_m G_m(x)) $, 注意 <span class="math inline">\(\alpha_m\)</span> 加在一起并不是1。这个很奇怪？</li>
+<li>其中 <span class="math inline">\(\alpha_m = \frac{1}{2} log\frac{1-e_m}{e_m}\)</span>, 而<span class="math inline">\(e_m\)</span>是按照 <span class="math inline">\(w_m\)</span>加权后<span class="math inline">\(G_m\)</span>的错误率，<span class="math inline">\(\alpha_m\)</span> 像是 分类器加权正确率的logodds的一半。不知道为什么这样设计？</li>
+</ul></li>
+<li><p>AdaBoost 的第二解释如何理解？</p>
+<ul>
+<li>李航书上给出了8.3节，认为 AdaBoost 也是加法模型在指数函数下使用前向分步算法进行二分类的学习方法。</li>
+</ul>
+<p><!-- TODO --></p></li>
+<li><p>什么是决策树桩？</p>
+<ul>
+<li>李航统计学习方法166页给出了这个概念。</li>
+<li>决策树桩（Decision Stump）是就是只有一个分裂节点和两个叶节点的决策树，也就是只有单个特征（假如是连续型随机变量），根据阈值分割为两个集合，然后集合内哪个类别多就是哪个。</li>
+<li>在二分类的情况下，使用决策树桩作为基本分类器的 AdaBoost 又叫做boosting tree提升树算法。多分类和回归的话提升树就有一些新的方法。</li>
+</ul></li>
+<li><p>什么是概率近似正确框架？</p></li>
+</ul>
+<p>复习之后，我们来看看题目询问的问题。</p>
+<p>首先对 表格 可视化</p>
+<div id="cell-9" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-10" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建原始数据的np array</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.array([</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 将np array转换为DataFrame</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data, columns<span class="op">=</span>[<span class="st">'身体'</span>, <span class="st">'业务能力'</span>, <span class="st">'发展潜力'</span>, <span class="st">'分类'</span>])</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">身体</th>
+<th data-quarto-table-cell-role="th">业务能力</th>
+<th data-quarto-table-cell-role="th">发展潜力</th>
+<th data-quarto-table-cell-role="th">分类</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="plot_binary_classification_3d" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="plot_binary_classification_3d"><span class="header-section-number">1.2</span> plot_binary_classification_3d</h3>
+<blockquote class="blockquote">
+<pre><code> plot_binary_classification_3d (X, y, labels=[1, -1], label_names=['正例',
+                                '负例'], label_colors=['blue', 'red'],
+                                label_markers=['o', 'x'], x_names=['x(1)',
+                                'x(2)', 'x(3)'], point_size=100,
+                                text_offset=(0.1, 0.1, 0.1),
+                                point_names=None, title='数据点可视化', size=(9,
+                                6))</code></pre>
+</blockquote>
+<div id="cell-12" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_columns <span class="op">=</span> [<span class="st">'身体'</span>, <span class="st">'业务能力'</span>, <span class="st">'发展潜力'</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_column <span class="op">=</span> <span class="st">'分类'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[X_columns].values</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[y_column].values</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plot_binary_classification_3d(X, y,x_names<span class="op">=</span>X_columns)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="P_Assignment6_yecanming_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>接下来尝试使用 AdaBoost算法</p>
+</section>
+<section id="sec-1-solution" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="sec-1-solution"><span class="header-section-number">1.3</span> 解题</h3>
+<section id="解法一手算推导法考试写解答题" class="level4" data-number="1.3.1">
+<h4 data-number="1.3.1" class="anchored" data-anchor-id="解法一手算推导法考试写解答题"><span class="header-section-number">1.3.1</span> 解法一：手算推导法（考试写解答题）</h4>
+<p>初始化权值分布 <span class="math inline">\(D_1 = (w_{1, 1}, w_{1, 2}, \cdots, w_{1, 10}) = (\frac{1}{10}, \frac{1}{10}, \cdots, \frac{1}{10})\)</span></p>
+<ol type="1">
+<li>首先我们在 <span class="math inline">\(D_1\)</span> 上学习决策树桩。决策树桩有很多种学习准则，比较常用的 AdaBoost-SAMME 方法选择的是 CART 决策树的分类树,<a href="https://scikit-learn.org/dev/modules/ensemble.html#adaboost">参考</a>，也就是用 gini 系数来做特征选择，同时选择最优二值切分点。</li>
+</ol>
+<p>首先计算“身体”这个属性的基尼指数。</p>
+<p><span class="math display">\[Gini(D_1, 身体=0 or not) = \frac{4}{10}(1- (1^2 + 0^2)) + \frac{6}{10}( 1- (\frac{4}{6}^2 + \frac{2}{6}^2)) = \frac{4}{15}\]</span></p>
+<p>， 最优切分点是“是否 身体=0”，因为没有别的选择。</p>
+<p>注意这里 李航书上的表示是具有误导性的，李航书上写的 <span class="math inline">\(Gini(D_1, 身体=0)\)</span> 表示的是 身体=0这个子集上的基尼指数，而我们这里是在说 身体==0 这个特征，严谨的表述是 <span class="math inline">\(Gini(D_1, 身体==0)\)</span> <!-- 因为0更小最优切分点是“是否 身体=0”，当然这里只有两个取值，所以不用选，算基尼指数是为了和别的属性比较。 --></p>
+<p>同理可得 <span class="math display">\[Gini(D_1, 业务能力==1), Gini(D_1, 业务能力==2),Gini(D_1, 业务能力==3)\]</span></p>
+<p><span class="math display">\[Gini(D_1, 发展潜力==1), Gini(D_1, 发展潜力==2), Gini(D_1, 发展潜力==3)\]</span></p>
+<p>由于 Gini(D_1, 业务能力==1) 最小，</p>
+<p><span class="math display">\[
+G_1 =
+\begin{cases}
+1, &amp; \text{如果 } 业务能力==1; \\
+-1, &amp; \text{如果 } 业务能力!=1 .
+\end{cases}
+\]</span></p>
+<p>注意这里是不平衡二分类，所以我们对CART做了调整，要不然两个树桩都是-1.</p>
+<hr>
+</section>
+</section>
+<section id="calculate_gini_index" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="calculate_gini_index"><span class="header-section-number">1.4</span> calculate_gini_index</h3>
+<blockquote class="blockquote">
+<pre><code> calculate_gini_index (df, feature, value)</code></pre>
+</blockquote>
+<hr>
+</section>
+<section id="calculate_gini_index_for_subset" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="calculate_gini_index_for_subset"><span class="header-section-number">1.5</span> calculate_gini_index_for_subset</h3>
+<blockquote class="blockquote">
+<pre><code> calculate_gini_index_for_subset (df_subset)</code></pre>
+</blockquote>
+<p>*计算给定 DataFrame 子集的 Gini 指数。</p>
+<p>参数: df_subset (pd.DataFrame): 包含类别标签的 DataFrame 子集。</p>
+<p>返回: float: Gini 指数。*</p>
+<div id="cell-19" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gini_body_0 <span class="op">=</span> calculate_gini_index(df, <span class="st">'身体'</span>, <span class="dv">0</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gini_yewu_1 <span class="op">=</span> calculate_gini_index(df, <span class="st">'业务能力'</span>, <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gini_yewu_2 <span class="op">=</span> calculate_gini_index(df, <span class="st">'业务能力'</span>, <span class="dv">2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>gini_yewu_3 <span class="op">=</span> calculate_gini_index(df, <span class="st">'业务能力'</span>, <span class="dv">3</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>gini_fazhan_1 <span class="op">=</span> calculate_gini_index(df, <span class="st">'发展潜力'</span>, <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>gini_fazhan_2 <span class="op">=</span> calculate_gini_index(df, <span class="st">'发展潜力'</span>, <span class="dv">2</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>gini_fazhan_3 <span class="op">=</span> calculate_gini_index(df, <span class="st">'发展潜力'</span>, <span class="dv">3</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>gini_body_0, gini_yewu_1, gini_yewu_2, gini_yewu_3, gini_fazhan_1, gini_fazhan_2, gini_fazhan_3</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(0.26666666666666666,
+ 0.24,
+ 0.2857142857142857,
+ 0.30000000000000004,
+ 0.31666666666666665,
+ 0.3047619047619048,
+ 0.2857142857142857)</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p>训练数据集上的分类误差率是 <span class="math inline">\(e_1 = P(G_1(x_i) \ne y_i) = 0.3\)</span> , 因为样本 1,4,6 都分错了</p></li>
+<li><p><span class="math inline">\(G_1(x)\)</span> 的 系数 _1 = (｛ 1-0.3 ｝｛ 0.3 ｝)</p></li>
+</ol>
+<p>更新 <span class="math inline">\(D_2\)</span>, 分类错误的1, 4, 6 权重提升为 0.16667, 其他样本分类正确，降低为 0.07143</p>
+<div id="cell-21" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.log((<span class="dv">1</span> <span class="op">-</span> e) <span class="op">/</span> e)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>alpha</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.42364893019360184</code></pre>
+</div>
+</div>
+<p>同理我们可以在 <span class="math inline">\(D_2\)</span> 上学习决策树桩。 三轮之后，我们可以得到分类正确率 100% 的集成模型。</p>
+<section id="解法二使用python和机器学习库科研使用" class="level4" data-number="1.5.1">
+<h4 data-number="1.5.1" class="anchored" data-anchor-id="解法二使用python和机器学习库科研使用"><span class="header-section-number">1.5.1</span> 解法二：使用Python和机器学习库（科研使用）</h4>
+<p>参考 https://scikit-learn.org/dev/modules/generated/sklearn.ensemble.AdaBoostClassifier.html#sklearn.ensemble.AdaBoostClassifier</p>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> AdaBoostClassifier</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> AdaBoostClassifier(n_estimators<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>clf.fit(X, y)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>y_predict <span class="op">=</span> clf.predict(X)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> clf.score(X, y)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>score</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/ye_canming/program_files/managers/conda/envs/yuequ/lib/python3.10/site-packages/sklearn/ensemble/_weight_boosting.py:527: FutureWarning: The SAMME.R algorithm (the default) is deprecated and will be removed in 1.6. Use the SAMME algorithm to circumvent this warning.
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>clf.estimators_</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>[DecisionTreeClassifier(max_depth=1, random_state=1986558224),
+ DecisionTreeClassifier(max_depth=1, random_state=209715172),
+ DecisionTreeClassifier(max_depth=1, random_state=1797073605)]</code></pre>
+</div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>clf.estimator_errors_</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>array([2.00000000e-01, 1.66666673e-01, 2.25517146e-08])</code></pre>
+</div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>clf.estimator_weights_</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>array([1., 1., 1.])</code></pre>
+</div>
+</div>
+<p>注意第一轮的弱分类器因为数据不平衡，所以选择所有样本的都是1，所以分类误差率是0.2, 而不是我们的0.3</p>
+</section>
+</section>
+</section>
+<section id="sec-2" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-2"><span class="header-section-number">2</span> 第二题——理解软间隔支持向量机以及其对偶形式</h2>
+<p>题目如下 &gt; 比较支持向量机、AdaBoost、逻辑斯谛回归模型的学习策略与算法。</p>
+<section id="sec-2-solution" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="sec-2-solution"><span class="header-section-number">2.1</span> 解题</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 21%">
+<col style="width: 12%">
+<col style="width: 24%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>特性</th>
+<th>支持向量机 (SVM)</th>
+<th>AdaBoost</th>
+<th>AdaBoost第二种理解</th>
+<th>逻辑斯谛回归模型</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>模型</td>
+<td>w和b表示的分割超平面</td>
+<td>弱学习器组合成的强学习器</td>
+<td>(弱学习器作为基函数提取的特征的)加法模型</td>
+<td>w和b表示的分割超平面</td>
+</tr>
+<tr class="even">
+<td>学习策略（训练损失）</td>
+<td>间隔最大化</td>
+<td>关注错误样本</td>
+<td>最小化指数损失</td>
+<td>最大化似然函数</td>
+</tr>
+<tr class="odd">
+<td>参数学习算法</td>
+<td>原始问题梯度下降、对偶问题凸二次规划、SMO算法等</td>
+<td>多轮迭代改变样本概率分布，学习多个弱分类器，根据错误率组合弱分类器为强分类器</td>
+<td>前向分步算法</td>
+<td>梯度下降、拟牛顿法等</td>
+</tr>
+<tr class="even">
+<td>优缺点</td>
+<td>泛化能力强，对参数敏感</td>
+<td>减小偏差，对异常值敏感</td>
+<td>同左列</td>
+<td>效率高，非线性表现不佳</td>
+</tr>
+</tbody>
+</table>
+<p>我们可以画出一个思维导图</p>
+<pre class="mermaid"><code>graph LR
+    A[Machine Learning Algorithms] --&gt; B[Support Vector Machine SVM]
+    A --&gt; C[AdaBoost]
+    A --&gt; E[Logistic Regression Model]
+    
+    B --&gt;|Model| B1[Separating Hyperplane w and b]
+    B --&gt;|Learning Strategy Training Loss| B2[Margin Maximization]
+    B --&gt;|Parameter Learning Algorithm| B3[Gradient Descent for Primal Problem, Convex Quadratic Programming for Dual Problem, SMO Algorithm, etc.]
+    B --&gt;|Advantages and Disadvantages| B4[Strong Generalization, Sensitive to Parameters]
+    
+    C --&gt;|Model| C1[Combination of Weak Learners into a Strong Learner]
+    C --&gt;|Learning Strategy Training Loss| C2[Focus on Misclassified Samples]
+    C --&gt;|Parameter Learning Algorithm| C3[Multiple Iterations to Change Sample Probability Distribution, Learning Multiple Weak Classifiers, Combining Weak Classifiers into a Strong Classifier Based on Error Rate]
+    C --&gt;|Advantages and Disadvantages| C4[Reduces Bias, Sensitive to Outliers]
+    
+    E --&gt;|Model| E1[Separating Hyperplane w and b]
+    E --&gt;|Learning Strategy Training Loss| E2[Minimization of Exponential Loss]
+    E --&gt;|Parameter Learning Algorithm| E3[Gradient Descent, Quasi-Newton Methods, etc.]
+    E --&gt;|Advantages and Disadvantages| E4[High Efficiency, Poor Performance on Non-linear Problems]
+
+</code></pre>
+</section>
+<section id="题目扩展问题" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="题目扩展问题"><span class="header-section-number">2.2</span> 题目扩展问题</h3>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Open-Book-Studio\.github\.io\/THU-Coursework-Machine-Learning-for-Big-Data");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div></div></div></footer></body></html>
