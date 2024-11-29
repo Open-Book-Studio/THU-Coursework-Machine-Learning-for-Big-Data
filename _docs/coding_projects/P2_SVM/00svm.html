@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -528,43 +528,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>本文档使用Jupyter Notebook编写，所以同时包括了实验文档和实验代码。</p>
 <p>本次实验项目采用了 Quarto + nbdev 的系统来发布Jupyter Notebook, 因而我们的实验文档导出为pdf和html格式可以进行阅读，而我们的代码也导出为python模块形式，可以作为代码库被其他项目使用。</p>
 <p>我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-重要
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>可以通过以下命令安装我们实验的代码：</p>
-<pre class="shell"><code>pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git</code></pre>
-<p>我们的代码导出为了python模块形式，通过以下命令导入：</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> thu_big_data_ml.svm <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
+<p>!!! important</p>
+<pre><code>可以通过以下命令安装我们实验的代码：
+
+```shell
+pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+```
+我们的代码导出为了python模块形式，通过以下命令导入：
+```python
+from thu_big_data_ml.svm import *
+```</code></pre>
 <p>https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git 是我们本次大数据机器学习课程实验的代码仓库地址，</p>
 <p>而这次作业中，我开发的另一个用于图像分类科研的开源项目<a href="https://github.com/2catycm/NamableClassify.git">有名的分类框架 (NamableClassify)</a>也相应地进行了代码更新，把我们这次作业实现的SVM算法加入到了其中。接下来我们也会用到这个项目中的一些代码（比如分类评测指标）来完成本次作业。我还构建了我们课题组的基础依赖库<a href="https://github.com/THU-CVML/ScholarlyInfrastructure">ScholarlyInfrastructure</a>，对标<code>fastcore</code>库，对AI科研经常会用到的一些基础性地、和Python语言的表达力有关的代码进行了整理，比如PyTorch模型检查、清晰的日志、实验参数管理、异常处理、argmax自动函数优化等。这里我们用到了实验参数管理功能，把SVM的超参数表达为随机变量，随即使用元参数优化算法进行搜索。</p>
 <pre class="shell"><code>pip install git+https://github.com/2catycm/NamableClassify.git
 pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scholarly_infrastructure <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scholarly_infrastructure <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>以上代码库开源在github，欢迎各位同学、老师们提出宝贵意见，或者加入我们的开发一起完善，构建更加优质的科研工具。</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-重要
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。</p>
-<p>由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。</p>
-</div>
-</div>
+<p>!!! important</p>
+<pre><code>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+
+由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。</code></pre>
 </section>
 <section id="实验目的与项目要求" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="实验目的与项目要求"><span class="header-section-number">3</span> 实验目的与项目要求</h2>
@@ -597,7 +581,7 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scholarly_infrastructure.logging.nucleus <span class="im">import</span> logger, <span class="bu">print</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_digits, fetch_openml</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset_dict_uci_digits = load_digits(as_frame=True)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dataset_dict_uci_digits <span class="op">=</span> load_digits(as_frame<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dataset_dict_full_mnist <span class="op">=</span> fetch_openml(<span class="st">"mnist_784"</span>, as_frame<span class="op">=</span><span class="va">True</span>)</span>
@@ -614,7 +598,7 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 </div>
 </div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="7">
+<div id="cell-12" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dataset_dict_uci_digits.target_names</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
@@ -632,14 +616,14 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <blockquote class="blockquote">
 <pre><code> sklearn_to_X_y_categories (dataset_dict)</code></pre>
 </blockquote>
-<div id="cell-13" class="cell">
+<div id="cell-14" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-14" class="cell">
+<div id="cell-15" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sklearn_to_X_y_categories(dataset_dict):</span>
@@ -660,7 +644,7 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, y, categories</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-15" class="cell" data-execution_count="9">
+<div id="cell-16" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X, y, categories <span class="op">=</span> sklearn_to_X_y_categories(dataset_dict_uci_digits)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>X_full, y_full, categories_full <span class="op">=</span> sklearn_to_X_y_categories(dataset_dict_full_mnist)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -692,14 +676,14 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <pre><code> make_train_val_test (X, y, val_size=0.1, test_size=0.2, random_state=42,
                       normalize=True)</code></pre>
 </blockquote>
-<div id="cell-18" class="cell">
+<div id="cell-19" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-19" class="cell">
+<div id="cell-20" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_train_val_test(X, y, val_size<span class="op">=</span><span class="fl">0.1</span>, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>, normalize<span class="op">=</span><span class="va">True</span>):</span>
@@ -717,7 +701,7 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_train, X_val, X_test, y_train, y_val, y_test</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-20" class="cell" data-execution_count="11">
+<div id="cell-21" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>X_train, X_val, X_test, y_train, y_val, y_test <span class="op">=</span> make_train_val_test(X, y)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>X_train_full, X_val_full, X_test_full, y_train_full, y_val_full, y_test_full <span class="op">=</span> make_train_val_test(X_full, y_full)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -746,14 +730,14 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <blockquote class="blockquote">
 <pre><code> get_torch_dataset (X, y)</code></pre>
 </blockquote>
-<div id="cell-23" class="cell">
+<div id="cell-24" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> lightning <span class="im">as</span> L</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-24" class="cell">
+<div id="cell-25" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_torch_dataset(X, y):</span>
@@ -763,7 +747,7 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dataset</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-25" class="cell" data-execution_count="13">
+<div id="cell-26" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>train_set <span class="op">=</span> get_torch_dataset(X_train, y_train)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>val_set <span class="op">=</span> get_torch_dataset(X_val, y_val)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>test_set <span class="op">=</span> get_torch_dataset(X_test, y_test)</span>
@@ -771,10 +755,10 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>val_set_full <span class="op">=</span> get_torch_dataset(X_val_full, y_val_full)</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>test_set_full <span class="op">=</span> get_torch_dataset(X_test_full, y_test_full)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-26" class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> lightning <span class="im">as</span> L</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-27" class="cell">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_module <span class="op">=</span> L.LightningDataModule.from_datasets(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>train_set, </span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    val_dataset<span class="op">=</span>val_set, </span>
@@ -802,13 +786,13 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
                                return_type:Literal['numpy','torch','lightn
                                ing','pandas','all'])</code></pre>
 </blockquote>
-<div id="cell-29" class="cell">
+<div id="cell-30" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Literal</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-30" class="cell">
+<div id="cell-31" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ReturnType <span class="op">=</span> Literal[<span class="st">'numpy'</span>, <span class="st">'torch'</span>, <span class="st">'lightning'</span>, <span class="st">'pandas'</span>, <span class="st">'all'</span>]</span>
@@ -941,13 +925,13 @@ pip install git+https://github.com/THU-CVML/ScholarlyInfrastructure.git</code></
 <section id="分类的评价指标" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="分类的评价指标"><span class="header-section-number">6.1</span> 分类的评价指标</h3>
 <p>开尔文爵士曾说，如果你连measure都做不到，谈不上improve。所以我们先measure。</p>
-<div id="cell-35" class="cell" data-execution_count="16">
+<div id="cell-36" class="cell" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify.metrics <span class="im">import</span> compute_classification_metrics</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-36" class="cell" data-execution_count="17">
+<div id="cell-37" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>compute_classification_metrics?</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Signature:
@@ -970,19 +954,8 @@ Type:      function</code></pre>
 <section id="调库实现svm" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="调库实现svm"><span class="header-section-number">6.2</span> 调库实现SVM</h3>
 <p>为了给我们后面的实验一个参照，我们调用现有代码库的SVM，关注其精度与速度的情况。 当然如果我们Project在此收尾，只能酌情被扣除分数。 在本节之后，我们将使用 PyTorch 和 numpy 这样的基础科学计算库，来在GPU和CPU上实现SVM及其优化。</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-重要
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。</p>
-</div>
-</div>
+<p>!!! important</p>
+<pre><code>本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。</code></pre>
 <p>接下来的内容请见文件 <a href="./01sv_use_lib.html">01sv_use_lib</a></p>
 </section>
 <section id="实现-hinge-losssgd-版本的-soft-margin-linear-svm" class="level3" data-number="6.3">
@@ -1101,7 +1074,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/Open-Book-Studio\.github\.io\/THU-Coursework-Machine-Learning-for-Big-Data");
+      var filterRegex = new RegExp("https:\/\/a6fec7dd-c75f-40bf-a42b-ea3a9b6afa20\.netlify\.app\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

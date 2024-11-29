@@ -78,14 +78,20 @@ https://scikit-learn.org/1.5/modules/generated/sklearn.datasets.load_digits.html
 2. 划分数据集时，train_test_split应当使用stratify参数，以确保每一类样本的比例相同。
 3. import过多，应该只导入需要的模块。
 
-::: {#cell-7 .cell vscode='{"languageId":"python"}' execution_count=1}
+::: {#cell-7 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from sklearn.datasets import load_digits
+```
+:::
+
+
+::: {#cell-8 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 dataset_dict = load_digits()
 dataset_dict.keys()
 ```
 
-::: {.cell-output .cell-output-display execution_count=1}
+::: {.cell-output .cell-output-display}
 ```
 dict_keys(['data', 'target', 'frame', 'feature_names', 'target_names', 'images', 'DESCR'])
 ```
@@ -93,15 +99,21 @@ dict_keys(['data', 'target', 'frame', 'feature_names', 'target_names', 'images',
 :::
 
 
-::: {#cell-8 .cell vscode='{"languageId":"python"}' execution_count=2}
+::: {#cell-9 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 import numpy as np
+```
+:::
+
+
+::: {#cell-10 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 X:np.array = dataset_dict['data']
 y:np.array = dataset_dict['target']
 X.shape, X.dtype, y.shape, y.dtype
 ```
 
-::: {.cell-output .cell-output-display execution_count=2}
+::: {.cell-output .cell-output-display}
 ```
 ((1797, 64), dtype('float64'), (1797,), dtype('int64'))
 ```
@@ -111,15 +123,21 @@ X.shape, X.dtype, y.shape, y.dtype
 
 划分数据集为训练集和测试集
 
-::: {#cell-10 .cell vscode='{"languageId":"python"}' execution_count=3}
+::: {#cell-12 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from sklearn.model_selection import train_test_split
+```
+:::
+
+
+::: {#cell-13 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, 
                                                     stratify=y)
 len(X_train), len(X_test)
 ```
 
-::: {.cell-output .cell-output-display execution_count=3}
+::: {.cell-output .cell-output-display}
 ```
 (1437, 360)
 ```
@@ -143,10 +161,16 @@ KNN不一定要使用KD树来进行近邻搜索，事实上还有其他更加高
 
 ### 基于sklearn的KNN算法实现手写数字识别
 
-::: {#cell-13 .cell vscode='{"languageId":"python"}'}
+::: {#cell-16 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+```
+:::
+
+
+::: {#cell-17 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 # 创建KNeighborsClassifier模型，使用kd树作为搜索算法
 knn = KNeighborsClassifier(n_neighbors=3, algorithm='kd_tree')
 
@@ -200,7 +224,7 @@ KNN Accuracy: 98.61%
 *Initialize self.  See help(type(self)) for accurate signature.*
 
 
-::: {#cell-18 .cell vscode='{"languageId":"python"}'}
+::: {#cell-22 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # 这里我们需要注意使用PriorityQueue的一个坑点，same priority 下 会崩溃； PriorityQueue文档没写，heapq写了
 # https://docs.python.org/3/library/heapq.html
@@ -267,7 +291,7 @@ print(test_pq.get())
 >      search_kd_tree (tree, target, k=3)
 
 
-::: {#cell-21 .cell vscode='{"languageId":"python"}'}
+::: {#cell-25 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # 构建KD树
 kd_tree = build_kd_tree(X_train)
@@ -275,7 +299,7 @@ kd_tree = build_kd_tree(X_train)
 :::
 
 
-::: {#cell-22 .cell vscode='{"languageId":"python"}'}
+::: {#cell-26 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # 使用KNN算法进行分类
 k_neighbors = 3
@@ -322,7 +346,7 @@ KD树本身也有一些元参数，比如分割方式、节点的选择方式等
 
 那么KNN作为一个机器学习算法，有哪些元参数需要调优呢？参考sklearn的KNeighborsClassifier类的参数说明，我们可以看到以下参数
 
-::: {#cell-26 .cell vscode='{"languageId":"python"}'}
+::: {#cell-30 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # help(KNeighborsClassifier)
 # 使用 ipython的 ? 可以更好地看到 函数和类的docstring信息。
@@ -506,13 +530,19 @@ Subclasses:
 
 而 `algorithm` `leaf_size` `n_jobs` 三个参数暂时和我们无关。
 
-::: {#cell-28 .cell vscode='{"languageId":"python"}' execution_count=9}
+::: {#cell-32 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from sklearn.metrics.pairwise import distance_metrics
+```
+:::
+
+
+::: {#cell-33 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 distance_metrics().keys()
 ```
 
-::: {.cell-output .cell-output-display execution_count=9}
+::: {.cell-output .cell-output-display}
 ```
 dict_keys(['cityblock', 'cosine', 'euclidean', 'haversine', 'l2', 'l1', 'manhattan', 'precomputed', 'nan_euclidean'])
 ```
@@ -549,8 +579,16 @@ dict_keys(['cityblock', 'cosine', 'euclidean', 'haversine', 'l2', 'l1', 'manhatt
 
 ### evaluate_knn
 
->      evaluate_knn (weights:str, n_neighbors:int, distance_metric:str,
+>      evaluate_knn (X_train, weights:str, n_neighbors:int, distance_metric:str,
 >                    random_seed:int=42)
+
+
+::: {#cell-38 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
+# 测试下函数能不能跑
+evaluate_knn(X_train, random_seed=43, weights='uniform', n_neighbors=5, distance_metric='euclidean')
+```
+:::
 
 
 ---
@@ -564,11 +602,17 @@ dict_keys(['cityblock', 'cosine', 'euclidean', 'haversine', 'l2', 'l1', 'manhatt
 
 接下来我们要定义使用的搜索算法。
 
-::: {#cell-35 .cell vscode='{"languageId":"python"}'}
+::: {#cell-41 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from ray.tune.search import ConcurrencyLimiter
 from ray.tune.search.optuna import OptunaSearch
 from optuna.samplers import QMCSampler
+```
+:::
+
+
+::: {#cell-42 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 # quasi random search
 sampler = QMCSampler()
 algo = OptunaSearch(sampler=sampler)
@@ -577,7 +621,7 @@ algo = ConcurrencyLimiter(algo, max_concurrent=4)
 
 ::: {.cell-output .cell-output-stderr}
 ```
-ExperimentalWarning: QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
+/tmp/ipykernel_2299020/1646428652.py:5: ExperimentalWarning: QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
   sampler = QMCSampler()
 ```
 :::
@@ -599,7 +643,7 @@ tuner = tune.Tuner(
 results:tune.ResultGrid  = tuner.fit()
 ```
 
-::: {#cell-37 .cell vscode='{"languageId":"python"}'}
+::: {#cell-44 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 experiment_dir = "/home/ycm/ray_results/objective_2024-10-22_23-27-35"
 # https://docs.ray.io/en/latest/tune/examples/tune_analyze_results.html
@@ -609,7 +653,7 @@ results = restored_tuner.get_results()
 :::
 
 
-::: {#cell-38 .cell vscode='{"languageId":"python"}'}
+::: {#cell-45 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 results.errors
 ```
@@ -624,9 +668,15 @@ results.errors
 
 #### 调优结果分析
 
-::: {#cell-40 .cell vscode='{"languageId":"python"}'}
+::: {#cell-47 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from ray.train import Result
+```
+:::
+
+
+::: {#cell-48 .cell vscode='{"languageId":"python"}'}
+``` {.python .cell-code}
 best_result:Result = results.get_best_result()
 {k:v for k,v in best_result.metrics.items() if "score" in k}, best_result.config
 ```
@@ -646,7 +696,7 @@ best_result:Result = results.get_best_result()
 :::
 
 
-::: {#cell-41 .cell vscode='{"languageId":"python"}'}
+::: {#cell-49 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 df = results.get_dataframe(
     filter_metric="mean_score", filter_mode="max"
@@ -829,7 +879,7 @@ df.head()
 :::
 
 
-::: {#cell-42 .cell vscode='{"languageId":"python"}'}
+::: {#cell-50 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 intersted_cols = [c for c in df.columns if c.startswith("config") or "score" in c]
 dfi = df[intersted_cols]
@@ -946,7 +996,7 @@ dfi.head()
 
 首先我们从整体上来看两个方法（distance和uniform）的性能差异。
 
-::: {#cell-44 .cell vscode='{"languageId":"python"}'}
+::: {#cell-52 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -954,7 +1004,7 @@ import seaborn as sns
 :::
 
 
-::: {#cell-45 .cell vscode='{"languageId":"python"}'}
+::: {#cell-53 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 fig, ax = plt.subplots()
 sns.boxplot(data=dfi, x='config/weights', y='mean_score', ax=ax)
@@ -962,7 +1012,7 @@ dfi.plot(x='config/weights', y='mean_score', ax=ax, kind='scatter', c='red')
 ```
 
 ::: {.cell-output .cell-output-display}
-![uniform与distance方法平均准确率箱线图对比](kd_tree_files/figure-html/cell-25-output-1.png){fig-alt='每一个红点是一次实验结果，平均准确率是每一次实验中五折交叉验证的平均值。'}
+![uniform与distance方法平均准确率箱线图对比](kd_tree_files/figure-html/cell-33-output-1.png){fig-alt='每一个红点是一次实验结果，平均准确率是每一次实验中五折交叉验证的平均值。'}
 :::
 :::
 
@@ -972,14 +1022,14 @@ dfi.plot(x='config/weights', y='mean_score', ax=ax, kind='scatter', c='red')
 
 根据论文[@Demšar_2006]，在机器学习中应该使用mann-whitney U检验和Wilcoxon signed-rank检验，因为这两个检验对样本的分布没有假定，而其他的一些检验比如t检验不太适用与样本分布不符合假设分布的情况。其中对于 “不知道每一次实验的其他无关变量是什么”的情况，也就是说自变量取“distance”和“uniform”得到的两列样本是独立（independent）的时候，应当使用mann-whitney U检验。
 
-::: {#cell-47 .cell vscode='{"languageId":"python"}'}
+::: {#cell-55 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from scipy.stats import mannwhitneyu
 ```
 :::
 
 
-::: {#cell-48 .cell vscode='{"languageId":"python"}'}
+::: {#cell-56 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 grouped = dfi.groupby('config/weights')
 group_mean_scores = {name:group['mean_score'] for name, group in grouped}
@@ -1005,7 +1055,7 @@ Reject null hypothesis! `distance` is significantly better than `uniform`
 
 我们先回答第一个问题，我们从刚才的表格筛选一下。
 
-::: {#cell-50 .cell vscode='{"languageId":"python"}'}
+::: {#cell-58 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 max_rows = dfi.loc[df.groupby('config/weights')['mean_score'].idxmax()]
 max_rows
@@ -1082,14 +1132,14 @@ max_rows
 
 这里我们可以对5次实验的结果进行统计分析，由于这五次实验是相关的，即这五次实验每一次用的同一个fold去训练，所以这里我们不应当用mann-whitney U检验，这一次我们要用Wilcoxon signed-rank检验。
 
-::: {#cell-52 .cell vscode='{"languageId":"python"}'}
+::: {#cell-60 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from scipy.stats import wilcoxon
 ```
 :::
 
 
-::: {#cell-53 .cell vscode='{"languageId":"python"}'}
+::: {#cell-61 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 scores_for_distance = [v for k, v in max_rows.iloc[0].to_dict().items() if k.startswith('score_')]
 scores_for_uniform = [v for k, v in max_rows.iloc[1].to_dict().items() if k.startswith('score_')]
@@ -1129,7 +1179,7 @@ Null hypothesis cannot be rejected, so I have to accept it.
 现在我们回答第二个问题，这两个方法分别对其他元参数的敏感性如何?
 首先分析对n_neighbors的敏感性。这个是通过quasi random search采样的。
 
-::: {#cell-56 .cell vscode='{"languageId":"python"}'}
+::: {#cell-64 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 import copy
 ```
@@ -1187,14 +1237,14 @@ For uniform, the regression line is y = -9.86e-04x + 9.84e-01
 
 从斜率上来看可能会以为这个问题很小，只是稍微减少了精度，但是从视觉上好像确实下降地很明显。我们为了从统计上说明清楚到底下降地显不显著，可以进一步通过皮尔森相关系数以及斯皮尔曼相关系数对应的假设检验来验证这个问题。
 
-::: {#cell-60 .cell vscode='{"languageId":"python"}'}
+::: {#cell-68 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 from scipy.stats import pearsonr, spearmanr
 ```
 :::
 
 
-::: {#cell-61 .cell vscode='{"languageId":"python"}'}
+::: {#cell-69 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 def test_correlation_with(x, y, data, test_func, alpha=0.05):
     correlation, p_value = test_func(data[x], data[y])
@@ -1232,7 +1282,7 @@ The correlation is significant!
 
 在我们实现新的算法之前，我们首先测试一下没改进之前的算法的速度。
 
-::: {#cell-65 .cell vscode='{"languageId":"python"}'}
+::: {#cell-73 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 
 ```
@@ -1247,7 +1297,7 @@ The correlation is significant!
 
 现在我们来实现更快的KD树。
 
-::: {#cell-67 .cell vscode='{"languageId":"python"}'}
+::: {#cell-75 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # 复用上面的一些定义
 Node, euclidean_distance
@@ -1293,7 +1343,7 @@ Node, euclidean_distance
 
 我们发现如果是用middle策略，由于数字识别数据集的分布特性，中点能划分的点太少，无法成功建树。
 
-::: {#cell-72 .cell vscode='{"languageId":"python"}'}
+::: {#cell-80 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # tree = FastKDTree(X, split_value_strategy="median")
 tree = FastKDTree(X_train, split_value_strategy="median")
@@ -1309,7 +1359,7 @@ tree = FastKDTree(X_train, split_value_strategy="median")
 :::
 
 
-::: {#cell-73 .cell vscode='{"languageId":"python"}'}
+::: {#cell-81 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 for i in range(len(X_train)):
     k_nearest = tree.search_kd_tree(X_train[0], 1)
@@ -1320,7 +1370,7 @@ for i in range(len(X_train)):
 :::
 
 
-::: {#cell-74 .cell vscode='{"languageId":"python"}'}
+::: {#cell-82 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 # k_nearest = tree.search_kd_tree(X_test[0], 2)
 # k_nearest = tree.search_kd_tree(X_train[0], 2)
@@ -1339,7 +1389,7 @@ accuracy_score(y_test, y_pred) # 确保数值正确
 :::
 
 
-::: {#cell-75 .cell vscode='{"languageId":"python"}'}
+::: {#cell-83 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 
 ```
@@ -1355,7 +1405,7 @@ accuracy_score(y_test, y_pred) # 确保数值正确
 我们发现速度变慢了！
 如果使用方差最大策略呢？会不会更好？
 
-::: {#cell-77 .cell vscode='{"languageId":"python"}'}
+::: {#cell-85 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 tree = FastKDTree(X_train, split_value_strategy="median", axis_order_strategy='variance')
 y_pred = tree.knn_classifier(X_train, y_train, X_test, k_neighbors)
@@ -1378,7 +1428,7 @@ accuracy_score(y_test, y_pred) # 确保数值正确
 :::
 
 
-::: {#cell-78 .cell vscode='{"languageId":"python"}'}
+::: {#cell-86 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 
 ```
@@ -1393,7 +1443,7 @@ accuracy_score(y_test, y_pred) # 确保数值正确
 
 甚至更慢！为了避免是因为我们实现新的方法有一定的overhead，我们对原本的划分策略也做一次测速。
 
-::: {#cell-80 .cell vscode='{"languageId":"python"}'}
+::: {#cell-88 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 tree = FastKDTree(X_train, split_value_strategy="median", axis_order_strategy='simple')
 ```
@@ -1409,7 +1459,7 @@ tree = FastKDTree(X_train, split_value_strategy="median", axis_order_strategy='s
 :::
 
 
-::: {#cell-81 .cell vscode='{"languageId":"python"}'}
+::: {#cell-89 .cell vscode='{"languageId":"python"}'}
 ``` {.python .cell-code}
 y_pred = tree.knn_classifier(X_train, y_train, X_test, k_neighbors)
 accuracy_score(y_test, y_pred) # 确保数值正确

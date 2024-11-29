@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -955,84 +955,89 @@ C \sum_{i=1}^N \left[ 1 - y_i(w \cdot x_i + b) ight]_+
 </tr>
 </tbody>
 </table>
-<div id="cell-37" class="cell" data-execution_count="16">
+<div id="cell-37" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> overrides <span class="im">import</span> override</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.utilities.types <span class="im">import</span> EVAL_DATALOADERS, TRAIN_DATALOADERS, STEP_OUTPUT, OptimizerLRScheduler</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lightning imports</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> lightning <span class="im">as</span> L</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> lightning <span class="im">as</span> L</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-38" class="cell" data-execution_count="17">
+<div id="cell-38" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HingeSupportVectorClassifier(L.LightningModule):</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  model related</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                 input_dim, num_classes,  </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  optimization related</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                 learning_rate<span class="op">=</span><span class="fl">0.01</span>, weight_decay<span class="op">=</span><span class="fl">0.5</span>, </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                 optimizer_type <span class="op">=</span> optim.SGD, </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  loss related</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                 C: <span class="bu">float</span> <span class="op">=</span> <span class="dv">1</span>,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                    squared: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                    margin: <span class="bu">float</span> <span class="op">=</span> <span class="dv">1</span>,</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                    strategy: Strategy <span class="op">=</span> <span class="st">'crammer_singer'</span>,</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  experiment related</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                 experiment_index<span class="op">=</span><span class="dv">0</span>,  </span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>                 ):</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.save_hyperparameters()</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        L.seed_everything(experiment_index)</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> nn.Linear(input_dim, num_classes)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_fn <span class="op">=</span> MultiClassHingeLoss()</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.example_input_array <span class="op">=</span> torch.randn(<span class="dv">1</span>, input_dim)</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dummy_inputs <span class="op">=</span> <span class="bu">dict</span>(input_ids<span class="op">=</span><span class="va">self</span>.example_input_array) <span class="co"># for opendelta and huggingface</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.automatic_optimization <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 评价策略</span></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.evaluation_steps_outputs <span class="op">=</span> <span class="bu">dict</span>()</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">@override</span></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, image_tensor:torch.Tensor, <span class="op">*</span>args, <span class="op">**</span>kwargs)<span class="op">-&gt;</span> torch.Tensor:</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="co">            torch.Tensor: the predicted functional margin to each class's decision hyperplane   </span></span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.model(image_tensor)</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict_geometric_margin(<span class="va">self</span>, image_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>        w_norm_each_line <span class="op">=</span> torch.norm(<span class="va">self</span>.model.weight, dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.clamp(<span class="va">self</span>(image_tensor) <span class="op">/</span> w_norm_each_line, <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict_class(<span class="va">self</span>, image_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.argmax(<span class="va">self</span>(image_tensor), dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward_loss(<span class="va">self</span>, image_tensor: torch.Tensor, label_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
-<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> <span class="va">self</span>(image_tensor)</span>
-<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.loss_fn(logits, label_tensor)</span>
-<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">@override</span></span>
-<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)<span class="op">-&gt;</span> STEP_OUTPUT:</span>
-<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="va">self</span>.forward_loss(<span class="op">*</span>batch)</span>
-<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.log(<span class="st">"train_loss"</span>, loss, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> loss</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lightning imports</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-39" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify.infra <span class="im">import</span> print_model_pretty</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-39" class="cell" data-execution_count="17">
+<details open="" class="code-fold">
+<summary>Exported source</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HingeSupportVectorClassifier(L.LightningModule):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  model related</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                 input_dim, num_classes,  </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  optimization related</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                 learning_rate<span class="op">=</span><span class="fl">0.01</span>, weight_decay<span class="op">=</span><span class="fl">0.5</span>, </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                 optimizer_type <span class="op">=</span> optim.SGD, </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  loss related</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                 C: <span class="bu">float</span> <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                    squared: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                    margin: <span class="bu">float</span> <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                    strategy: Strategy <span class="op">=</span> <span class="st">'crammer_singer'</span>,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">#  experiment related</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 experiment_index<span class="op">=</span><span class="dv">0</span>,  </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                 ):</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.save_hyperparameters()</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>        L.seed_everything(experiment_index)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> nn.Linear(input_dim, num_classes)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.loss_fn <span class="op">=</span> MultiClassHingeLoss()</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.example_input_array <span class="op">=</span> torch.randn(<span class="dv">1</span>, input_dim)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dummy_inputs <span class="op">=</span> <span class="bu">dict</span>(input_ids<span class="op">=</span><span class="va">self</span>.example_input_array) <span class="co"># for opendelta and huggingface</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.automatic_optimization <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 评价策略</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.evaluation_steps_outputs <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">@override</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, image_tensor:torch.Tensor, <span class="op">*</span>args, <span class="op">**</span>kwargs)<span class="op">-&gt;</span> torch.Tensor:</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co">            torch.Tensor: the predicted functional margin to each class's decision hyperplane   </span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.model(image_tensor)</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict_geometric_margin(<span class="va">self</span>, image_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        w_norm_each_line <span class="op">=</span> torch.norm(<span class="va">self</span>.model.weight, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.clamp(<span class="va">self</span>(image_tensor) <span class="op">/</span> w_norm_each_line, <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict_class(<span class="va">self</span>, image_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.argmax(<span class="va">self</span>(image_tensor), dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward_loss(<span class="va">self</span>, image_tensor: torch.Tensor, label_tensor:torch.Tensor)<span class="op">-&gt;</span>torch.Tensor:</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> <span class="va">self</span>(image_tensor)</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.loss_fn(logits, label_tensor)</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">@override</span></span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs)<span class="op">-&gt;</span> STEP_OUTPUT:</span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="va">self</span>.forward_loss(<span class="op">*</span>batch)</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.log(<span class="st">"train_loss"</span>, loss, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> loss</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-40" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>test_model <span class="op">=</span> HingeSupportVectorClassifier(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">10</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>test_model.print_model_pretty()</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>y_pred_logits <span class="op">=</span>test_model(test_model.example_input_array)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>test_model.predict_class(test_model.example_input_array)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>test_model.predict_geometric_margin(test_model.example_input_array)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_logits</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># test_model.loss_fn(y_pred_logits, torch.tensor([0]))</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>test_model.forward_loss(test_model.example_input_array, torch.tensor([<span class="dv">0</span>]))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify.infra <span class="im">import</span> print_model_pretty</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-41" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test_model <span class="op">=</span> HingeSupportVectorClassifier(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">10</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>test_model.print_model_pretty()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>y_pred_logits <span class="op">=</span>test_model(test_model.example_input_array)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>test_model.predict_class(test_model.example_input_array)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>test_model.predict_geometric_margin(test_model.example_input_array)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_logits</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># test_model.loss_fn(y_pred_logits, torch.tensor([0]))</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>test_model.forward_loss(test_model.example_input_array, torch.tensor([<span class="dv">0</span>]))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Seed set to 0</code></pre>
 </div>
@@ -1073,11 +1078,11 @@ C \sum_{i=1}^N \left[ 1 - y_i(w \cdot x_i + b) ight]_+
 <p><span class="math display">\[
 \gamma = \frac{{\eta}_{t+1}}{\eta_t} = \frac{1}{1+\frac{1}{t + \frac{1}{\lambda \eta_0}}}
 \]</span> 答案是否定的，因为 <span class="math inline">\(\gamma\)</span> 推导出来不是和t无关的常数。 所以Leon Bottou不是 gamma衰减的特殊情况。</p>
-<div id="cell-43" class="cell" data-execution_count="19">
+<div id="cell-44" class="cell" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>scheduler_lmd_leon_bottou_sgd <span class="op">=</span> <span class="kw">lambda</span> epoch, init_lr<span class="op">=</span><span class="fl">0.1</span>, lmd<span class="op">=</span><span class="fl">0.001</span>: init_lr <span class="op">/</span> (<span class="dv">1</span><span class="op">+</span> lmd<span class="op">*</span>init_lr<span class="op">*</span>epoch)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>scheduler_lmd_leon_bottou_asgd <span class="op">=</span> <span class="kw">lambda</span> epoch, init_lr<span class="op">=</span><span class="fl">0.1</span>, lmd<span class="op">=</span><span class="fl">0.001</span>: init_lr <span class="op">/</span> (<span class="dv">1</span><span class="op">+</span> lmd<span class="op">*</span>init_lr<span class="op">*</span>epoch)<span class="op">**</span><span class="fl">0.75</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>scheduler_lmd_leon_bottou_sgd <span class="op">=</span> <span class="kw">lambda</span> epoch, init_lr<span class="op">=</span><span class="fl">0.1</span>, lmd<span class="op">=</span><span class="fl">0.001</span>: init_lr <span class="op">/</span> (<span class="dv">1</span><span class="op">+</span> lmd<span class="op">*</span>init_lr<span class="op">*</span>epoch)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>scheduler_lmd_leon_bottou_asgd <span class="op">=</span> <span class="kw">lambda</span> epoch, init_lr<span class="op">=</span><span class="fl">0.1</span>, lmd<span class="op">=</span><span class="fl">0.001</span>: init_lr <span class="op">/</span> (<span class="dv">1</span><span class="op">+</span> lmd<span class="op">*</span>init_lr<span class="op">*</span>epoch)<span class="op">**</span><span class="fl">0.75</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>不要忘了刚才还有 <span class="math inline">\(\frac{1}{2} ||w||^2\)</span> 项， 需要特别注意 bias <span class="math inline">\(b\)</span> 没有被decay。<a href="https://discuss.pytorch.org/t/weight-decay-only-for-weights-of-nn-linear-and-nn-conv/114348">博客</a>提到，尽管很多论文都指出了分开这两者的weight decay的重要性，但是在torch中实现这一点还是有一定的难度的。</p>
@@ -1091,32 +1096,32 @@ C \sum_{i=1}^N \left[ 1 - y_i(w \cdot x_i + b) ight]_+
                         weight_decay:float, otherwise_set_to:float=0.0,
                         verbose:bool=False)</code></pre>
 </blockquote>
-<div id="cell-46" class="cell" data-execution_count="20">
+<div id="cell-47" class="cell" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> separate_weight_decay(model:nn.Module, weight_decay: <span class="bu">float</span>, otherwise_set_to:<span class="bu">float</span><span class="op">=</span><span class="fl">0.0</span>, verbose:<span class="bu">bool</span><span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    decay <span class="op">=</span> <span class="bu">list</span>() <span class="co"># 不能使用 set，由于Pytorch优化器需要顺序</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    no_decay <span class="op">=</span> <span class="bu">list</span>()</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, param <span class="kw">in</span> model.named_parameters():</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        do_weight_decay <span class="op">=</span> <span class="st">'weight'</span> <span class="kw">in</span> name</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> should do weight decay? </span><span class="sc">{</span>do_weight_decay<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> do_weight_decay:</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>            decay.append(param)</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>            no_decay.append(param)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return decay, no_decay</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>                <span class="bu">dict</span>(params<span class="op">=</span>decay, weight_decay<span class="op">=</span>weight_decay), </span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>                <span class="bu">dict</span>(params<span class="op">=</span>no_decay, weight_decay<span class="op">=</span>otherwise_set_to)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>            ]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> separate_weight_decay(model:nn.Module, weight_decay: <span class="bu">float</span>, otherwise_set_to:<span class="bu">float</span><span class="op">=</span><span class="fl">0.0</span>, verbose:<span class="bu">bool</span><span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    decay <span class="op">=</span> <span class="bu">list</span>() <span class="co"># 不能使用 set，由于Pytorch优化器需要顺序</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    no_decay <span class="op">=</span> <span class="bu">list</span>()</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, param <span class="kw">in</span> model.named_parameters():</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        do_weight_decay <span class="op">=</span> <span class="st">'weight'</span> <span class="kw">in</span> name</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> should do weight decay? </span><span class="sc">{</span>do_weight_decay<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> do_weight_decay:</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>            decay.append(param)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>            no_decay.append(param)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return decay, no_decay</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>                <span class="bu">dict</span>(params<span class="op">=</span>decay, weight_decay<span class="op">=</span>weight_decay), </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>                <span class="bu">dict</span>(params<span class="op">=</span>no_decay, weight_decay<span class="op">=</span>otherwise_set_to)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>            ]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-47" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>test_model <span class="op">=</span> HingeSupportVectorClassifier(<span class="dv">10</span>, <span class="dv">10</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>weight_decay <span class="op">=</span> <span class="fl">0.001</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>separate_weight_decay(test_model, weight_decay)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-48" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>test_model <span class="op">=</span> HingeSupportVectorClassifier(<span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>weight_decay <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>separate_weight_decay(test_model, weight_decay)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Seed set to 0</code></pre>
 </div>
@@ -1205,40 +1210,40 @@ def configure_optimizers(self):
 - If you use multiple optimizers, you will have to switch to 'manual optimization' mode and step them
   yourself.
 - If you need to control how often the optimizer steps, override the :meth:`optimizer_step` hook.*</code></pre>
-<div id="cell-49" class="cell" data-execution_count="22">
+<div id="cell-50" class="cell" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span>    </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> configure_optimizers(<span class="va">self</span>:HingeSupportVectorClassifier) <span class="op">-&gt;</span> OptimizerLRScheduler:</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    init_lr <span class="op">=</span> <span class="va">self</span>.hparams.learning_rate</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># lmd = self.hparams.weight_decay / self.hparams.C </span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    lmd <span class="op">=</span> <span class="va">self</span>.hparams.weight_decay <span class="co"># 需要考证，Leon Bottou的lamda 是什么情况下推导的。</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    weight_decay <span class="op">=</span> <span class="va">self</span>.hparams.weight_decay</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.hparams.optimizer_type <span class="op">==</span> torch.optim.ASGD:</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> torch.optim.ASGD(</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># self.parameters(), </span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>            separate_weight_decay(<span class="va">self</span>, weight_decay), </span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>                                    lr<span class="op">=</span>init_lr,  <span class="co"># 刚才 save_hyperparameters() 保存了，这是为了方便是使用 Lightning 调学习率</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>                                    <span class="co"># weight_decay = self.hparams.weight_decay, # 李航书上的 hinge loss的第一项</span></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>                                    ) </span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>        scheduler <span class="op">=</span> torch.optim.lr_scheduler.LambdaLR(optimizer,</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>                lr_lambda<span class="op">=</span><span class="kw">lambda</span> epoch: scheduler_lmd_leon_bottou_asgd(epoch, init_lr, lmd))</span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="va">self</span>.hparams.optimizer_type <span class="op">==</span> torch.optim.SGD:</span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> torch.optim.SGD(</span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># self.parameters(), </span></span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>            separate_weight_decay(<span class="va">self</span>, weight_decay), </span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>                                    lr<span class="op">=</span>init_lr,</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>                                    <span class="co"># weight_decay=self.hparams.weight_decay</span></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>                                    )</span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>        scheduler <span class="op">=</span> torch.optim.lr_scheduler.LambdaLR(optimizer,</span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>                lr_lambda<span class="op">=</span><span class="kw">lambda</span> epoch: scheduler_lmd_leon_bottou_sgd(epoch, init_lr, lmd))</span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.hparams.optimizer_type(<span class="va">self</span>.parameters(), lr<span class="op">=</span>init_lr, weight_decay<span class="op">=</span><span class="va">self</span>.hparams.weight_decay) <span class="co"># 只 return optimizer</span></span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ([optimizer], [scheduler])</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span>    </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> configure_optimizers(<span class="va">self</span>:HingeSupportVectorClassifier) <span class="op">-&gt;</span> OptimizerLRScheduler:</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    init_lr <span class="op">=</span> <span class="va">self</span>.hparams.learning_rate</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># lmd = self.hparams.weight_decay / self.hparams.C </span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    lmd <span class="op">=</span> <span class="va">self</span>.hparams.weight_decay <span class="co"># 需要考证，Leon Bottou的lamda 是什么情况下推导的。</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    weight_decay <span class="op">=</span> <span class="va">self</span>.hparams.weight_decay</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.hparams.optimizer_type <span class="op">==</span> torch.optim.ASGD:</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> torch.optim.ASGD(</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># self.parameters(), </span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>            separate_weight_decay(<span class="va">self</span>, weight_decay), </span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>                                    lr<span class="op">=</span>init_lr,  <span class="co"># 刚才 save_hyperparameters() 保存了，这是为了方便是使用 Lightning 调学习率</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>                                    <span class="co"># weight_decay = self.hparams.weight_decay, # 李航书上的 hinge loss的第一项</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>                                    ) </span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>        scheduler <span class="op">=</span> torch.optim.lr_scheduler.LambdaLR(optimizer,</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>                lr_lambda<span class="op">=</span><span class="kw">lambda</span> epoch: scheduler_lmd_leon_bottou_asgd(epoch, init_lr, lmd))</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="va">self</span>.hparams.optimizer_type <span class="op">==</span> torch.optim.SGD:</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> torch.optim.SGD(</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># self.parameters(), </span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>            separate_weight_decay(<span class="va">self</span>, weight_decay), </span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>                                    lr<span class="op">=</span>init_lr,</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>                                    <span class="co"># weight_decay=self.hparams.weight_decay</span></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>                                    )</span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>        scheduler <span class="op">=</span> torch.optim.lr_scheduler.LambdaLR(optimizer,</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>                lr_lambda<span class="op">=</span><span class="kw">lambda</span> epoch: scheduler_lmd_leon_bottou_sgd(epoch, init_lr, lmd))</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.hparams.optimizer_type(<span class="va">self</span>.parameters(), lr<span class="op">=</span>init_lr, weight_decay<span class="op">=</span><span class="va">self</span>.hparams.weight_decay) <span class="co"># 只 return optimizer</span></span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ([optimizer], [scheduler])</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>最后我们补上评价指标</p>
@@ -1289,87 +1294,87 @@ def test_step(self, batch, batch_idx, dataloader_idx=0):
     ...</code></pre>
 <p>Note: If you don’t need to test you don’t need to implement this method.</p>
 <p>Note: When the :meth:<code>test_step</code> is called, the model has been put in eval mode and PyTorch gradients have been disabled. At the end of the test epoch, the model goes back to training mode and gradients are enabled.*</p>
-<div id="cell-52" class="cell">
+<div id="cell-53" class="cell">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify.infra <span class="im">import</span> append_dict_list, ensure_array</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> namable_classify.infra <span class="im">import</span> append_dict_list, ensure_array</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-53" class="cell" data-execution_count="24">
+<div id="cell-54" class="cell" data-execution_count="24">
 <details open="" class="code-fold">
 <summary>Exported source</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_evaluation_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>):</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs <span class="op">=</span> <span class="bu">dict</span>()</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>] <span class="op">=</span> []</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>] <span class="op">=</span> []</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># self.evaluation_steps_outputs[f'{stage}_batch_preds'] = []</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluation_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>, <span class="op">*</span>args: Any, <span class="op">**</span>kwargs: Any) <span class="op">-&gt;</span> STEP_OUTPUT:</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    image_tensor, label_tensor <span class="op">=</span> batch</span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    batch_probs <span class="op">=</span> <span class="va">self</span>(image_tensor)</span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># batch_preds = self.predict_class(image_tensor)</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    append_dict_list(<span class="va">self</span>.evaluation_steps_outputs, <span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>, ensure_array(batch_probs))</span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    append_dict_list(<span class="va">self</span>.evaluation_steps_outputs, <span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>, ensure_array(label_tensor))</span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># append_dict_list(self.evaluation_steps_outputs, f'{stage}_batch_preds', ensure_array(batch_preds))</span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    batch_loss <span class="op">=</span> <span class="va">self</span>.loss_fn(batch_probs, label_tensor)</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="ss">f"</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_loss"</span>, batch_loss, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> batch_loss</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_evaluation_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>):</span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># https://github.com/Lightning-AI/pytorch-lightning/discussions/9845</span></span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = self.lit_data.classes</span></span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = list(range(self.lit_data.num_of_classes))</span></span>
-<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="va">self</span>.hparams.num_classes))</span>
-<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = None</span></span>
-<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(labels)</span></span>
-<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># stack 是 new axis， concat是existing axis</span></span>
-<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>    all_pred_probs <span class="op">=</span> np.concatenate(<span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>])</span>
-<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>    all_label_tensor <span class="op">=</span> np.concatenate(<span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>])</span>
-<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all_preds = np.concatenate(self.evaluation_steps_outputs[f'{stage}_batch_preds'])</span></span>
-<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logger.debug(self.evaluation_steps_outputs[f'{stage}_label_tensor'])</span></span>
-<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logger.debug(all_label_tensor)</span></span>
-<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a>    eval_dict <span class="op">=</span> compute_classification_metrics(all_label_tensor, all_pred_probs, </span>
-<span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a>                                            <span class="co">#    logits_to_prob=False, </span></span>
-<span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a>                                                logits_to_prob<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb46-37"><a href="#cb46-37" aria-hidden="true" tabindex="-1"></a>                                            labels<span class="op">=</span>labels)</span>
-<span id="cb46-38"><a href="#cb46-38" aria-hidden="true" tabindex="-1"></a>    eval_dict <span class="op">=</span> {<span class="ss">f"</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">"</span>: v <span class="cf">for</span> k,v <span class="kw">in</span> eval_dict.items()}</span>
-<span id="cb46-39"><a href="#cb46-39" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log_dict(eval_dict)</span>
-<span id="cb46-40"><a href="#cb46-40" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs.clear()</span>
-<span id="cb46-41"><a href="#cb46-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-42"><a href="#cb46-42" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-43"><a href="#cb46-43" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-44"><a href="#cb46-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_validation_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
-<span id="cb46-45"><a href="#cb46-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_start(stage<span class="op">=</span><span class="st">"val"</span>)</span>
-<span id="cb46-46"><a href="#cb46-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-47"><a href="#cb46-47" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-48"><a href="#cb46-48" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-49"><a href="#cb46-49" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_test_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
-<span id="cb46-50"><a href="#cb46-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_start(stage<span class="op">=</span><span class="st">"test"</span>)</span>
-<span id="cb46-51"><a href="#cb46-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-52"><a href="#cb46-52" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-53"><a href="#cb46-53" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-54"><a href="#cb46-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_validation_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
-<span id="cb46-55"><a href="#cb46-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_end(stage<span class="op">=</span><span class="st">"val"</span>)</span>
-<span id="cb46-56"><a href="#cb46-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-57"><a href="#cb46-57" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-58"><a href="#cb46-58" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-59"><a href="#cb46-59" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_test_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
-<span id="cb46-60"><a href="#cb46-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_end(stage<span class="op">=</span><span class="st">"test"</span>)</span>
-<span id="cb46-61"><a href="#cb46-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-62"><a href="#cb46-62" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-63"><a href="#cb46-63" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-64"><a href="#cb46-64" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validation_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
-<span id="cb46-65"><a href="#cb46-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.evaluation_step(batch, batch_idx, stage<span class="op">=</span><span class="st">"val"</span>)</span>
-<span id="cb46-66"><a href="#cb46-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-67"><a href="#cb46-67" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
-<span id="cb46-68"><a href="#cb46-68" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
-<span id="cb46-69"><a href="#cb46-69" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
-<span id="cb46-70"><a href="#cb46-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.evaluation_step(batch, batch_idx, stage<span class="op">=</span><span class="st">"test"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_evaluation_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>] <span class="op">=</span> []</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>] <span class="op">=</span> []</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># self.evaluation_steps_outputs[f'{stage}_batch_preds'] = []</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluation_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>, <span class="op">*</span>args: Any, <span class="op">**</span>kwargs: Any) <span class="op">-&gt;</span> STEP_OUTPUT:</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    image_tensor, label_tensor <span class="op">=</span> batch</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    batch_probs <span class="op">=</span> <span class="va">self</span>(image_tensor)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># batch_preds = self.predict_class(image_tensor)</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    append_dict_list(<span class="va">self</span>.evaluation_steps_outputs, <span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>, ensure_array(batch_probs))</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    append_dict_list(<span class="va">self</span>.evaluation_steps_outputs, <span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>, ensure_array(label_tensor))</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># append_dict_list(self.evaluation_steps_outputs, f'{stage}_batch_preds', ensure_array(batch_preds))</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    batch_loss <span class="op">=</span> <span class="va">self</span>.loss_fn(batch_probs, label_tensor)</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="ss">f"</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_loss"</span>, batch_loss, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> batch_loss</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_evaluation_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier, stage:<span class="bu">str</span><span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># https://github.com/Lightning-AI/pytorch-lightning/discussions/9845</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = self.lit_data.classes</span></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = list(range(self.lit_data.num_of_classes))</span></span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="va">self</span>.hparams.num_classes))</span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels = None</span></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(labels)</span></span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># stack 是 new axis， concat是existing axis</span></span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    all_pred_probs <span class="op">=</span> np.concatenate(<span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_batch_probs'</span>])</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>    all_label_tensor <span class="op">=</span> np.concatenate(<span class="va">self</span>.evaluation_steps_outputs[<span class="ss">f'</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_label_tensor'</span>])</span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all_preds = np.concatenate(self.evaluation_steps_outputs[f'{stage}_batch_preds'])</span></span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logger.debug(self.evaluation_steps_outputs[f'{stage}_label_tensor'])</span></span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logger.debug(all_label_tensor)</span></span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>    eval_dict <span class="op">=</span> compute_classification_metrics(all_label_tensor, all_pred_probs, </span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>                                            <span class="co">#    logits_to_prob=False, </span></span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>                                                logits_to_prob<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>                                            labels<span class="op">=</span>labels)</span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a>    eval_dict <span class="op">=</span> {<span class="ss">f"</span><span class="sc">{</span>stage<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">"</span>: v <span class="cf">for</span> k,v <span class="kw">in</span> eval_dict.items()}</span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log_dict(eval_dict)</span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.evaluation_steps_outputs.clear()</span>
+<span id="cb47-41"><a href="#cb47-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-42"><a href="#cb47-42" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-43"><a href="#cb47-43" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-44"><a href="#cb47-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_validation_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
+<span id="cb47-45"><a href="#cb47-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_start(stage<span class="op">=</span><span class="st">"val"</span>)</span>
+<span id="cb47-46"><a href="#cb47-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-47"><a href="#cb47-47" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-48"><a href="#cb47-48" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-49"><a href="#cb47-49" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_test_epoch_start(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
+<span id="cb47-50"><a href="#cb47-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_start(stage<span class="op">=</span><span class="st">"test"</span>)</span>
+<span id="cb47-51"><a href="#cb47-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-52"><a href="#cb47-52" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-53"><a href="#cb47-53" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-54"><a href="#cb47-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_validation_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
+<span id="cb47-55"><a href="#cb47-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_end(stage<span class="op">=</span><span class="st">"val"</span>)</span>
+<span id="cb47-56"><a href="#cb47-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-57"><a href="#cb47-57" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-58"><a href="#cb47-58" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-59"><a href="#cb47-59" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_test_epoch_end(<span class="va">self</span>:HingeSupportVectorClassifier):</span>
+<span id="cb47-60"><a href="#cb47-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.on_evaluation_epoch_end(stage<span class="op">=</span><span class="st">"test"</span>)</span>
+<span id="cb47-61"><a href="#cb47-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-62"><a href="#cb47-62" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-63"><a href="#cb47-63" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-64"><a href="#cb47-64" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validation_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb47-65"><a href="#cb47-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.evaluation_step(batch, batch_idx, stage<span class="op">=</span><span class="st">"val"</span>)</span>
+<span id="cb47-66"><a href="#cb47-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-67"><a href="#cb47-67" aria-hidden="true" tabindex="-1"></a><span class="at">@override</span></span>
+<span id="cb47-68"><a href="#cb47-68" aria-hidden="true" tabindex="-1"></a><span class="at">@patch</span></span>
+<span id="cb47-69"><a href="#cb47-69" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_step(<span class="va">self</span>:HingeSupportVectorClassifier, batch, batch_idx<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb47-70"><a href="#cb47-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.evaluation_step(batch, batch_idx, stage<span class="op">=</span><span class="st">"test"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <hr>
@@ -1481,10 +1486,10 @@ def validation_step(self, batch, batch_idx, dataloader_idx=0):
 <blockquote class="blockquote">
 <pre><code> HingeSupportVectorClassifier.on_evaluation_epoch_start (stage:str='')</code></pre>
 </blockquote>
-<div id="cell-62" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>input_dim <span class="op">=</span> X_val.shape[<span class="dv">1</span>]</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>num_of_classes <span class="op">=</span> <span class="bu">len</span>(categories)</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>input_dim, num_of_classes</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-63" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>input_dim <span class="op">=</span> X_val.shape[<span class="dv">1</span>]</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>num_of_classes <span class="op">=</span> <span class="bu">len</span>(categories)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>input_dim, num_of_classes</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
@@ -1494,46 +1499,46 @@ def validation_step(self, batch, batch_idx, dataloader_idx=0):
 </div>
 </div>
 </div>
-<div id="cell-63" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>get_cls_task <span class="op">=</span> <span class="kw">lambda</span>: HingeSupportVectorClassifier(input_dim, num_of_classes, </span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>                                        learning_rate<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>                                        weight_decay<span class="op">=</span><span class="fl">0.5</span>, </span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>                                        optimizer_type<span class="op">=</span>torch.optim.ASGD, C<span class="op">=</span><span class="dv">1</span>, squared<span class="op">=</span><span class="va">True</span>, margin<span class="op">=</span><span class="dv">1</span>, </span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>                                        strategy<span class="op">=</span><span class="st">"crammer_singer"</span>, experiment_index<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>cls_data <span class="op">=</span> data_module</span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="co"># cls_data = data_module_full</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>get_cls_task <span class="op">=</span> <span class="kw">lambda</span>: HingeSupportVectorClassifier(input_dim, num_of_classes, </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>                                        learning_rate<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                                        weight_decay<span class="op">=</span><span class="fl">0.5</span>, </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>                                        optimizer_type<span class="op">=</span>torch.optim.ASGD, C<span class="op">=</span><span class="dv">1</span>, squared<span class="op">=</span><span class="va">True</span>, margin<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>                                        strategy<span class="op">=</span><span class="st">"crammer_singer"</span>, experiment_index<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>cls_data <span class="op">=</span> data_module</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="co"># cls_data = data_module_full</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Seed set to 0</code></pre>
 </div>
 </div>
 <section id="svm-训练与评价" class="level4" data-number="0.17.1">
 <h4 data-number="0.17.1" class="anchored" data-anchor-id="svm-训练与评价"><span class="header-section-number">0.17.1</span> SVM 训练与评价</h4>
-<div id="cell-65" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> thu_big_data_ml.<span class="bu">help</span> <span class="im">import</span> runs_path</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.callbacks.early_stopping <span class="im">import</span> EarlyStopping</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.callbacks <span class="im">import</span> ModelSummary, LearningRateMonitor, LearningRateFinder, BatchSizeFinder</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-66" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> thu_big_data_ml.<span class="bu">help</span> <span class="im">import</span> runs_path</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.callbacks.early_stopping <span class="im">import</span> EarlyStopping</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.callbacks <span class="im">import</span> ModelSummary, LearningRateMonitor, LearningRateFinder, BatchSizeFinder</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-66" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> L.Trainer(default_root_dir<span class="op">=</span>runs_path, </span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>                    enable_checkpointing<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>                    enable_model_summary<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># num_sanity_val_steps=2, # 防止 val 在训了好久train才发现崩溃</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>                    callbacks<span class="op">=</span>[</span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>                        EarlyStopping(monitor<span class="op">=</span><span class="st">"val_acc1"</span>, mode<span class="op">=</span><span class="st">"max"</span>, check_finite<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>                                      patience<span class="op">=</span><span class="dv">5</span>, </span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>                                      check_on_train_epoch_end<span class="op">=</span><span class="va">False</span>,  <span class="co"># check on validation end</span></span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>                                      verbose<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>                        ModelSummary(max_depth<span class="op">=</span><span class="dv">3</span>),</span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># LearningRateFinder(), </span></span>
-<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># BatchSizeFinder(), </span></span>
-<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>                        LearningRateMonitor(logging_interval<span class="op">=</span><span class="st">"epoch"</span>)</span>
-<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>                               ]</span>
-<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># , fast_dev_run=True</span></span>
-<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># , limit_train_batches=10, </span></span>
-<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># limit_val_batches=5</span></span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>                    , accelerator<span class="op">=</span><span class="st">"gpu"</span>, devices<span class="op">=</span><span class="dv">1</span>, strategy<span class="op">=</span><span class="st">"auto"</span></span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>                    )</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-67" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> L.Trainer(default_root_dir<span class="op">=</span>runs_path, </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>                    enable_checkpointing<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>                    enable_model_summary<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># num_sanity_val_steps=2, # 防止 val 在训了好久train才发现崩溃</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>                    callbacks<span class="op">=</span>[</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>                        EarlyStopping(monitor<span class="op">=</span><span class="st">"val_acc1"</span>, mode<span class="op">=</span><span class="st">"max"</span>, check_finite<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>                                      patience<span class="op">=</span><span class="dv">5</span>, </span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>                                      check_on_train_epoch_end<span class="op">=</span><span class="va">False</span>,  <span class="co"># check on validation end</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>                                      verbose<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>                        ModelSummary(max_depth<span class="op">=</span><span class="dv">3</span>),</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># LearningRateFinder(), </span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># BatchSizeFinder(), </span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>                        LearningRateMonitor(logging_interval<span class="op">=</span><span class="st">"epoch"</span>)</span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>                               ]</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># , fast_dev_run=True</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># , limit_train_batches=10, </span></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># limit_val_batches=5</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>                    , accelerator<span class="op">=</span><span class="st">"gpu"</span>, devices<span class="op">=</span><span class="dv">1</span>, strategy<span class="op">=</span><span class="st">"auto"</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>                    )</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/ye_canming/program_files/managers/conda/envs/yuequ/lib/python3.10/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ye_canming/program_files/managers/conda/envs/y ...
 Trainer already configured with model summary callbacks: [&lt;class 'lightning.pytorch.callbacks.model_summary.ModelSummary'&gt;]. Skipping setting a default `ModelSummary` callback.
@@ -1542,11 +1547,11 @@ TPU available: False, using: 0 TPU cores
 HPU available: False, using: 0 HPUs</code></pre>
 </div>
 </div>
-<div id="cell-67" class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>val_res <span class="op">=</span> trainer.validate(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>test_res <span class="op">=</span> trainer.test(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-68" class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>val_res <span class="op">=</span> trainer.validate(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>test_res <span class="op">=</span> trainer.test(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/ye_canming/program_files/managers/conda/envs/yuequ/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py:72: `max_epochs` was not set. Setting it to 1000 epochs. To train without an epoch limit, set `max_epochs=-1`.
 INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
@@ -1832,19 +1837,19 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 <p>因此，对于软间隔的Linear SVM的原始问题，我们只需要在给定优化器、损失函数、多分类策略的情况下，只需要调整现代深度学习中也很重要的<code>learning_rate</code>,<code>weight_decay</code>参数。</p>
 <p>我在上次Project作业KD树中详细描述了谷歌AI团队《深度学习调优指南》的思想，涉及到的概念包括目标元参数、冗余元参数和固定元参数，贝叶斯优化、演化计算、近似随机搜索，科学实验的控制变量法与调参实验设计中的探索与利用、调参结果的假设检验分析等。这里我们不再赘述，需要的话可以阅读<a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/notebooks/coding_projects/P1_KNN/kd_tree.ipynb">上次作业的文档</a>。</p>
 <p>与上次作业不同，今天我们调的参数（学习率）具有一定的特殊性，因为我们今天的模型是个可以SGD优化的模型，所以我们可以用到深度学习论文中提出的一些调参方法来进行调参。具体而言，我们今天学习的是这篇经典论文<a href="https://ieeexplore.ieee.org/abstract/document/7926641">Cyclical Learning Rates for Training Neural Networks</a> 的调参方法，具体的实现已经集成到 lightning 库中，我们可以直接使用。</p>
-<div id="cell-72" class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.tuner <span class="im">import</span> Tuner</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div id="cell-73" class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>tuner_trainer <span class="op">=</span> L.Trainer()</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>tuner <span class="op">=</span> Tuner(tuner_trainer)</span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>lr_finder <span class="op">=</span> tuner.lr_find(cls_task, datamodule<span class="op">=</span>cls_data, max_lr<span class="op">=</span><span class="dv">10</span>, min_lr<span class="op">=</span><span class="fl">1e-6</span>, num_training<span class="op">=</span><span class="dv">100</span>, mode <span class="op">=</span> <span class="st">"exponential"</span>)</span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(lr_finder.results)</span></span>
-<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> lr_finder.plot(suggest<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
-<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>new_lr <span class="op">=</span> lr_finder.suggestion()</span>
-<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>new_lr, cls_task.hparams.learning_rate</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightning.pytorch.tuner <span class="im">import</span> Tuner</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-74" class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>tuner_trainer <span class="op">=</span> L.Trainer()</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>tuner <span class="op">=</span> Tuner(tuner_trainer)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>lr_finder <span class="op">=</span> tuner.lr_find(cls_task, datamodule<span class="op">=</span>cls_data, max_lr<span class="op">=</span><span class="dv">10</span>, min_lr<span class="op">=</span><span class="fl">1e-6</span>, num_training<span class="op">=</span><span class="dv">100</span>, mode <span class="op">=</span> <span class="st">"exponential"</span>)</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(lr_finder.results)</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> lr_finder.plot(suggest<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>new_lr <span class="op">=</span> lr_finder.suggestion()</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>new_lr, cls_task.hparams.learning_rate</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>INFO: Seed set to 0</code></pre>
 </div>
@@ -1981,18 +1986,18 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="02svm_handy_crafted_linear_files/figure-html/cell-48-output-35.png" class="img-fluid figure-img"></p>
+<p><img src="02svm_handy_crafted_linear_files/figure-html/cell-49-output-35.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>这个方法我认为也可以用于调整weight decay。</p>
-<div id="cell-75" class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.learning_rate <span class="op">=</span> new_lr</span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>tuner_trainer <span class="op">=</span> L.Trainer()</span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>tuner <span class="op">=</span> Tuner(tuner_trainer)</span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>weight_decay_finder <span class="op">=</span> tuner.lr_find(cls_task, datamodule<span class="op">=</span>cls_data, max_lr<span class="op">=</span><span class="fl">1e-3</span>, min_lr<span class="op">=</span><span class="fl">1e-5</span>, num_training<span class="op">=</span><span class="dv">50</span>, attr_name<span class="op">=</span><span class="st">'weight_decay'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-76" class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.learning_rate <span class="op">=</span> new_lr</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>tuner_trainer <span class="op">=</span> L.Trainer()</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>tuner <span class="op">=</span> Tuner(tuner_trainer)</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>weight_decay_finder <span class="op">=</span> tuner.lr_find(cls_task, datamodule<span class="op">=</span>cls_data, max_lr<span class="op">=</span><span class="fl">1e-3</span>, min_lr<span class="op">=</span><span class="fl">1e-5</span>, num_training<span class="op">=</span><span class="dv">50</span>, attr_name<span class="op">=</span><span class="st">'weight_decay'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>INFO: Seed set to 0</code></pre>
 </div>
@@ -2116,11 +2121,11 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 </pre>
 </div>
 </div>
-<div id="cell-76" class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> weight_decay_finder.plot(suggest<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>new_weight_decay <span class="op">=</span> weight_decay_finder.suggestion()</span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>new_weight_decay, cls_task.hparams.weight_decay</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-77" class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> weight_decay_finder.plot(suggest<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>fig.show()</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>new_weight_decay <span class="op">=</span> weight_decay_finder.suggestion()</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>new_weight_decay, cls_task.hparams.weight_decay</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
@@ -2135,17 +2140,17 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="02svm_handy_crafted_linear_files/figure-html/cell-50-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="02svm_handy_crafted_linear_files/figure-html/cell-51-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>由于代码限制，第二张图中显示的learning rate其实是weight decay。</p>
 <p>现在我们对调整后的参数进行重新训练</p>
-<div id="cell-78" class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.learning_rate <span class="op">=</span> new_lr</span>
-<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.weight_decay <span class="op">=</span> new_weight_decay</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-79" class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>cls_task <span class="op">=</span> get_cls_task()</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.learning_rate <span class="op">=</span> new_lr</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>cls_task.hparams.weight_decay <span class="op">=</span> new_weight_decay</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>INFO: Seed set to 0</code></pre>
 </div>
@@ -2158,11 +2163,11 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 </pre>
 </div>
 </div>
-<div id="cell-79" class="cell">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>val_res_tuned <span class="op">=</span> trainer.validate(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>test_res_tuned <span class="op">=</span> trainer.test(cls_task, datamodule<span class="op">=</span>cls_data)</span>
-<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-80" class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>val_res_tuned <span class="op">=</span> trainer.validate(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>test_res_tuned <span class="op">=</span> trainer.test(cls_task, datamodule<span class="op">=</span>cls_data)</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/ye_canming/program_files/managers/conda/envs/yuequ/lib/python3.10/site-packages/lightning/fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/ye_canming/program_files/managers/conda/envs/y ...
 /home/ye_canming/program_files/managers/conda/envs/yuequ/lib/python3.10/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:654: Checkpoint directory /home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/runs/lightning_logs/version_16/checkpoints exists and is not empty.
@@ -2296,29 +2301,29 @@ INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]</code></pre>
 </pre>
 </div>
 </div>
-<div id="cell-80" class="cell">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>val_res <span class="op">=</span> val_res[<span class="dv">0</span>]</span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>test_res <span class="op">=</span> test_res[<span class="dv">0</span>]</span>
-<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>val_res_tuned <span class="op">=</span> val_res_tuned[<span class="dv">0</span>]</span>
-<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>test_res_tuned <span class="op">=</span> test_res_tuned[<span class="dv">0</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div id="cell-81" class="cell">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> val_res.keys():</span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> val_res_tuned[key] <span class="op">-</span> val_res[key]</span>
-<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>    is_better <span class="op">=</span> delta<span class="op">&gt;</span><span class="dv">0</span> </span>
-<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'loss'</span> <span class="kw">in</span> key:</span>
-<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>        is_better <span class="op">=</span> <span class="kw">not</span> is_better</span>
-<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>    results.append(<span class="bu">dict</span>(metric<span class="op">=</span>key, value<span class="op">=</span>val_res[key], tuned_value<span class="op">=</span>val_res_tuned[key], delta<span class="op">=</span>delta, is_better<span class="op">=</span>is_better))</span>
-<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> test_res.keys():</span>
-<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> test_res_tuned[key] <span class="op">-</span> test_res[key]</span>
-<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a>    is_better <span class="op">=</span> delta<span class="op">&gt;</span><span class="dv">0</span> </span>
-<span id="cb108-11"><a href="#cb108-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'loss'</span> <span class="kw">in</span> key:</span>
-<span id="cb108-12"><a href="#cb108-12" aria-hidden="true" tabindex="-1"></a>        is_better <span class="op">=</span> <span class="kw">not</span> is_better</span>
-<span id="cb108-13"><a href="#cb108-13" aria-hidden="true" tabindex="-1"></a>    results.append(<span class="bu">dict</span>(metric<span class="op">=</span>key, value<span class="op">=</span>test_res[key], tuned_value<span class="op">=</span>test_res_tuned[key], delta<span class="op">=</span>delta, is_better<span class="op">=</span>is_better))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>val_res <span class="op">=</span> val_res[<span class="dv">0</span>]</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>test_res <span class="op">=</span> test_res[<span class="dv">0</span>]</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>val_res_tuned <span class="op">=</span> val_res_tuned[<span class="dv">0</span>]</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>test_res_tuned <span class="op">=</span> test_res_tuned[<span class="dv">0</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-82" class="cell">
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(results)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> val_res.keys():</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> val_res_tuned[key] <span class="op">-</span> val_res[key]</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>    is_better <span class="op">=</span> delta<span class="op">&gt;</span><span class="dv">0</span> </span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'loss'</span> <span class="kw">in</span> key:</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>        is_better <span class="op">=</span> <span class="kw">not</span> is_better</span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>    results.append(<span class="bu">dict</span>(metric<span class="op">=</span>key, value<span class="op">=</span>val_res[key], tuned_value<span class="op">=</span>val_res_tuned[key], delta<span class="op">=</span>delta, is_better<span class="op">=</span>is_better))</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> test_res.keys():</span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> test_res_tuned[key] <span class="op">-</span> test_res[key]</span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>    is_better <span class="op">=</span> delta<span class="op">&gt;</span><span class="dv">0</span> </span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'loss'</span> <span class="kw">in</span> key:</span>
+<span id="cb109-12"><a href="#cb109-12" aria-hidden="true" tabindex="-1"></a>        is_better <span class="op">=</span> <span class="kw">not</span> is_better</span>
+<span id="cb109-13"><a href="#cb109-13" aria-hidden="true" tabindex="-1"></a>    results.append(<span class="bu">dict</span>(metric<span class="op">=</span>key, value<span class="op">=</span>test_res[key], tuned_value<span class="op">=</span>test_res_tuned[key], delta<span class="op">=</span>delta, is_better<span class="op">=</span>is_better))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-83" class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(results)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
@@ -2708,7 +2713,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/Open-Book-Studio\.github\.io\/THU-Coursework-Machine-Learning-for-Big-Data");
+      var filterRegex = new RegExp("https:\/\/a6fec7dd-c75f-40bf-a42b-ea3a9b6afa20\.netlify\.app\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

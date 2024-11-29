@@ -37,11 +37,15 @@ from fastcore.all import patch, store_attr
 
 </details>
 
-    /home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:225: ExperimentalWarning: QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
-      sampler=QMCSampler(seed=42), # 谷歌建议
-    /home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:226: ExperimentalWarning: WilcoxonPruner is experimental (supported from v3.6.0). The interface can change in the future.
-      pruner=WilcoxonPruner(), # 对重复实验进行假设检验剪枝
-    [I 2024-11-24 19:44:23,455] Using an existing study with name 'svm kernel hpo 11.17 3.0' instead of creating a new one.
+    /home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:224: ExperimentalWarning:
+
+    QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
+
+    /home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:225: ExperimentalWarning:
+
+    WilcoxonPruner is experimental (supported from v3.6.0). The interface can change in the future.
+
+    [I 2024-11-30 04:17:44,906] Using an existing study with name 'svm kernel hpo 11.17 3.0' instead of creating a new one.
 
 <details open class="code-fold">
 <summary>Exported source</summary>

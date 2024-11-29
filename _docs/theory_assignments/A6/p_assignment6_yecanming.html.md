@@ -22,9 +22,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-> [!IMPORTANT]
->
-> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题——一个例子理解 AdaBoost
 
@@ -155,6 +155,10 @@ df
 
 ------------------------------------------------------------------------
 
+<a
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/adaboost/vis.py#L15"
+target="_blank" style="float:right; font-size:smaller">source</a>
+
 ### plot_binary_classification_3d
 
 >      plot_binary_classification_3d (X, y, labels=[1, -1], label_names=['正例',
@@ -221,11 +225,19 @@ $$
 
 ------------------------------------------------------------------------
 
+<a
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/adaboost/vis.py#L84"
+target="_blank" style="float:right; font-size:smaller">source</a>
+
 ### calculate_gini_index
 
 >      calculate_gini_index (df, feature, value)
 
 ------------------------------------------------------------------------
+
+<a
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/adaboost/vis.py#L65"
+target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### calculate_gini_index_for_subset
 

@@ -18,19 +18,17 @@
 我们这样做的好处是，避免单独管理一堆 .py
 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。
 
-> [!IMPORTANT]
->
-> 可以通过以下命令安装我们实验的代码：
->
-> ``` shell
-> pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-> ```
->
-> 我们的代码导出为了python模块形式，通过以下命令导入：
->
-> ``` python
-> from thu_big_data_ml.big_data_analytics.matrix_decomposition import *
-> ```
+!!! important
+
+    可以通过以下命令安装我们实验的代码：
+
+    ```shell
+    pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+    ```
+    我们的代码导出为了python模块形式，通过以下命令导入：
+    ```python
+    from thu_big_data_ml.big_data_analytics.matrix_decomposition import *
+    ```
 
 https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
 是我们本次大数据机器学习课程实验的代码仓库地址。
@@ -48,9 +46,9 @@ from scholarly_infrastructure import *
 
 以上代码库开源在github，欢迎各位同学、老师们提出宝贵意见，或者加入我们的开发一起完善，构建更加优质的科研工具。
 
-> [!IMPORTANT]
->
-> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 实验目的与项目要求
 
@@ -490,9 +488,9 @@ len(set(train_data['user_id'].unique()) & set(test_data['user_id'].unique())), l
 
     (10000, 9983)
 
-> [!NOTE]
->
-> 一开始我以为，测试集和训练集的划分是根据不同的用户来操作的，我们需要用已知用户的评分去预测未知用户的评分，现在看来并不是这样的，一个用户实际上在训练集和测试集上都有出现，但是是不同的评分数据。我们接下来推荐系统中实际上是通过其他用户在训练集的评分来补全我们用户的评分，然后再用测试集已知的我们这个用户的评分来计算损失。
+!!! note
+
+    一开始我以为，测试集和训练集的划分是根据不同的用户来操作的，我们需要用已知用户的评分去预测未知用户的评分，现在看来并不是这样的，一个用户实际上在训练集和测试集上都有出现，但是是不同的评分数据。我们接下来推荐系统中实际上是通过其他用户在训练集的评分来补全我们用户的评分，然后再用测试集已知的我们这个用户的评分来计算损失。
 
 我们再取并集来看，可以看出不管是训练集还是测试集，一共出现的都只有10000个电影和10000个用户。
 
@@ -526,7 +524,7 @@ cols)，以及形状。 比如 values可以是 \[10, 8\], rows=\[0, 1\], cols=\[
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L13"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L11"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### get_rating_matrix
@@ -593,8 +591,11 @@ X_train_dense.shape, X_test_dense.shape, type(X_train_dense), X_train_dense.dtyp
 我们首先计算每个用户互相之间的相似度。
 
 ``` python
-# 尝试在GPU上面算，期待会快一些
 import torch
+```
+
+``` python
+# 尝试在GPU上面算，期待会快一些
 ```
 
 ``` python
@@ -630,7 +631,7 @@ sklearn支持通过稀疏的方式，针对稀疏矩阵进行优化的前提下�
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L25"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L23"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### get_similarities
@@ -663,7 +664,7 @@ cosine_sim = get_similarities()
 
 我们经过 352.9s, 5.9min 的时间，成功计算出 10000 x 10000
 的余弦相似度矩阵。
-![image.png](00matrix_decomposition_files/figure-commonmark/cell-69-1-image.png)
+![image.png](00matrix_decomposition_files/figure-commonmark/cell-70-1-image.png)
 
 由于我们使用了 `joblib`缓存结果, 第二次加载这个矩阵只需要 3.3s 。
 
@@ -766,7 +767,7 @@ np.ones((2, 3)).sum(axis=0)
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L61"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L59"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### get_X_train_weighted
@@ -813,7 +814,7 @@ def get_X_train_weighted():
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L34"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L32"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### compute_weighted_sum_on_matrix
@@ -825,7 +826,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ```
 
 可以看到速度非常慢，不可接受（4分钟连第一个计算也没有完成），我们需要进行一些优化。
-![image.png](00matrix_decomposition_files/figure-commonmark/cell-85-1-image.png)
+![image.png](00matrix_decomposition_files/figure-commonmark/cell-86-1-image.png)
 
 #### 速度优化——矩阵乘法
 
@@ -923,7 +924,7 @@ np.allclose(X_train_pred, X_train_pred_sparse.toarray())
 ```
 
 可以发现稀疏矩阵的速度在这个数据规模上和这个问题上，比稠密矩阵的还要慢不少，无法在合理的时间内完成。
-![image.png](00matrix_decomposition_files/figure-commonmark/cell-97-1-image.png)
+![image.png](00matrix_decomposition_files/figure-commonmark/cell-98-1-image.png)
 
 这可能是因为我们得到的最终结果是稠密的，经过矩阵乘法之后稀疏矩阵就不再稀疏，因而算法并不高效，需要算出10000\*10000个点，还不如稠密矩阵表示。
 
@@ -955,7 +956,7 @@ rmse, n
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L71"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L69"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### masked_rmse_loss
@@ -999,7 +1000,7 @@ def masked_rmse_loss(reconstructed:torch.Tensor, matrix:torch.Tensor, verbose:bo
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L68"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L66"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### ensure_tensor
@@ -1083,7 +1084,7 @@ import torch.optim as optim
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L92"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L90"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### MatrixFactorization
@@ -1158,11 +1159,18 @@ model().shape
 <summary>Exported source</summary>
 
 ``` python
-# 再尝试一下jax
 import jax
 import jax.numpy as jnp
 from jax import grad, jit, vmap # 这三个函数在 jax 中叫做 "transformations", 意思是对函数进行操作的函数（也可以说是泛函、算子），这三个函数分别作用是  求导，即时编译，向量化。
 import jax.random as jrandom # 为了和 torch.random 做区分，我们导入叫做 jrandom
+```
+
+</details>
+<details open class="code-fold">
+<summary>Exported source</summary>
+
+``` python
+# 再尝试一下jax
 ```
 
 </details>
@@ -1254,7 +1262,7 @@ nnx.display(jmodel)
 
 ### 损失函数定义
 
-![image.png](00matrix_decomposition_files/figure-commonmark/cell-128-1-image.png)
+![image.png](00matrix_decomposition_files/figure-commonmark/cell-130-1-image.png)
 
 注意在 PyTorch
 的设计哲学中，正则化项是通过优化器`weight_decay`选项来实现的，而不是在损失函数中计算。
@@ -1268,7 +1276,7 @@ regularization，是很麻烦而且没有必要的。而优化器对模型的参
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L141"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L121"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### jax_masked_mse_loss
@@ -1295,7 +1303,7 @@ def jax_masked_mse_loss(reconstructed:jnp.ndarray, matrix:jnp.ndarray)->jnp.ndar
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L136"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L116"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### masked_mse_loss
@@ -1346,7 +1354,7 @@ required_delta_loss = 1e-6
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L149"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L129"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### train_matrix_factorization
@@ -1524,20 +1532,6 @@ except Exception as e:
 我们现在来改进一下这个函数。刚才 where 是选择了 indices
 出来，所以导致了计算具有动态性，不利于jax的静态编译，我们可以使用另一种计算方式。
 
-------------------------------------------------------------------------
-
-<a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L214"
-target="_blank" style="float:right; font-size:smaller">source</a>
-
-### compilable_jax_masked_mse_loss
-
->      compilable_jax_masked_mse_loss (reconstructed:jax.Array,
->                                      matrix:jax.Array)
-
-<details open class="code-fold">
-<summary>Exported source</summary>
-
 ``` python
 @jit
 def compilable_jax_masked_mse_loss(reconstructed:jnp.ndarray, matrix:jnp.ndarray)->jnp.ndarray:
@@ -1548,7 +1542,6 @@ def compilable_jax_masked_mse_loss(reconstructed:jnp.ndarray, matrix:jnp.ndarray
     return rmse
 ```
 
-</details>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 
     (Array(0., dtype=float32), 0.0)
@@ -1563,36 +1556,6 @@ loss, float(loss) # 单个scalar转化为float
 
 现在我们可以来优化了。
 
-------------------------------------------------------------------------
-
-<a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L226"
-target="_blank" style="float:right; font-size:smaller">source</a>
-
-### train_matrix_factorization_jax
-
->      train_matrix_factorization_jax (X_train_dense:<built-infunctionarray>,
->                                      X_test_dense:<built-infunctionarray>,
->                                      k:int=50, lmd:float=0.02, lr:float=0.005,
->                                      max_epochs:int=100000,
->                                      required_delta_loss:float=0.001,
->                                      random_state=42,
->                                      trial:optuna.trial._trial.Trial=None,
->                                      critical_metric='test_rmse')
-
-|                     | **Type** | **Default** | **Details**                  |
-|---------------------|----------|-------------|------------------------------|
-| X_train_dense       | array    |             |                              |
-| X_test_dense        | array    |             |                              |
-| k                   | int      | 50          |                              |
-| lmd                 | float    | 0.02        |                              |
-| lr                  | float    | 0.005       |                              |
-| max_epochs          | int      | 100000      |                              |
-| required_delta_loss | float    | 0.001       |                              |
-| random_state        | int      | 42          |                              |
-| trial               | Trial    | None        |                              |
-| critical_metric     | str      | test_rmse   | 用于下一章节的调优的 Pruning |
-
 <details open class="code-fold">
 <summary>Exported source</summary>
 
@@ -1601,8 +1564,6 @@ import optuna
 ```
 
 </details>
-<details open class="code-fold">
-<summary>Exported source</summary>
 
 ``` python
 # @jit
@@ -1656,8 +1617,6 @@ def train_matrix_factorization_jax(X_train_dense:np.array, X_test_dense:np.array
             break
     return jmodel, jmetrics
 ```
-
-</details>
 
 ``` python
 # 设置 jax 计算的设备
@@ -1825,7 +1784,7 @@ RMSE不同，我们可以使用高级的绘图技巧，在同一张图上使用�
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L282"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L189"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### draw_metrics_df
@@ -1977,7 +1936,7 @@ jax 来做分解。
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L315"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L222"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### MatrixFactorizationSetting
@@ -2428,7 +2387,7 @@ plt.xlabel("test_rmse")
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L395"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/matrix_decomposition.py#L302"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### test_normality_small_sample

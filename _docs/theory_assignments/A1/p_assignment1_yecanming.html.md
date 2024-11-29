@@ -98,6 +98,9 @@ $Like^\prime(p)= kp^{k-1}(1-p)^{(n-k)}-(n-k)p^k(1-p)^{(n-k-1)}$
 
 ``` python
 from sympy import *
+```
+
+``` python
 p, n, k = symbols('p n k')
 like = p**k * (1-p)**(n-k)
 like_prime = diff(like, p)

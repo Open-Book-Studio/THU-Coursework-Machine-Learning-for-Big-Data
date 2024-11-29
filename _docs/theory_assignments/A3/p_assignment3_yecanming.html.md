@@ -17,9 +17,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-> [!IMPORTANT]
->
-> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题——朴素贝叶斯法概率估计公式推导
 
@@ -28,10 +28,10 @@
 > 用贝叶斯估计法推出朴素贝叶斯法中的概率估计公式(4.10)和(4.11)
 > $\begin{aligned}P_{\lambda}(X^{(j)}=a_{jl}|Y=C_{k})=& \frac{\sum_{i=1}^{N}I(x_{i}^{(j)}=a_{jl},y_{i}=c_{k})+\lambda}{\sum_{i=1}^{N}I(y_{i}=c_{k})+S_{j}\lambda}\end{aligned}$
 
-> [!NOTE]
->
-> TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
-> 对于题目的证明，可以直接跳到解题部分@sec-proof。
+!!! note
+
+    TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
+    对于题目的证明，可以直接跳到解题部分@sec-proof。
 
 ### 审题
 
@@ -53,10 +53,9 @@ $\lambda=0$ 时，等价于使用极大似然估计， 当 $\lambda = 1$
 P_{\lambda}\left(Y=c_{k}\right)=\frac{(\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right))+\lambda}{N+K \lambda}
  \qquad(2)$$</span>
 
-> [!WARNING]
->
-> 李航书上的原式对括号的位置不清晰，让人分不清楚$+\lambda$
-> 是在求和操作$\sum$的里面还是外面。为了避免歧义，我们上面已经修改，加上了括号，即$+\lambda$的操作是在求和操作$\sum$结束之后。
+!!! warning
+
+    李航书上的原式对括号的位置不清晰，让人分不清楚$+\lambda$ 是在求和操作$\sum$的里面还是外面。为了避免歧义，我们上面已经修改，加上了括号，即$+\lambda$的操作是在求和操作$\sum$结束之后。
 
 #### 本题要从什么推导到什么？
 
@@ -82,12 +81,9 @@ P_{\lambda}\left(Y=c_{k}\right)=\frac{(\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right))
     其中$S_j$为第j个特征的取值个数。$a_{jl}$用下标$l$来表示是第几个取值。
   - $I$为指示函数。
 
-> [!NOTE]
->
-> 李航书上推导的是[Categorical Naive
-> Bayes](https://scikit-learn.org/1.5/modules/naive_bayes.html#multinomial-naive-bayes)，输入的是离散型随机变量。如果是连续型随机变量，则需要使用[Gaussian
-> Naive
-> Bayes](https://scikit-learn.org/1.5/modules/naive_bayes.html#gaussian-naive-bayes)。
+!!! note
+
+    李航书上推导的是[Categorical Naive Bayes][MultinomialNB]，输入的是离散型随机变量。如果是连续型随机变量，则需要使用[Gaussian Naive Bayes][GaussianNB]。
 
 #### 一个问题，式子<a href="#eq-4-10" class="quarto-xref">式 1</a> 和 式子<a href="#eq-4-11" class="quarto-xref">式 2</a>中的$\lambda$是同一个参数吗？
 
@@ -233,6 +229,9 @@ $$
 
 ``` python
 import numpy as np
+```
+
+``` python
 x = np.arange(1, 11)
 y = np.array([4.5, 4.75, 4.91, 5.34, 5.80, 7.05, 7.90, 8.23, 8.70, 9.00])
 x, y
@@ -247,6 +246,9 @@ x, y
 
 ``` python
 import matplotlib.pyplot as plt
+```
+
+``` python
 plt.plot(x, y, 'o-')
 plt.xlabel('x')
 plt.ylabel('y')
@@ -254,7 +256,7 @@ plt.title('y vs x')
 plt.show()
 ```
 
-![](P_Assignment3_yecanming_files/figure-commonmark/cell-3-output-1.png)
+![](P_Assignment3_yecanming_files/figure-commonmark/cell-5-output-1.png)
 
 平方误差损失准则是什么？二叉回归树是什么？
 
@@ -275,7 +277,9 @@ value：被划分到当前节点的输入可以用什么输出值（通过平均
 
 ``` python
 import numpy as np
+```
 
+``` python
 class Node:
     def __init__(self, feature=None, # 切分的特征
                  split=None,  # 切分的值
@@ -299,6 +303,9 @@ class Node:
 
 ``` python
 from fastcore.utils import patch
+```
+
+``` python
 class RegressionTree:
     def __init__(self, min_samples_split=2, # 最少需要多少个样本才能分裂
                  max_depth=float('inf') # 最大深度，太深的话容易过拟合
@@ -420,7 +427,9 @@ reg_tree.fit(X, y)
 
 ``` python
 from graphviz import Digraph
+```
 
+``` python
 def visualize_node(node:Node, graph_label="Regression Tree"):
     # Create Digraph object
     dot = Digraph(comment=graph_label)
@@ -462,7 +471,7 @@ dot.render('regression_tree', format='png', cleanup=True)  # Save the tree as an
 dot
 ```
 
-![](P_Assignment3_yecanming_files/figure-commonmark/cell-8-output-1.svg)
+![](P_Assignment3_yecanming_files/figure-commonmark/cell-13-output-1.svg)
 
 接下来是第二步，有了这个决策树，怎么预测新的数据呢？
 
@@ -505,7 +514,9 @@ predictions - y
 
 ``` python
 import matplotlib.pyplot as plt
+```
 
+``` python
 reg_tree = RegressionTree(max_depth=2)
 reg_tree.fit(X, y)
 predictions = reg_tree.predict(X)
@@ -540,7 +551,7 @@ plt.show()
       Depth 2: Leaf with value 7.05
       Depth 2: Leaf with value 8.4575
 
-![](P_Assignment3_yecanming_files/figure-commonmark/cell-11-output-3.png)
+![](P_Assignment3_yecanming_files/figure-commonmark/cell-17-output-3.png)
 
 ### 题目扩展问题
 

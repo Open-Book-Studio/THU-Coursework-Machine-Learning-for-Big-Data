@@ -37,9 +37,9 @@ X_train_full, X_val_full, X_test_full, y_train_full, y_val_full, y_test_full, tr
 当然如果我们Project在此收尾，只能酌情被扣除分数。 在本节之后，我们将使用
 PyTorch 和 numpy 这样的基础科学计算库，来在GPU和CPU上实现SVM及其优化。
 
-> [!IMPORTANT]
->
-> 本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
+!!! important
+
+    本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
 
 #### sklearn实现的 SMO 形式的 RBF kernel SVM
 

@@ -13,9 +13,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-> [!IMPORTANT]
->
-> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第二题——最大熵模型的深入理解
 
@@ -23,10 +23,10 @@
 
 > 写出最大熵模型学习的DFP算法
 
-> [!NOTE]
->
-> TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
-> 对于题目的证明，可以直接跳到解题部分@sec-proof。
+!!! note
+
+    TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
+    对于题目的证明，可以直接跳到解题部分@sec-proof。
 
 ### 审题
 
@@ -274,7 +274,9 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+```
 
+``` python
 class XYFeatureExtractor(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(XYFeatureExtractor, self).__init__()

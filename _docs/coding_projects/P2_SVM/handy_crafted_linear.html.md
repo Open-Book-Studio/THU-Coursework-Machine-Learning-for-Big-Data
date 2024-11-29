@@ -495,8 +495,15 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 from overrides import override
 from lightning.pytorch.utilities.types import EVAL_DATALOADERS, TRAIN_DATALOADERS, STEP_OUTPUT, OptimizerLRScheduler
 import torch.optim as optim
-# lightning imports
 import lightning as L
+```
+
+</details>
+<details open class="code-fold">
+<summary>Exported source</summary>
+
+``` python
+# lightning imports
 ```
 
 </details>
@@ -1507,7 +1514,7 @@ new_lr, cls_task.hparams.learning_rate
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 
-![](02svm_handy_crafted_linear_files/figure-commonmark/cell-48-output-35.png)
+![](02svm_handy_crafted_linear_files/figure-commonmark/cell-49-output-35.png)
 
 这个方法我认为也可以用于调整weight decay。
 
@@ -1611,7 +1618,7 @@ new_weight_decay, cls_task.hparams.weight_decay
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 
-![](02svm_handy_crafted_linear_files/figure-commonmark/cell-50-output-4.png)
+![](02svm_handy_crafted_linear_files/figure-commonmark/cell-51-output-4.png)
 
 由于代码限制，第二张图中显示的learning rate其实是weight decay。
 

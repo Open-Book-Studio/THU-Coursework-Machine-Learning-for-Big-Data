@@ -25,9 +25,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-> [!IMPORTANT]
->
-> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题——一个例子理解支持向量机
 
@@ -82,6 +82,9 @@
 
 ``` python
 import numpy as np
+```
+
+``` python
 X = np.array([
     [1, 2], 
     [2, 3],
@@ -95,7 +98,7 @@ y = np.array([1]*3 + [-1]*2)
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm.py#L13"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L13"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### plot_binary_classification_2d
@@ -112,7 +115,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 fig, ax = plot_binary_classification_2d(X, y)
 ```
 
-![](P_Assignment5_yecanming_files/figure-commonmark/cell-4-output-1.png)
+![](P_Assignment5_yecanming_files/figure-commonmark/cell-5-output-1.png)
 
 要求找出上图的最大间隔分离超平面，以及对应的分类决策函数；
 
@@ -209,11 +212,11 @@ ax.set_aspect('equal', adjustable='box') # https://stackoverflow.com/questions/1
 ax
 ```
 
-![](P_Assignment5_yecanming_files/figure-commonmark/cell-5-output-1.png)
+![](P_Assignment5_yecanming_files/figure-commonmark/cell-6-output-1.png)
 
-> [!NOTE]
->
-> 本解法不太好写在考试的解答题里面，可以写在选择题填空题里面加快速度。不对于AI研究而言，关键是无法适用于高维的情况自动求解。
+!!! note
+
+    本解法不太好写在考试的解答题里面，可以写在选择题填空题里面加快速度。不对于AI研究而言，关键是无法适用于高维的情况自动求解。
 
 #### 解法二：手算推导法（考试写解答题）
 
@@ -236,7 +239,9 @@ $$
 
 ``` python
 from sympy import symbols, solve, And
+```
 
+``` python
 # 定义变量
 A, B, C = symbols('A B C')
 l = [A, B, C]
@@ -277,7 +282,9 @@ $\displaystyle C \geq - 3 A - 3 B + 1 \wedge C \geq - 2 A - 3 B + 1 \wedge C \ge
 ``` python
 import numpy as np
 from scipy.optimize import minimize
+```
 
+``` python
 # 定义目标函数
 def objective(x):
     A, B = x
@@ -332,7 +339,7 @@ from sklearn import svm, datasets
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm.py#L72"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L72"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### try_svm_and_plot_for_binary_2d
@@ -349,7 +356,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm.py#L66"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L66"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### plot_contours
@@ -359,7 +366,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm.py#L59"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L59"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
 ### make_meshgrid
@@ -371,7 +378,7 @@ try_svm_and_plot_for_binary_2d(X, y)
 pass
 ```
 
-![](P_Assignment5_yecanming_files/figure-commonmark/cell-15-output-1.png)
+![](P_Assignment5_yecanming_files/figure-commonmark/cell-18-output-1.png)
 
 上面的两个图是是线性支持向量机，理论上应该和我们上面的结果一样，然而看起来却有点不同。
 
@@ -382,7 +389,7 @@ try_svm_and_plot_for_binary_2d(X, y, C=1000000)
 pass
 ```
 
-![](P_Assignment5_yecanming_files/figure-commonmark/cell-16-output-1.png)
+![](P_Assignment5_yecanming_files/figure-commonmark/cell-19-output-1.png)
 
 这一次图1和我们的结果是一样的了。
 由于解法1中可视化很全面，我们对于支持向量、分割平面不再赘述重画。

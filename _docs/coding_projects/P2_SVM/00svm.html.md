@@ -39,17 +39,18 @@ toc: true
 
 我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。
 
-::: {.callout-important}
-可以通过以下命令安装我们实验的代码：
+!!! important
 
-```shell
-pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-```
-我们的代码导出为了python模块形式，通过以下命令导入：
-```python
-from thu_big_data_ml.svm import *
-```
-:::
+    可以通过以下命令安装我们实验的代码：
+
+    ```shell
+    pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+    ```
+    我们的代码导出为了python模块形式，通过以下命令导入：
+    ```python
+    from thu_big_data_ml.svm import *
+    ```
+
 
 https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git 是我们本次大数据机器学习课程实验的代码仓库地址，
 
@@ -66,12 +67,12 @@ from scholarly_infrastructure import *
 
 以上代码库开源在github，欢迎各位同学、老师们提出宝贵意见，或者加入我们的开发一起完善，构建更加优质的科研工具。
 
-::: {.callout-important}
-本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+!!! important
 
-由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
-:::
+    由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。
+
 
 ## 实验目的与项目要求
 
@@ -111,7 +112,8 @@ from sklearn.datasets import load_digits, fetch_openml
 :::
 
 
-::: {#cell-10 .cell}
+
+::: {#cell-11 .cell}
 ``` {.python .cell-code}
 # dataset_dict_uci_digits = load_digits(as_frame=True)
 dataset_dict_uci_digits = load_digits(as_frame=False)
@@ -144,7 +146,7 @@ dataset_dict_uci_digits.keys(), dataset_dict_full_mnist.keys()
 :::
 
 
-::: {#cell-11 .cell execution_count=7}
+::: {#cell-12 .cell execution_count=7}
 ``` {.python .cell-code}
 dataset_dict_uci_digits.target_names
 ```
@@ -180,7 +182,7 @@ dataset_dict_uci_digits.target_names
 >      sklearn_to_X_y_categories (dataset_dict)
 
 
-::: {#cell-13 .cell}
+::: {#cell-14 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 import pandas as pd
 import numpy as np
@@ -188,7 +190,7 @@ import numpy as np
 :::
 
 
-::: {#cell-14 .cell}
+::: {#cell-15 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 def sklearn_to_X_y_categories(dataset_dict):
     X = dataset_dict['data']
@@ -210,7 +212,7 @@ def sklearn_to_X_y_categories(dataset_dict):
 :::
 
 
-::: {#cell-15 .cell execution_count=9}
+::: {#cell-16 .cell execution_count=9}
 ``` {.python .cell-code}
 X, y, categories = sklearn_to_X_y_categories(dataset_dict_uci_digits)
 X_full, y_full, categories_full = sklearn_to_X_y_categories(dataset_dict_full_mnist)
@@ -269,7 +271,7 @@ X_full, y_full, categories_full = sklearn_to_X_y_categories(dataset_dict_full_mn
 >                           normalize=True)
 
 
-::: {#cell-18 .cell}
+::: {#cell-19 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -277,7 +279,7 @@ from sklearn.preprocessing import StandardScaler
 :::
 
 
-::: {#cell-19 .cell}
+::: {#cell-20 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 def make_train_val_test(X, y, val_size=0.1, test_size=0.2, random_state=42, normalize=True):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, 
@@ -296,7 +298,7 @@ def make_train_val_test(X, y, val_size=0.1, test_size=0.2, random_state=42, norm
 :::
 
 
-::: {#cell-20 .cell execution_count=11}
+::: {#cell-21 .cell execution_count=11}
 ``` {.python .cell-code}
 X_train, X_val, X_test, y_train, y_val, y_test = make_train_val_test(X, y)
 X_train_full, X_val_full, X_test_full, y_train_full, y_val_full, y_test_full = make_train_val_test(X_full, y_full)
@@ -352,7 +354,7 @@ X_train_full, X_val_full, X_test_full, y_train_full, y_val_full, y_test_full = m
 >      get_torch_dataset (X, y)
 
 
-::: {#cell-23 .cell}
+::: {#cell-24 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 import torch
 import lightning as L
@@ -360,7 +362,7 @@ import lightning as L
 :::
 
 
-::: {#cell-24 .cell}
+::: {#cell-25 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 def get_torch_dataset(X, y):
     X_tensor = torch.tensor(X, dtype=torch.float32)
@@ -371,7 +373,7 @@ def get_torch_dataset(X, y):
 :::
 
 
-::: {#cell-25 .cell execution_count=13}
+::: {#cell-26 .cell execution_count=13}
 ``` {.python .cell-code}
 train_set = get_torch_dataset(X_train, y_train)
 val_set = get_torch_dataset(X_val, y_val)
@@ -383,14 +385,14 @@ test_set_full = get_torch_dataset(X_test_full, y_test_full)
 :::
 
 
-::: {#cell-26 .cell}
+::: {#cell-27 .cell}
 ``` {.python .cell-code}
 import lightning as L
 ```
 :::
 
 
-::: {#cell-27 .cell}
+::: {#cell-28 .cell}
 ``` {.python .cell-code}
 data_module = L.LightningDataModule.from_datasets(
     train_dataset=train_set, 
@@ -423,14 +425,14 @@ data_module_full = L.LightningDataModule.from_datasets(
 >                                    ing','pandas','all'])
 
 
-::: {#cell-29 .cell}
+::: {#cell-30 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 from typing import Literal
 ```
 :::
 
 
-::: {#cell-30 .cell}
+::: {#cell-31 .cell}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 ReturnType = Literal['numpy', 'torch', 'lightning', 'pandas', 'all']
 
@@ -549,14 +551,14 @@ def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
 
 开尔文爵士曾说，如果你连measure都做不到，谈不上improve。所以我们先measure。
 
-::: {#cell-35 .cell execution_count=16}
+::: {#cell-36 .cell execution_count=16}
 ``` {.python .cell-code code-fold="show" code-summary="Exported source"}
 from namable_classify.metrics import compute_classification_metrics
 ```
 :::
 
 
-::: {#cell-36 .cell execution_count=17}
+::: {#cell-37 .cell execution_count=17}
 ``` {.python .cell-code}
 compute_classification_metrics?
 ```
@@ -590,9 +592,10 @@ Type:      function
 当然如果我们Project在此收尾，只能酌情被扣除分数。
 在本节之后，我们将使用 PyTorch 和 numpy 这样的基础科学计算库，来在GPU和CPU上实现SVM及其优化。
 
-::: {.callout-important}
-本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
-:::
+!!! important
+
+    本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
+
 
 接下来的内容请见文件 [01sv_use_lib](./01sv_use_lib.html)
 

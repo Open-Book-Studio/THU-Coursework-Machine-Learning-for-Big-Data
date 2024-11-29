@@ -35,22 +35,22 @@ toc: true
 
 我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。
 
-::: {.callout-important}
-可以通过以下命令安装我们实验的代码：
+!!! important
 
-```shell
-pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-pip install matplotlib seaborn openpyxl scipy statsmodels
-```
-我们的代码导出为了python模块形式，通过以下命令导入：
-```python
-from thu_big_data_ml.big_data_analytics.anova import *
-```
-:::
+    可以通过以下命令安装我们实验的代码：
 
-::: {.callout-important}
-本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
-:::
+    ```shell
+    pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+    pip install matplotlib seaborn openpyxl scipy statsmodels
+    ```
+    我们的代码导出为了python模块形式，通过以下命令导入：
+    ```python
+    from thu_big_data_ml.big_data_analytics.anova import *
+    ```
+
+!!! important
+
+    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 1. Recall and write down the assumptions which one-way ANOVA are based on.
 
@@ -110,23 +110,35 @@ from thu_big_data_ml.big_data_analytics.anova import *
 #### 文件读取
 首先我们读取Excel文件到Python 的 pandas DataFrame
 
-::: {#cell-9 .cell execution_count=6}
+::: {#cell-9 .cell}
 ``` {.python .cell-code}
 from thu_big_data_ml.help import lib_repo_path
+```
+:::
+
+
+::: {#cell-10 .cell}
+``` {.python .cell-code}
 data_excel_path = "data.xlsx"
 data_excel_path = lib_repo_path/"notebooks/coding_projects/P1_ANOVA"/data_excel_path
 ```
 :::
 
 
-::: {#cell-10 .cell execution_count=1}
+::: {#cell-11 .cell}
 ``` {.python .cell-code}
 import pandas as pd
+```
+:::
+
+
+::: {#cell-12 .cell}
+``` {.python .cell-code}
 df = pd.read_excel(data_excel_path, sheet_name="data")
 df.head()
 ```
 
-::: {.cell-output .cell-output-display execution_count=1}
+::: {.cell-output .cell-output-display execution_count=7}
 
 ```{=html}
 <div>
@@ -258,7 +270,7 @@ df.head()
 :::
 
 
-::: {#cell-11 .cell execution_count=8}
+::: {#cell-13 .cell execution_count=8}
 ``` {.python .cell-code}
 df_category_info = pd.read_excel(data_excel_path, sheet_name="category_info")
 df_category_info.head()
@@ -332,7 +344,7 @@ df_category_info.head()
 
 因为是从0开始编号，所以题目说的第七列是
 
-::: {#cell-13 .cell}
+::: {#cell-15 .cell}
 ``` {.python .cell-code}
 df.columns, df.columns[7-1]
 ```
@@ -351,14 +363,21 @@ df.columns, df.columns[7-1]
 #### 经验pdf绘制
 现在我们可以绘制第七列（平均年龄）的经验概率密度函数图，这个图也叫做 直方图 histogram ，就是多个bin上面去经验地统计频数，从而来近似地描绘出数据分布的概率密度函数。
 
-::: {#cell-15 .cell execution_count=10}
+::: {#cell-17 .cell execution_count=10}
 ``` {.python .cell-code}
 from matplotlib import pyplot as plt
 ```
 :::
 
 
-::: {#cell-16 .cell execution_count=11}
+::: {#cell-18 .cell}
+``` {.python .cell-code}
+from matplotlib import font_manager
+```
+:::
+
+
+::: {#cell-19 .cell}
 ``` {.python .cell-code}
 # 设置matplotlib支持中文显示
 # 参考网上资料，说要设为 SimHei
@@ -366,17 +385,22 @@ from matplotlib import pyplot as plt
 plt.rcParams['axes.unicode_minus'] = False  # 解决保存图像是负号'-'显示为方块的问题
 # 但是SimHei这个linux上不存在，好像是微软的字体，不开源。
 # 参考另一篇博客解决这个问题 https://blog.csdn.net/MAO_TOU/article/details/93998905
-from matplotlib import font_manager
 font = font_manager.FontProperties(fname="/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
 plt.rcParams['font.sans-serif'] = [font.get_name()]
 ```
 :::
 
 
-::: {#cell-17 .cell execution_count=12}
+::: {#cell-20 .cell}
+``` {.python .cell-code}
+import seaborn as sns
+```
+:::
+
+
+::: {#cell-21 .cell}
 ``` {.python .cell-code}
 plt.figure(figsize=(10, 6))
-import seaborn as sns
 # plt.hist(df['平均年龄'], bins=10, color='skyblue', edgecolor='black')  # 使用列名绘制直方图
 sns.displot(data=df, x=df.columns[7-1] , kde=True, kind="hist")
 plt.title('平均年龄的经验概率密度图')
@@ -393,7 +417,7 @@ plt.show()
 :::
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-8-output-2.png){}
+![](anova_files/figure-html/cell-12-output-2.png){}
 :::
 :::
 
@@ -408,55 +432,40 @@ plt.show()
 Lilliefors and Anderson-Darling tests](https://www.nrc.gov/docs/ML1714/ML17143A100.pdf)，
 里面对各个检验都有介绍，结合其他网络资料，我整理了以下的思维导图：
 
+``` mermaid
+graph LR
+    A[正态性检验] --> B[Shapiro-Wilk 夏皮罗-威尔克 检验]
+    A --> C[Kolmogorov-Smirnov检验]
+    A --> D[Anderson-Darling 安德森-达令检验]
+    A --> E[D'Agostino-Pearson检验]
+    A --> Z[Lilliefors检验]
 
-::::::{.cell layout-align="default"}
+    B --> F[零假设: 数据集来自于正态分布]
+    B --> G[使用条件: 小样本, 具体来说n<50]
+    B --> H[优点: 灵敏度高, 被认为是小样本情况下最强大的检验, 计算效率高]
+    B --> I[缺点: 不适用于大样本, 过度敏感, 可能数据稍微偏离就误判不符合正态分布 ] 
 
-:::::{.cell-output-display}
+    C --> J[零假设: 样本来自的总体与指定的理论分布无显著差异]
+    C --> K[使用条件: 适用于连续分布, 大样本]
+    C --> L[优点: 无需分布假设, 可以两列样本直接比较, 不需要指定分布参数]
+    C --> M[缺点: 小样本上不够强大]
 
-::::{}
-`<figure class=''>`{=html}
+    D --> N[零假设: 样本来自的总体与指定的理论分布无显著差异]
+    D --> O[使用条件: 适用于各种样本大小, 特别是当需要重视分布尾部差异时]
+    D --> P[优点: 更重视分布尾部, 某些情况下比KS强大]
+    D --> Q[缺点: 计算复杂, 每一个分布需要计算特定的临界值]
 
-:::{}
+    E --> R[零假设: 数据集来自于正态分布]
+    E --> S[使用条件: 大多数情况都可以]
+    E --> T[优点: 基于偏度和峰度系数]
+    E --> U[缺点: 结果容易受到异常值的影响]
 
-<pre class="mermaid mermaid-js">graph LR
-    A[正态性检验] --&gt; B[Shapiro-Wilk 夏皮罗-威尔克 检验]
-    A --&gt; C[Kolmogorov-Smirnov检验]
-    A --&gt; D[Anderson-Darling 安德森-达令检验]
-    A --&gt; E[D&#39;Agostino-Pearson检验]
-    A --&gt; Z[Lilliefors检验]
+    Z --> V[零假设: 数据集来自于正态分布]
+    Z --> W[使用条件: 适用于小样本数据]
+    Z --> X[优点: 虽然是检验正态性, 但是不用假设是来自于哪一个正态分布, 就是均值方差不用指定, 因为是KS检验的改进版]
+    Z --> Y[缺点: 对于非独立同分布的数据不适用]
 
-    B --&gt; F[零假设: 数据集来自于正态分布]
-    B --&gt; G[使用条件: 小样本, 具体来说n&lt;50]
-    B --&gt; H[优点: 灵敏度高, 被认为是小样本情况下最强大的检验, 计算效率高]
-    B --&gt; I[缺点: 不适用于大样本, 过度敏感, 可能数据稍微偏离就误判不符合正态分布 ] 
-
-    C --&gt; J[零假设: 样本来自的总体与指定的理论分布无显著差异]
-    C --&gt; K[使用条件: 适用于连续分布, 大样本]
-    C --&gt; L[优点: 无需分布假设, 可以两列样本直接比较, 不需要指定分布参数]
-    C --&gt; M[缺点: 小样本上不够强大]
-
-    D --&gt; N[零假设: 样本来自的总体与指定的理论分布无显著差异]
-    D --&gt; O[使用条件: 适用于各种样本大小, 特别是当需要重视分布尾部差异时]
-    D --&gt; P[优点: 更重视分布尾部, 某些情况下比KS强大]
-    D --&gt; Q[缺点: 计算复杂, 每一个分布需要计算特定的临界值]
-
-    E --&gt; R[零假设: 数据集来自于正态分布]
-    E --&gt; S[使用条件: 大多数情况都可以]
-    E --&gt; T[优点: 基于偏度和峰度系数]
-    E --&gt; U[缺点: 结果容易受到异常值的影响]
-
-    Z --&gt; V[零假设: 数据集来自于正态分布]
-    Z --&gt; W[使用条件: 适用于小样本数据]
-    Z --&gt; X[优点: 虽然是检验正态性, 但是不用假设是来自于哪一个正态分布, 就是均值方差不用指定, 因为是KS检验的改进版]
-    Z --&gt; Y[缺点: 对于非独立同分布的数据不适用]
-
-</pre>
-:::
-`</figure>`{=html}
-::::
-:::::
-::::::
-
+```
 
 根据 https://www.lcgdbzz.org/custom/news/id/7951， 样本量大被认为是大于2000，
 而根据https://blog.csdn.net/book_dw5189/article/details/133475648， 样本量<50或者 <200就认为小。
@@ -464,7 +473,7 @@ Lilliefors and Anderson-Darling tests](https://www.nrc.gov/docs/ML1714/ML17143A1
 
 我们的样本量是： 
 
-::: {#cell-20 .cell execution_count=13}
+::: {#cell-24 .cell execution_count=13}
 ``` {.python .cell-code}
 len(df)
 ```
@@ -479,7 +488,7 @@ len(df)
 
 不管是上面的哪个说法，都应该认为是大样本量，所以我们应当采用 KS AD 和 DP 检验，而不应该采用SW和L检验。
 
-::: {#cell-22 .cell execution_count=14}
+::: {#cell-26 .cell execution_count=14}
 ``` {.python .cell-code}
 # 提取第七列数据
 # data_column = df.iloc[:, 7-1]
@@ -488,7 +497,7 @@ data_column = df[df.columns[7-1]]
 :::
 
 
-::: {#cell-23 .cell execution_count=15}
+::: {#cell-27 .cell execution_count=15}
 ``` {.python .cell-code}
 data_column
 ```
@@ -522,14 +531,14 @@ Name: 平均年龄, Length: 2040, dtype: float64
     - 如果是经验分布和理论分布去算KS值，是否要采样理论分布呢？
     - 这个我暂时无法找到可信答案。
 
-::: {#cell-25 .cell}
+::: {#cell-29 .cell}
 ``` {.python .cell-code}
 from scipy import stats
 ```
 :::
 
 
-::: {#cell-26 .cell}
+::: {#cell-30 .cell}
 ``` {.python .cell-code}
 # 进行Kolmogorov-Smirnov检验
 # ks_stat, ks_pvalue = stats.kstest(data_column, 'norm')
@@ -557,7 +566,7 @@ KstestResult(statistic=1.0, pvalue=0.0, statistic_location=13.097826087, statist
 看来KS检验告诉我们这个数据不是高斯分布呀，看来我们人眼看图还是有一定的主观性。
 继续进行下一个检验试试。
 
-::: {#cell-28 .cell execution_count=17}
+::: {#cell-32 .cell execution_count=17}
 ``` {.python .cell-code}
 stats.anderson(data_column, dist='norm')
 ```
@@ -578,7 +587,7 @@ AndersonResult(statistic=9.382583309670736, critical_values=array([0.575, 0.655,
 
 接下来是 D'Agostino-Pearson检验
 
-::: {#cell-31 .cell}
+::: {#cell-35 .cell}
 ``` {.python .cell-code}
 # 进行D'Agostino-Pearson检验
 res = stats.normaltest(data_column)
@@ -617,7 +626,7 @@ NormaltestResult(statistic=24.479341544296894, pvalue=4.8348001102946654e-06)
 
 我们首先画图直观感受一下分开之后的分布图
 
-::: {#cell-37 .cell}
+::: {#cell-41 .cell}
 ``` {.python .cell-code}
 sns.displot(data=df, x=df.columns[7-1], hue="群类别", kde=True, kind="hist")
 plt.ylabel("频数")
@@ -630,7 +639,7 @@ Text(14.854888888888896, 0.5, '频数')
 :::
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-16-output-2.png){}
+![](anova_files/figure-html/cell-20-output-2.png){}
 :::
 :::
 
@@ -642,7 +651,7 @@ Text(14.854888888888896, 0.5, '频数')
 
 我们使用 for 循环来对每个变量进行多种正态性检验方法。
 
-::: {#cell-40 .cell}
+::: {#cell-44 .cell}
 ``` {.python .cell-code}
 interesting_col = df.columns[7-1]
 grouped_data = df.groupby('群类别')
@@ -729,7 +738,7 @@ pd.DataFrame(normality_results)
 #### 方差齐性检验
 我们首先使用 Rule of thumb 经验法则来看看数据是否满足方差齐性。
 
-::: {#cell-43 .cell}
+::: {#cell-47 .cell}
 ``` {.python .cell-code}
 std_devs = grouped_data[interesting_col].std()
 ratio_largest_to_smallest = std_devs.max() / std_devs.min() 
@@ -757,7 +766,7 @@ std_devs, ratio_largest_to_smallest, variance_homogeneity
 
 下面我们再探索下假设检验来验证方差齐性，这样更严谨一些。
 
-::: {#cell-45 .cell}
+::: {#cell-49 .cell}
 ``` {.python .cell-code}
 group_values_list = [grouped_data[interesting_col].get_group(x).values for x in grouped_data.groups]
 group_values_list[0][:5]
@@ -771,14 +780,14 @@ array([26.68181818, 27.5       , 23.41538462, 29.40909091, 30.31967213])
 :::
 
 
-::: {#cell-46 .cell}
+::: {#cell-50 .cell}
 ``` {.python .cell-code}
 from scipy import stats
 ```
 :::
 
 
-::: {#cell-47 .cell}
+::: {#cell-51 .cell}
 ``` {.python .cell-code}
 # 进行Bartlett的方差齐性检验
 bartlett_result = stats.bartlett(*group_values_list)
@@ -808,7 +817,7 @@ BartlettResult(statistic=276.31560984738496, pvalue=1.387826766589022e-58)
 
 我们首先可以画一个箱线图，直观感受一下数据的分布差异
 
-::: {#cell-51 .cell}
+::: {#cell-55 .cell}
 ``` {.python .cell-code}
 # 绘制分组分布图
 plt.figure(figsize=(10, 6))
@@ -820,7 +829,7 @@ plt.show()
 ```
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-22-output-1.png){}
+![](anova_files/figure-html/cell-26-output-1.png){}
 :::
 :::
 
@@ -828,14 +837,14 @@ plt.show()
 可以感觉到他们的平均值还是有点差距的，现在我们尝试做ANOVA。
 不过刚才3.b 我们发现ANOVA的假设并不成立，所以我们得分析结果未必准确。
 
-::: {#cell-53 .cell}
+::: {#cell-57 .cell}
 ``` {.python .cell-code}
 from scipy.stats import f_oneway # ANOVA 又称 F检验，所以scipy命名为f_oneway
 ```
 :::
 
 
-::: {#cell-54 .cell}
+::: {#cell-58 .cell}
 ``` {.python .cell-code}
 res = f_oneway(*group_values_list)
 if res.pvalue < 0.05:
@@ -863,16 +872,22 @@ F_onewayResult(statistic=171.50703270711966, pvalue=1.0820916064752822e-126)
 
 我们课上学习的时候，ANOVA能得到一个较为详细的表格，包括 SS, df, MS, 不只是上面scipy输出的F和p。所以我们决定使用更加专业的统计库 statsmodels 再来进行一次 ANOVA，参考[文档](https://www.statsmodels.org/stable/anova.html)。
 
-::: {#cell-56 .cell}
+::: {#cell-60 .cell}
 ``` {.python .cell-code}
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
+```
+:::
+
+
+::: {#cell-61 .cell}
+``` {.python .cell-code}
 model = ols(f'{df.columns[1]} ~ C({df.columns[7-1]})', data=df).fit()
 ```
 :::
 
 
-::: {#cell-57 .cell}
+::: {#cell-62 .cell}
 ``` {.python .cell-code}
 model.f_pvalue
 ```
@@ -898,7 +913,7 @@ model.f_pvalue
 
 
 
-::: {#cell-59 .cell}
+::: {#cell-64 .cell}
 ``` {.python .cell-code}
 anova_table = sm.stats.anova_lm(model, test='F', typ=2)
 anova_table
@@ -978,7 +993,7 @@ anova_table
 | **Returns** | **DataFrame** | **返回ANOVA表格。包括我们课堂上学习的内容。** |
 
 
-::: {#cell-63 .cell}
+::: {#cell-68 .cell}
 ``` {.python .cell-code}
 res = anova_oneway(*group_values_list)
 res
@@ -1002,7 +1017,7 @@ res
 - 然而，在尝试了数据透视表、excel公式等方式之后，我放弃了，excel分个组太麻烦了。
 - 我觉得直接python导出数据到excel，然后用excel的分析功能来做ANOVA。
 
-::: {#cell-66 .cell}
+::: {#cell-71 .cell}
 ``` {.python .cell-code}
 group_values_df = pd.DataFrame(group_values_list)
 group_values_df.to_excel("group_values.xlsx")
@@ -1185,11 +1200,11 @@ group_values_df
 
 
 在弹出的“数据分析”对话框中，选择“方差分析：单一因子（ANOVA：Single Factor）”，然后点击“确定”。
-![image.png](anova_files/figure-html/cell-67-2-image.png)
+![image.png](anova_files/figure-html/cell-72-2-image.png)
 
 结果如下
 
-![image-2.png](anova_files/figure-html/cell-67-1-image-2.png)
+![image-2.png](anova_files/figure-html/cell-72-1-image-2.png)
 
 我们看到excel计算的结果和我们自己计算的结果一致，除了 p value不同。
 
@@ -1212,7 +1227,7 @@ group_values_df
 
 首先我们需要连续型随机变量，我们看看那些是
 
-::: {#cell-69 .cell}
+::: {#cell-74 .cell}
 ``` {.python .cell-code}
 continuous_vars = df.select_dtypes(include=['float'])
 continuous_vars.describe()
@@ -1360,14 +1375,14 @@ continuous_vars.describe()
 
 现在我们随机选择三个
 
-::: {#cell-71 .cell}
+::: {#cell-76 .cell}
 ``` {.python .cell-code}
 import random
 ```
 :::
 
 
-::: {#cell-72 .cell}
+::: {#cell-77 .cell}
 ``` {.python .cell-code}
 # random.seed(5)
 random.seed(0)
@@ -1395,17 +1410,17 @@ chosen_cols
 >                 column_name_transform=None)
 
 
-::: {#cell-75 .cell execution_count=257}
+::: {#cell-80 .cell execution_count=257}
 ``` {.python .cell-code}
 draw_hist(df, chosen_cols, hue_col='群类别')
 ```
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-35-output-1.png){}
+![](anova_files/figure-html/cell-40-output-1.png){}
 :::
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-35-output-2.png){}
+![](anova_files/figure-html/cell-40-output-2.png){}
 :::
 :::
 
@@ -1427,7 +1442,7 @@ draw_hist(df, chosen_cols, hue_col='群类别')
 >      test_normality_group (df, interesting_col, hue_col='群类别', transform=None)
 
 
-::: {#cell-78 .cell execution_count=195}
+::: {#cell-83 .cell execution_count=195}
 ``` {.python .cell-code}
 for i, col in enumerate(chosen_cols):
     print(f"Testing normality for column {col}")
@@ -1460,7 +1475,7 @@ D'Agostino-Pearson  Not Normal      Normal  Not Normal  Not Normal  Not Normal
 
 我们再尝试一下log后的正态性检验。
 
-::: {#cell-80 .cell execution_count=215}
+::: {#cell-85 .cell execution_count=215}
 ``` {.python .cell-code}
 log_transform = lambda data_column: np.log(data_column+np.min(data_column)+1)  # 保证 大于0 
 # np.log(data_column) 
@@ -1475,7 +1490,7 @@ array([1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015])
 :::
 
 
-::: {#cell-81 .cell}
+::: {#cell-86 .cell}
 ``` {.python .cell-code}
 for i, col in enumerate(chosen_cols):
     print(f"Testing normality for column log({col})")
@@ -1519,7 +1534,7 @@ D'Agostino-Pearson  Not Normal  Not Normal      Normal  Not Normal  Not Normal
 >                               transform=None)
 
 
-::: {#cell-85 .cell execution_count=213}
+::: {#cell-90 .cell execution_count=213}
 ``` {.python .cell-code}
 for i, chosen_col in enumerate(chosen_cols):
     print(f"Now testing variance_homogeneity of column: {chosen_col}")
@@ -1549,7 +1564,7 @@ Reject the null hypothesis of equal variances!
 :::
 
 
-::: {#cell-86 .cell execution_count=216}
+::: {#cell-91 .cell execution_count=216}
 ``` {.python .cell-code}
 for i, chosen_col in enumerate(chosen_cols):
     print(f"Now testing variance_homogeneity of column: log({chosen_col})")
@@ -1618,7 +1633,7 @@ Reject the null hypothesis of equal variances!
 >      auto_anova_for_df (df, interesting_col, hue_col='群类别', transform=None)
 
 
-::: {#cell-92 .cell execution_count=237}
+::: {#cell-97 .cell execution_count=237}
 ``` {.python .cell-code}
 res_dfs = []
 for chosen_col in chosen_cols:
@@ -1715,7 +1730,7 @@ res_dfs[0]
 :::
 
 
-::: {#cell-93 .cell execution_count=238}
+::: {#cell-98 .cell execution_count=238}
 ``` {.python .cell-code}
 print(chosen_cols[1])
 res_dfs[1]
@@ -1797,7 +1812,7 @@ res_dfs[1]
 :::
 
 
-::: {#cell-94 .cell execution_count=239}
+::: {#cell-99 .cell execution_count=239}
 ``` {.python .cell-code}
 print(chosen_cols[2])
 res_dfs[2]
@@ -1892,13 +1907,13 @@ res_dfs[2]
 >                column_name_transform=None)
 
 
-::: {#cell-97 .cell execution_count=248}
+::: {#cell-102 .cell execution_count=248}
 ``` {.python .cell-code}
 draw_box(df, chosen_cols)
 ```
 
 ::: {.cell-output .cell-output-display}
-![](anova_files/figure-html/cell-48-output-1.png){}
+![](anova_files/figure-html/cell-53-output-1.png){}
 :::
 :::
 
@@ -1923,7 +1938,7 @@ draw_box(df, chosen_cols)
 >      auto_friedman_for_df (df, interesting_col, hue_col='群类别', transform=None)
 
 
-::: {#cell-100 .cell execution_count=261}
+::: {#cell-105 .cell execution_count=261}
 ``` {.python .cell-code}
 res_dfs = []
 try:
@@ -1960,7 +1975,7 @@ Error: Unequal N in friedmanchisquare.  Aborting.
 >      auto_kruskal_for_df (df, interesting_col, hue_col='群类别', transform=None)
 
 
-::: {#cell-103 .cell execution_count=266}
+::: {#cell-108 .cell execution_count=266}
 ``` {.python .cell-code}
 res_dfs = []
 for chosen_col in chosen_cols:
@@ -1987,7 +2002,7 @@ KruskalResult(statistic=113.85430517053221, pvalue=1.0958066785877727e-23)
 :::
 
 
-::: {#cell-104 .cell execution_count=267}
+::: {#cell-109 .cell execution_count=267}
 ``` {.python .cell-code}
 k = 1
 print(f"Kruskal-Wallis for col {chosen_cols[k]}")
@@ -2008,7 +2023,7 @@ KruskalResult(statistic=110.47802046935365, pvalue=5.754933877750579e-23)
 :::
 
 
-::: {#cell-105 .cell execution_count=268}
+::: {#cell-110 .cell execution_count=268}
 ``` {.python .cell-code}
 k = 2
 print(f"Kruskal-Wallis for col {chosen_cols[k]}")

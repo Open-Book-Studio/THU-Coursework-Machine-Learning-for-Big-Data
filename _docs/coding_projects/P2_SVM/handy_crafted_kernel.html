@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -510,11 +510,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.<span class="bu">all</span> <span class="im">import</span> patch, store_attr</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>/home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:225: ExperimentalWarning: QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
-  sampler=QMCSampler(seed=42), # 谷歌建议
-/home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:226: ExperimentalWarning: WilcoxonPruner is experimental (supported from v3.6.0). The interface can change in the future.
-  pruner=WilcoxonPruner(), # 对重复实验进行假设检验剪枝
-[I 2024-11-24 19:44:23,455] Using an existing study with name 'svm kernel hpo 11.17 3.0' instead of creating a new one.</code></pre>
+<pre><code>/home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:224: ExperimentalWarning:
+
+QMCSampler is experimental (supported from v3.0.0). The interface can change in the future.
+
+/home/ye_canming/repos/assignments/THU-Coursework-Machine-Learning-for-Big-Data/thu_big_data_ml/svm/kernel_hpo.py:225: ExperimentalWarning:
+
+WilcoxonPruner is experimental (supported from v3.6.0). The interface can change in the future.
+
+[I 2024-11-30 04:17:44,906] Using an existing study with name 'svm kernel hpo 11.17 3.0' instead of creating a new one.</code></pre>
 </div>
 </div>
 <div id="cell-6" class="cell">
