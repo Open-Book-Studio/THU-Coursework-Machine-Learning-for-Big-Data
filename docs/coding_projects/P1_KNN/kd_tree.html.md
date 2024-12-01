@@ -199,7 +199,7 @@ KNN Accuracy: 98.61%
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L27){target="_blank" style="float:right; font-size:smaller"}
 
-### euclidean_distance
+ euclidean_distance
 
 >      euclidean_distance (x1, x2)
 
@@ -208,7 +208,7 @@ KNN Accuracy: 98.61%
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L17){target="_blank" style="float:right; font-size:smaller"}
 
-### build_kd_tree
+ build_kd_tree
 
 >      build_kd_tree (X, depth=0)
 
@@ -217,7 +217,7 @@ KNN Accuracy: 98.61%
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L9){target="_blank" style="float:right; font-size:smaller"}
 
-### Node
+ Node
 
 >      Node (data, left=None, right=None)
 
@@ -277,7 +277,7 @@ print(test_pq.get())
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L100){target="_blank" style="float:right; font-size:smaller"}
 
-### knn_classifier
+ knn_classifier
 
 >      knn_classifier (X_train, y_train, X_test, k=3)
 
@@ -286,7 +286,7 @@ print(test_pq.get())
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L35){target="_blank" style="float:right; font-size:smaller"}
 
-### search_kd_tree
+ search_kd_tree
 
 >      search_kd_tree (tree, target, k=3)
 
@@ -575,9 +575,9 @@ dict_keys(['cityblock', 'cosine', 'euclidean', 'haversine', 'l2', 'l1', 'manhatt
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L128){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L132){target="_blank" style="float:right; font-size:smaller"}
 
-### evaluate_knn
+ evaluate_knn
 
 >      evaluate_knn (X_train, weights:str, n_neighbors:int, distance_metric:str,
 >                    random_seed:int=42)
@@ -593,9 +593,9 @@ evaluate_knn(X_train, random_seed=43, weights='uniform', n_neighbors=5, distance
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L161){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L163){target="_blank" style="float:right; font-size:smaller"}
 
-### objective
+ objective
 
 >      objective (meta_parameters)
 
@@ -1188,9 +1188,9 @@ import copy
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L171){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L173){target="_blank" style="float:right; font-size:smaller"}
 
-### regplot
+ regplot
 
 >      regplot (*args, line_kws=None, marker=None, scatter_kws=None, **kwargs)
 
@@ -1313,27 +1313,27 @@ Node, euclidean_distance
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L205){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L207){target="_blank" style="float:right; font-size:smaller"}
 
-### fast_build_kd_tree
+ fast_build_kd_tree
 
 >      fast_build_kd_tree (X, axis_order_list:list, strategy='median', depth=0)
 
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L242){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L244){target="_blank" style="float:right; font-size:smaller"}
 
-### fast_search_kd_tree
+ fast_search_kd_tree
 
 >      fast_search_kd_tree (tree, target, axis_order_list:list, k=3)
 
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L311){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/tree.py#L313){target="_blank" style="float:right; font-size:smaller"}
 
-### FastKDTree
+ FastKDTree
 
 >      FastKDTree (X, split_value_strategy='median',
 >                  axis_order_strategy='range')

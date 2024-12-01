@@ -17,9 +17,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-!!! important
-
-    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+> [!IMPORTANT]
+>
+> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题——朴素贝叶斯法概率估计公式推导
 
@@ -28,10 +28,10 @@
 > 用贝叶斯估计法推出朴素贝叶斯法中的概率估计公式(4.10)和(4.11)
 > $\begin{aligned}P_{\lambda}(X^{(j)}=a_{jl}|Y=C_{k})=& \frac{\sum_{i=1}^{N}I(x_{i}^{(j)}=a_{jl},y_{i}=c_{k})+\lambda}{\sum_{i=1}^{N}I(y_{i}=c_{k})+S_{j}\lambda}\end{aligned}$
 
-!!! note
-
-    TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
-    对于题目的证明，可以直接跳到解题部分@sec-proof。
+> [!NOTE]
+>
+> TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
+> 对于题目的证明，可以直接跳到解题部分@sec-proof。
 
 ### 审题
 
@@ -53,9 +53,10 @@ $\lambda=0$ 时，等价于使用极大似然估计， 当 $\lambda = 1$
 P_{\lambda}\left(Y=c_{k}\right)=\frac{(\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right))+\lambda}{N+K \lambda}
  \qquad(2)$$</span>
 
-!!! warning
-
-    李航书上的原式对括号的位置不清晰，让人分不清楚$+\lambda$ 是在求和操作$\sum$的里面还是外面。为了避免歧义，我们上面已经修改，加上了括号，即$+\lambda$的操作是在求和操作$\sum$结束之后。
+> [!WARNING]
+>
+> 李航书上的原式对括号的位置不清晰，让人分不清楚$+\lambda$
+> 是在求和操作$\sum$的里面还是外面。为了避免歧义，我们上面已经修改，加上了括号，即$+\lambda$的操作是在求和操作$\sum$结束之后。
 
 #### 本题要从什么推导到什么？
 
@@ -81,9 +82,12 @@ P_{\lambda}\left(Y=c_{k}\right)=\frac{(\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right))
     其中$S_j$为第j个特征的取值个数。$a_{jl}$用下标$l$来表示是第几个取值。
   - $I$为指示函数。
 
-!!! note
-
-    李航书上推导的是[Categorical Naive Bayes][MultinomialNB]，输入的是离散型随机变量。如果是连续型随机变量，则需要使用[Gaussian Naive Bayes][GaussianNB]。
+> [!NOTE]
+>
+> 李航书上推导的是[Categorical Naive
+> Bayes](https://scikit-learn.org/1.5/modules/naive_bayes.html#multinomial-naive-bayes)，输入的是离散型随机变量。如果是连续型随机变量，则需要使用[Gaussian
+> Naive
+> Bayes](https://scikit-learn.org/1.5/modules/naive_bayes.html#gaussian-naive-bayes)。
 
 #### 一个问题，式子<a href="#eq-4-10" class="quarto-xref">式 1</a> 和 式子<a href="#eq-4-11" class="quarto-xref">式 2</a>中的$\lambda$是同一个参数吗？
 

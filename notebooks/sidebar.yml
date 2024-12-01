@@ -5,9 +5,6 @@ website:
       - 00_help (library information).ipynb
       - section: coding_projects
         contents:
-          - section: P1_ANOVA
-            contents:
-              - coding_projects/P1_ANOVA/anova.ipynb
           - section: P1_KNN
             contents:
               - coding_projects/P1_KNN/kd_tree.ipynb
@@ -20,6 +17,9 @@ website:
               - coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb
           - section: big_data_analytics
             contents:
+              - section: P1_ANOVA
+                contents:
+                  - coding_projects/big_data_analytics/P1_ANOVA/anova.ipynb
               - section: P2_Matrix-Decomposition
                 contents:
                   - coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb

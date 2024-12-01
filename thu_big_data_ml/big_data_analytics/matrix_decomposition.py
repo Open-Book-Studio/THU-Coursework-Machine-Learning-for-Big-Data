@@ -24,11 +24,11 @@ def get_similarities():
     simularities = cosine_similarity(X_train)
     return simularities
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 80
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 81
 from copy import deepcopy
 from tqdm import tqdm
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 83
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 84
 def compute_weighted_sum_on_matrix(cosine_sim, X_train_dense_nan):
 # 创建一个与 X_train_dense 相同大小的矩阵，用于存储加权平均数
     X_train_weighted = np.zeros_like(X_train_dense_nan)
@@ -59,10 +59,10 @@ def compute_weighted_sum_on_matrix(cosine_sim, X_train_dense_nan):
 def get_X_train_weighted():
     return compute_weighted_sum_on_matrix(cosine_sim, X_train_dense_nan)
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 102
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 103
 import torch
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 103
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 104
 def ensure_tensor(x:np.ndarray|list, device:str="cuda:2"):
     # 确保输入loss函数的数据是张量
     return torch.tensor(x).to(device)
@@ -81,12 +81,12 @@ def masked_rmse_loss(reconstructed:torch.Tensor, matrix:torch.Tensor, verbose:bo
     masked_reconstructed = reconstructed[test_mask]
     return torch.sqrt(torch.mean((masked_reconstructed - masked_matrix)**2))
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 113
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 114
 import torch
 import torch.nn as nn
 import torch.optim as optim
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 115
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 116
 class MatrixFactorization(nn.Module):
     def __init__(self, n_users:int, n_items:int, # 定义分解矩阵的大小
                  k # 隐向量维度
@@ -98,22 +98,22 @@ class MatrixFactorization(nn.Module):
     def forward(self):
         return torch.matmul(self.U, self.V.t())
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 118
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 119
 import jax
 import jax.numpy as jnp
 from jax import grad, jit, vmap # 这三个函数在 jax 中叫做 "transformations", 意思是对函数进行操作的函数（也可以说是泛函、算子），这三个函数分别作用是  求导，即时编译，向量化。
 import jax.random as jrandom # 为了和 torch.random 做区分，我们导入叫做 jrandom
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 119
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 120
 # 再尝试一下jax
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 122
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 123
 from flax import linen as jnn # 为了和 torch.nn 做区分，我们导入叫做 jnn，和flax官方的写法不同
 from flax import nnx # 导入 nnx 库，里面包含了一些常用的网络层
 from fastcore.all import store_attr # 导入 fastcore 基础库的 store_attr 函数，用来方便地存储类的属性，这样Python面向对象写起来不那么冗长。 请 pip install fastcore。
 import treescope # flax 的 可视化
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 127
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 128
 # 定义PyTorch的损失函数
 def masked_mse_loss(reconstructed:torch.Tensor, matrix:torch.Tensor)->torch.Tensor:
     observed_indices = torch.where(matrix != 0) # A 矩阵，表示哪里是有评分的，只在有评分的地方算loss。
@@ -124,10 +124,10 @@ def jax_masked_mse_loss(reconstructed:jnp.ndarray, matrix:jnp.ndarray)->jnp.ndar
     observed_indices = jnp.where(matrix != 0) # A 矩阵，表示哪里是有评分的，只在有评分的地方算loss。
     return 0.5*jnp.mean((reconstructed[observed_indices] - matrix[observed_indices])**2)
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 134
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 135
 import lightning as L # PyTorch Lightning库，这里我们只是用它来固定随机数种子
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 135
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 136
 def train_matrix_factorization(X_train_dense:np.array, X_test_dense:np.array, k:int = 50, 
                     lmd:float = 2e-2, lr:float = 5e-3, max_epochs:int = 100000, 
                     required_delta_loss:float = 1e-2,
@@ -179,15 +179,16 @@ def train_matrix_factorization(X_train_dense:np.array, X_test_dense:np.array, k:
             
     return model, metrics
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 146
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 147
 import optuna
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 157
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 158
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from ..help import plt, pio
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 159
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 161
 def draw_metrics_df(df:pd.DataFrame, title:str='Metrics'):
     # 使用 plotly 创建图表
     fig = go.Figure()
@@ -212,14 +213,14 @@ def draw_metrics_df(df:pd.DataFrame, title:str='Metrics'):
     ),)
     return fig
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 167
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 169
 from scholarly_infrastructure.rv_args.nucleus import RandomVariable, experiment_setting
 from optuna.distributions import IntDistribution, FloatDistribution, CategoricalDistribution
 from typing import Optional, Union
 from dataclasses import asdict
 import optuna
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 168
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 170
 @experiment_setting
 class MatrixFactorizationSetting:
     # 隐因子数量 k
@@ -251,12 +252,12 @@ class MatrixFactorizationSetting:
         distribution=FloatDistribution(1e-8, 1e-1, log=True)
     )      
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 171
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 173
 fixed_meta_params = MatrixFactorizationSetting(lr=5e-3, # surprise库的值
                                                required_delta_loss=1e-4)
 frozen_rvs = {"lr", "required_delta_loss"}
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 173
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 175
 def objective(trial:optuna.Trial, critical_metric="test_rmse"):
     # experiment_setting 类具有 optuna_suggest 方法，可以自动推荐一个设置出来。
     config:MatrixFactorizationSetting = MatrixFactorizationSetting.optuna_suggest(
@@ -271,17 +272,17 @@ def objective(trial:optuna.Trial, critical_metric="test_rmse"):
     best_metric = min(map(lambda m: m[critical_metric], jmetrics))
     return best_metric
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 175
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 177
 from ..help import runs_path
 from optuna.samplers import *
 from optuna.pruners import *
 import json
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 176
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 178
 study_path = runs_path / "optuna_studies.db"
 sqlite_url = f"sqlite:///{study_path}"
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 177
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 179
 study = optuna.create_study(
     study_name="matrix factorization hpo 11.27 4.0", # 3.0 使用 1e-3
     storage=sqlite_url, 
@@ -293,13 +294,13 @@ study = optuna.create_study(
 study.set_user_attr("contributors", ["Ye Canming"])
 study.set_user_attr("fixed_meta_parameters", json.dumps(asdict(fixed_meta_params)))
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 204
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 206
 from .anova import test_normality_group, homogeneity_of_variance
 from scipy import stats
 from statsmodels.stats.diagnostic import lilliefors
 from .anova import auto_anova_for_df, auto_kruskal_for_df
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 205
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 207
 # 根据上次我们ANOVA作业调研的结果， Shapiro-Wilk 和 Lilliefors 是适合小样本情况下的正态检验方法。
 def test_normality_small_sample(df, interesting_col, hue_col='群类别', transform=None):
     if transform is None:
@@ -322,6 +323,6 @@ def test_normality_small_sample(df, interesting_col, hue_col='群类别', transf
         normality_results[name] = normality_result
     return pd.DataFrame(normality_results)
 
-# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 215
+# %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 217
 import scikit_posthocs as sp
 from scikit_posthocs import posthoc_dunn

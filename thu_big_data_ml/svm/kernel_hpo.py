@@ -8,6 +8,8 @@ __all__ = ['fixed_meta_params', 'frozen_rvs', 'study_path', 'sqlite_url', 'study
 from scholarly_infrastructure.logging.nucleus import logger, print
 from sklearn.datasets import load_digits, fetch_openml
 from thu_big_data_ml.svm.infra import process_sklearn_dataset_dict, compute_classification_metrics
+import plotly.io as pio
+pio.renderers.default = "notebook"
 
 # %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 12
 from scholarly_infrastructure.rv_args.nucleus import RandomVariable, experiment_setting

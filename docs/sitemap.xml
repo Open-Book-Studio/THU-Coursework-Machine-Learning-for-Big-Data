@@ -2,78 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/help (library information).html</loc>
-    <lastmod>2024-11-30T13:45:45.115Z</lastmod>
+    <lastmod>2024-12-01T14:45:04.986Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A6/p_assignment6_yecanming.html</loc>
-    <lastmod>2024-12-01T11:42:56.920Z</lastmod>
+    <lastmod>2024-12-01T13:55:09.625Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A4/p_assignment4_yecanming.html</loc>
-    <lastmod>2024-11-29T20:19:47.099Z</lastmod>
+    <lastmod>2024-12-01T13:55:01.709Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A5/p_assignment5_yecanming.html</loc>
-    <lastmod>2024-11-29T20:19:37.043Z</lastmod>
+    <lastmod>2024-12-01T13:55:07.845Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A7/p_assignment7_yecanming.html</loc>
-    <lastmod>2024-12-01T11:42:52.092Z</lastmod>
+    <lastmod>2024-12-01T14:44:57.302Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/big_data_analytics/P2_Matrix-Decomposition/decomposition.html</loc>
-    <lastmod>2024-12-01T11:43:18.117Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/handy_crafted_kernel.html</loc>
-    <lastmod>2024-11-29T20:19:06.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/use_lib.html</loc>
-    <lastmod>2024-11-29T20:18:54.794Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/handy_crafted_linear.html</loc>
-    <lastmod>2024-11-29T20:18:29.305Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_ANOVA/anova.html</loc>
-    <lastmod>2024-11-29T20:18:15.268Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_KNN/kd_tree.html</loc>
-    <lastmod>2024-11-29T20:18:22.377Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/kernel_hpo.html</loc>
-    <lastmod>2024-11-29T20:18:37.869Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/00svm.html</loc>
-    <lastmod>2024-11-29T20:19:01.130Z</lastmod>
+    <lastmod>2024-12-01T14:45:23.143Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/index.html</loc>
-    <lastmod>2024-11-29T20:18:10.632Z</lastmod>
+    <lastmod>2024-12-01T13:55:00.833Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/00svm.html</loc>
+    <lastmod>2024-12-01T13:55:15.837Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/kernel_hpo.html</loc>
+    <lastmod>2024-12-01T14:45:19.959Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_KNN/kd_tree.html</loc>
+    <lastmod>2024-12-01T13:55:13.381Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_ANOVA/anova.html</loc>
+    <lastmod>2024-12-01T13:55:12.201Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/handy_crafted_linear.html</loc>
+    <lastmod>2024-12-01T13:55:10.993Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/use_lib.html</loc>
+    <lastmod>2024-12-01T13:55:01.317Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P2_SVM/handy_crafted_kernel.html</loc>
+    <lastmod>2024-12-01T13:55:13.865Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/big_data_analytics/P1_ANOVA/anova.html</loc>
+    <lastmod>2024-12-01T14:45:06.626Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A1/p_assignment1_yecanming.html</loc>
-    <lastmod>2024-11-29T20:19:25.835Z</lastmod>
+    <lastmod>2024-12-01T13:55:01.173Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A2/p_assignment2_yecanming.html</loc>
-    <lastmod>2024-11-29T20:19:31.723Z</lastmod>
+    <lastmod>2024-12-01T13:55:01.489Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/A3/p_assignment3_yecanming.html</loc>
-    <lastmod>2024-11-29T20:19:42.683Z</lastmod>
+    <lastmod>2024-12-01T13:55:01.953Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/theory_assignments/index.html</loc>
-    <lastmod>2024-11-29T20:19:21.115Z</lastmod>
+    <lastmod>2024-12-01T13:55:02.257Z</lastmod>
   </url>
   <url>
     <loc>https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/index.html</loc>
-    <lastmod>2024-11-30T13:45:39.003Z</lastmod>
+    <lastmod>2024-12-01T13:55:00.921Z</lastmod>
   </url>
 </urlset>

@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,6 +102,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "搜索"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -222,7 +225,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding_projects/index.html">coding_projects</a></li><li class="breadcrumb-item"><a href="../../coding_projects/P1_ANOVA/anova.html">P1_ANOVA</a></li><li class="breadcrumb-item"><a href="../../coding_projects/P1_ANOVA/anova.html">深入探索方差分析 (Analysis of Variance, ANOVA)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">深入探索方差分析 (Analysis of Variance, ANOVA)</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -257,30 +260,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">P1_ANOVA</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../coding_projects/P1_ANOVA/anova.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">深入探索方差分析 (Analysis of Variance, ANOVA)</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">P1_KNN</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding_projects/P1_KNN/kd_tree.html" class="sidebar-item-text sidebar-link">
@@ -291,13 +277,13 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">P2_SVM</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding_projects/P2_SVM/00svm.html" class="sidebar-item-text sidebar-link">
@@ -332,13 +318,30 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">big_data_analytics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_ANOVA</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/big_data_analytics/P1_ANOVA/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索方差分析 (Analysis of Variance, ANOVA)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
@@ -517,18 +520,14 @@ window.Quarto = {
   <li><a href="#方差齐性检验" id="toc-方差齐性检验" class="nav-link" data-scroll-target="#方差齐性检验"><span class="header-section-number">4.2.2</span> 方差齐性检验</a></li>
   </ul></li>
   <li><a href="#c-do-the-one-way-anova-test-for-col7-with-categories-in-col2." id="toc-c-do-the-one-way-anova-test-for-col7-with-categories-in-col2." class="nav-link" data-scroll-target="#c-do-the-one-way-anova-test-for-col7-with-categories-in-col2."><span class="header-section-number">4.3</span> 3.c Do the one-way ANOVA test for Col[7] with categories in Col[2].</a></li>
-  <li><a href="#anova_oneway" id="toc-anova_oneway" class="nav-link" data-scroll-target="#anova_oneway"><span class="header-section-number">4.4</span> anova_oneway</a></li>
   </ul></li>
   <li><a href="#find-another-three-columns-and-test-whether-they-follow-the-anova-assumptions." id="toc-find-another-three-columns-and-test-whether-they-follow-the-anova-assumptions." class="nav-link" data-scroll-target="#find-another-three-columns-and-test-whether-they-follow-the-anova-assumptions."><span class="header-section-number">5</span> 4. Find another three columns and test whether they follow the ANOVA assumptions.</a>
   <ul>
   <li><a href="#经验分布" id="toc-经验分布" class="nav-link" data-scroll-target="#经验分布"><span class="header-section-number">5.1</span> 经验分布</a></li>
-  <li><a href="#draw_hist" id="toc-draw_hist" class="nav-link" data-scroll-target="#draw_hist"><span class="header-section-number">5.2</span> draw_hist</a></li>
-  <li><a href="#正态性检验-2" id="toc-正态性检验-2" class="nav-link" data-scroll-target="#正态性检验-2"><span class="header-section-number">5.3</span> 正态性检验</a></li>
-  <li><a href="#test_normality_group" id="toc-test_normality_group" class="nav-link" data-scroll-target="#test_normality_group"><span class="header-section-number">5.4</span> test_normality_group</a>
+  <li><a href="#正态性检验-2" id="toc-正态性检验-2" class="nav-link" data-scroll-target="#正态性检验-2"><span class="header-section-number">5.2</span> 正态性检验</a>
   <ul class="collapse">
-  <li><a href="#方差齐性检验-1" id="toc-方差齐性检验-1" class="nav-link" data-scroll-target="#方差齐性检验-1"><span class="header-section-number">5.4.1</span> 方差齐性检验</a></li>
+  <li><a href="#方差齐性检验-1" id="toc-方差齐性检验-1" class="nav-link" data-scroll-target="#方差齐性检验-1"><span class="header-section-number">5.2.1</span> 方差齐性检验</a></li>
   </ul></li>
-  <li><a href="#homogeneity_of_variance" id="toc-homogeneity_of_variance" class="nav-link" data-scroll-target="#homogeneity_of_variance"><span class="header-section-number">5.5</span> homogeneity_of_variance</a></li>
   </ul></li>
   <li><a href="#how-to-do-one-way-anova-with-the-non-normal-data" id="toc-how-to-do-one-way-anova-with-the-non-normal-data" class="nav-link" data-scroll-target="#how-to-do-one-way-anova-with-the-non-normal-data"><span class="header-section-number">6</span> 5. How to do one-way ANOVA with the non-normal data?</a>
   <ul>
@@ -536,14 +535,8 @@ window.Quarto = {
   <li><a href="#b-do-the-one-way-anova-on-the-3-columns-you-choose.-do-these-feature-columns-vary-significantly-visualize-the-results." id="toc-b-do-the-one-way-anova-on-the-3-columns-you-choose.-do-these-feature-columns-vary-significantly-visualize-the-results." class="nav-link" data-scroll-target="#b-do-the-one-way-anova-on-the-3-columns-you-choose.-do-these-feature-columns-vary-significantly-visualize-the-results."><span class="header-section-number">6.2</span> 5.b Do the one-way ANOVA on the 3 columns you choose. Do these feature columns vary significantly? Visualize the results.</a>
   <ul class="collapse">
   <li><a href="#直接进行-anova-分析" id="toc-直接进行-anova-分析" class="nav-link" data-scroll-target="#直接进行-anova-分析"><span class="header-section-number">6.2.1</span> 直接进行 ANOVA 分析</a></li>
+  <li><a href="#应用解决办法2采用不对数据要求那么严格的假设检验方法" id="toc-应用解决办法2采用不对数据要求那么严格的假设检验方法" class="nav-link" data-scroll-target="#应用解决办法2采用不对数据要求那么严格的假设检验方法"><span class="header-section-number">6.2.2</span> 应用解决办法2——采用不对数据要求那么严格的假设检验方法</a></li>
   </ul></li>
-  <li><a href="#auto_anova_for_df" id="toc-auto_anova_for_df" class="nav-link" data-scroll-target="#auto_anova_for_df"><span class="header-section-number">6.3</span> auto_anova_for_df</a></li>
-  <li><a href="#draw_box" id="toc-draw_box" class="nav-link" data-scroll-target="#draw_box"><span class="header-section-number">6.4</span> draw_box</a>
-  <ul class="collapse">
-  <li><a href="#应用解决办法2采用不对数据要求那么严格的假设检验方法" id="toc-应用解决办法2采用不对数据要求那么严格的假设检验方法" class="nav-link" data-scroll-target="#应用解决办法2采用不对数据要求那么严格的假设检验方法"><span class="header-section-number">6.4.1</span> 应用解决办法2——采用不对数据要求那么严格的假设检验方法</a></li>
-  </ul></li>
-  <li><a href="#auto_friedman_for_df" id="toc-auto_friedman_for_df" class="nav-link" data-scroll-target="#auto_friedman_for_df"><span class="header-section-number">6.5</span> auto_friedman_for_df</a></li>
-  <li><a href="#auto_kruskal_for_df" id="toc-auto_kruskal_for_df" class="nav-link" data-scroll-target="#auto_kruskal_for_df"><span class="header-section-number">6.6</span> auto_kruskal_for_df</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div><div class="quarto-alternate-formats"><h2>其他格式</h2><ul><li><a href="anova.html.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="anova.html.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
@@ -551,7 +544,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding_projects/index.html">coding_projects</a></li><li class="breadcrumb-item"><a href="../../coding_projects/P1_ANOVA/anova.html">P1_ANOVA</a></li><li class="breadcrumb-item"><a href="../../coding_projects/P1_ANOVA/anova.html">深入探索方差分析 (Analysis of Variance, ANOVA)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">深入探索方差分析 (Analysis of Variance, ANOVA)</h1>
 <p class="subtitle lead">大数据分析B课程第一次实验项目</p>
@@ -590,19 +583,36 @@ window.Quarto = {
 <p>本文档使用Jupyter Notebook编写，所以同时包括了实验文档和实验代码。</p>
 <p>本次实验项目采用了 Quarto + nbdev 的系统来发布Jupyter Notebook, 因而我们的实验文档导出为pdf和html格式可以进行阅读，而我们的代码也导出为python模块形式，可以作为代码库被其他项目使用。</p>
 <p>我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。</p>
-<p>!!! important</p>
-<pre><code>可以通过以下命令安装我们实验的代码：
-
-```shell
-pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-pip install matplotlib seaborn openpyxl scipy statsmodels
-```
-我们的代码导出为了python模块形式，通过以下命令导入：
-```python
-from thu_big_data_ml.big_data_analytics.anova import *
-```</code></pre>
-<p>!!! important</p>
-<pre><code>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+重要
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>可以通过以下命令安装我们实验的代码：</p>
+<pre class="shell"><code>pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+pip install matplotlib seaborn openpyxl scipy statsmodels</code></pre>
+<p>我们的代码导出为了python模块形式，通过以下命令导入：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> thu_big_data_ml.big_data_analytics.anova <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+重要
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。</p>
+</div>
+</div>
 </section>
 <section id="recall-and-write-down-the-assumptions-which-one-way-anova-are-based-on." class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="recall-and-write-down-the-assumptions-which-one-way-anova-are-based-on."><span class="header-section-number">2</span> 1. Recall and write down the assumptions which one-way ANOVA are based on.</h2>
@@ -915,7 +925,12 @@ from thu_big_data_ml.big_data_analytics.anova import *
 <h4 data-number="4.1.3" class="anchored" data-anchor-id="正态性检验"><span class="header-section-number">4.1.3</span> 正态性检验</h4>
 <p>从图中来看，这一列的数据还是比较符合正态分布的。现在我们使用假设检验来验证这一点。 首先我们需要知道有哪些假设检验可以用来检验正态性，各自的优缺点有哪些？</p>
 <p>我们找到两篇较为靠谱的论文 <a href="https://www.analystsoft.com/en/products/statplus/content/help/pdf/analysis_basic_statistics_normality_tests.pdf">Normality Tests</a> <a href="https://www.nrc.gov/docs/ML1714/ML17143A100.pdf">Power comparisons of Shapiro-Wilk, Kolmogorov-Smirnov, Lilliefors and Anderson-Darling tests</a>， 里面对各个检验都有介绍，结合其他网络资料，我整理了以下的思维导图：</p>
-<pre class="mermaid"><code>graph LR
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
     A[正态性检验] --&gt; B[Shapiro-Wilk 夏皮罗-威尔克 检验]
     A --&gt; C[Kolmogorov-Smirnov检验]
     A --&gt; D[Anderson-Darling 安德森-达令检验]
@@ -946,23 +961,29 @@ from thu_big_data_ml.big_data_analytics.anova import *
     Z --&gt; W[使用条件: 适用于小样本数据]
     Z --&gt; X[优点: 虽然是检验正态性, 但是不用假设是来自于哪一个正态分布, 就是均值方差不用指定, 因为是KS检验的改进版]
     Z --&gt; Y[缺点: 对于非独立同分布的数据不适用]
-</code></pre>
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <p>根据 https://www.lcgdbzz.org/custom/news/id/7951， 样本量大被认为是大于2000， 而根据https://blog.csdn.net/book_dw5189/article/details/133475648， 样本量&lt;50或者 &lt;200就认为小。 论文 https://www.amu.edu.my/wp-content/uploads/2024/01/V1_1_2023_Proceedings-of-Science-and-Management-2.pdf 中采用了 50 的说法。</p>
 <p>我们的样本量是：</p>
 <div id="cell-24" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(df)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(df)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>2040</code></pre>
 </div>
 </div>
 <p>不管是上面的哪个说法，都应该认为是大样本量，所以我们应当采用 KS AD 和 DP 检验，而不应该采用SW和L检验。</p>
 <div id="cell-26" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 提取第七列数据</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_column = df.iloc[:, 7-1]</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>data_column <span class="op">=</span> df[df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 提取第七列数据</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_column = df.iloc[:, 7-1]</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>data_column <span class="op">=</span> df[df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-27" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_column</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_column</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>0       26.681818
 1       27.500000
@@ -980,16 +1001,16 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </div>
 <p>首先是KS检验，刚才思维导图我们有个地方说的模糊，其实KS检验有两个，一个是单样本，一个是双样本，单样本就是直接和理论分布比，双样本是两列样本去比。 这里我的疑问是， - 两列样本的样本量可以不一样大吗？ - 答，不需要，双样本测试的时候，不要求两列样本的样本量相同。 - 单样本KS检验是不是通过把理论分布采样出来得到第二个样本列，然后调用双样本KS检验去实现的？还是说另有方法？ - 参考 https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test - KS检验的统计量是两个分布的最大差值，可以是经验分布或者理论分布。 - 如果是经验分布和理论分布去算KS值，是否要采样理论分布呢？ - 这个我暂时无法找到可信答案。</p>
 <div id="cell-29" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-30" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行Kolmogorov-Smirnov检验</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ks_stat, ks_pvalue = stats.kstest(data_column, 'norm')</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 另一种写法</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.ks_1samp(data_column, stats.norm.cdf, alternative<span class="op">=</span><span class="st">'two-sided'</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Reject null hypothesis! Data is not normally distributed.'</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行Kolmogorov-Smirnov检验</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ks_stat, ks_pvalue = stats.kstest(data_column, 'norm')</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 另一种写法</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.ks_1samp(data_column, stats.norm.cdf, alternative<span class="op">=</span><span class="st">'two-sided'</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Reject null hypothesis! Data is not normally distributed.'</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reject null hypothesis! Data is not normally distributed.</code></pre>
 </div>
@@ -999,7 +1020,7 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </div>
 <p>看来KS检验告诉我们这个数据不是高斯分布呀，看来我们人眼看图还是有一定的主观性。 继续进行下一个检验试试。</p>
 <div id="cell-32" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>stats.anderson(data_column, dist<span class="op">=</span><span class="st">'norm'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>stats.anderson(data_column, dist<span class="op">=</span><span class="st">'norm'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>AndersonResult(statistic=9.382583309670736, critical_values=array([0.575, 0.655, 0.785, 0.916, 1.09 ]), significance_level=array([15. , 10. ,  5. ,  2.5,  1. ]), fit_result=  params: FitParams(loc=27.222012543150147, scale=4.986570293065674)
  success: True
@@ -1009,11 +1030,11 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>根据<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.anderson.html">文档</a> &gt; If the returned statistic is larger than these critical values then for the corresponding significance level, the null hypothesis that the data come from the chosen distribution can be rejected. 这里统计量9.38比 1.09都要大，所以显著度为100%的情况下都可以拒绝原假设，认为数据不来自于选定的分布。</p>
 <p>接下来是 D’Agostino-Pearson检验</p>
 <div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行D'Agostino-Pearson检验</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.normaltest(data_column)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Reject null hypothesis! Data is not normally distributed.'</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行D'Agostino-Pearson检验</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.normaltest(data_column)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Reject null hypothesis! Data is not normally distributed.'</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reject null hypothesis! Data is not normally distributed.</code></pre>
 </div>
@@ -1034,8 +1055,8 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </blockquote>
 <p>我们首先画图直观感受一下分开之后的分布图</p>
 <div id="cell-41" class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sns.displot(data<span class="op">=</span>df, x<span class="op">=</span>df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>], hue<span class="op">=</span><span class="st">"群类别"</span>, kde<span class="op">=</span><span class="va">True</span>, kind<span class="op">=</span><span class="st">"hist"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"频数"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sns.displot(data<span class="op">=</span>df, x<span class="op">=</span>df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>], hue<span class="op">=</span><span class="st">"群类别"</span>, kde<span class="op">=</span><span class="va">True</span>, kind<span class="op">=</span><span class="st">"hist"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"频数"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <pre><code>Text(14.854888888888896, 0.5, '频数')</code></pre>
 </div>
@@ -1052,22 +1073,22 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <h4 data-number="4.2.1" class="anchored" data-anchor-id="正态性检验-1"><span class="header-section-number">4.2.1</span> 正态性检验</h4>
 <p>我们使用 for 循环来对每个变量进行多种正态性检验方法。</p>
 <div id="cell-44" class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>interesting_col <span class="op">=</span> df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>grouped_data <span class="op">=</span> df.groupby(<span class="st">'群类别'</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grouped_data</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>normality_results <span class="op">=</span> {}</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, group <span class="kw">in</span> grouped_data:</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    normality_result <span class="op">=</span> {}</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    data_column <span class="op">=</span> group[interesting_col]</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.ks_1samp(data_column, stats.norm.cdf, alternative<span class="op">=</span><span class="st">'two-sided'</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">'Kolmogorov-Smirnov'</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">"Normal"</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.anderson(data_column, dist<span class="op">=</span><span class="st">'norm'</span>)</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    critical_value <span class="op">=</span> res.critical_values[<span class="dv">2</span>] <span class="co"># 0.05 level</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">'Anderson-Darling'</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.statistic <span class="op">&gt;</span> critical_value <span class="cf">else</span> <span class="st">"Normal"</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.normaltest(data_column)</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">"D'Agostino-Pearson"</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">"Normal"</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    normality_results[name] <span class="op">=</span> normality_result</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(normality_results)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>interesting_col <span class="op">=</span> df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>grouped_data <span class="op">=</span> df.groupby(<span class="st">'群类别'</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grouped_data</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>normality_results <span class="op">=</span> {}</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, group <span class="kw">in</span> grouped_data:</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    normality_result <span class="op">=</span> {}</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    data_column <span class="op">=</span> group[interesting_col]</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.ks_1samp(data_column, stats.norm.cdf, alternative<span class="op">=</span><span class="st">'two-sided'</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">'Kolmogorov-Smirnov'</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">"Normal"</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.anderson(data_column, dist<span class="op">=</span><span class="st">'norm'</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    critical_value <span class="op">=</span> res.critical_values[<span class="dv">2</span>] <span class="co"># 0.05 level</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">'Anderson-Darling'</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.statistic <span class="op">&gt;</span> critical_value <span class="cf">else</span> <span class="st">"Normal"</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> stats.normaltest(data_column)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    normality_result[<span class="st">"D'Agostino-Pearson"</span>] <span class="op">=</span> <span class="st">"Not Normal"</span> <span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">"Normal"</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    normality_results[name] <span class="op">=</span> normality_result</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(normality_results)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 
@@ -1120,10 +1141,10 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <h4 data-number="4.2.2" class="anchored" data-anchor-id="方差齐性检验"><span class="header-section-number">4.2.2</span> 方差齐性检验</h4>
 <p>我们首先使用 Rule of thumb 经验法则来看看数据是否满足方差齐性。</p>
 <div id="cell-47" class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>std_devs <span class="op">=</span> grouped_data[interesting_col].std()</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ratio_largest_to_smallest <span class="op">=</span> std_devs.<span class="bu">max</span>() <span class="op">/</span> std_devs.<span class="bu">min</span>() </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>variance_homogeneity <span class="op">=</span> ratio_largest_to_smallest<span class="op">&lt;=</span> <span class="dv">2</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>std_devs, ratio_largest_to_smallest, variance_homogeneity</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>std_devs <span class="op">=</span> grouped_data[interesting_col].std()</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ratio_largest_to_smallest <span class="op">=</span> std_devs.<span class="bu">max</span>() <span class="op">/</span> std_devs.<span class="bu">min</span>() </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>variance_homogeneity <span class="op">=</span> ratio_largest_to_smallest<span class="op">&lt;=</span> <span class="dv">2</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>std_devs, ratio_largest_to_smallest, variance_homogeneity</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="60">
 <pre><code>(群类别
  1    4.923757
@@ -1139,21 +1160,21 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>哎呀看来差一点点，2.04刚好比2大一些，所以拇指法则认为我们做不了ANOVA啦。</p>
 <p>下面我们再探索下假设检验来验证方差齐性，这样更严谨一些。</p>
 <div id="cell-49" class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>group_values_list <span class="op">=</span> [grouped_data[interesting_col].get_group(x).values <span class="cf">for</span> x <span class="kw">in</span> grouped_data.groups]</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>group_values_list[<span class="dv">0</span>][:<span class="dv">5</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>group_values_list <span class="op">=</span> [grouped_data[interesting_col].get_group(x).values <span class="cf">for</span> x <span class="kw">in</span> grouped_data.groups]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>group_values_list[<span class="dv">0</span>][:<span class="dv">5</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="68">
 <pre><code>array([26.68181818, 27.5       , 23.41538462, 29.40909091, 30.31967213])</code></pre>
 </div>
 </div>
 <div id="cell-50" class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-51" class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行Bartlett的方差齐性检验</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>bartlett_result <span class="op">=</span> stats.bartlett(<span class="op">*</span>group_values_list)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> bartlett_result.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Reject the null hypothesis of equal variances! "</span>)</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>bartlett_result</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行Bartlett的方差齐性检验</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>bartlett_result <span class="op">=</span> stats.bartlett(<span class="op">*</span>group_values_list)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> bartlett_result.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Reject the null hypothesis of equal variances! "</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>bartlett_result</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reject the null hypothesis of equal variances! </code></pre>
 </div>
@@ -1171,13 +1192,13 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </blockquote>
 <p>我们首先可以画一个箱线图，直观感受一下数据的分布差异</p>
 <div id="cell-55" class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制分组分布图</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">'群类别'</span>, y<span class="op">=</span>df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>], data<span class="op">=</span>df)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'群类别与平均年龄的分布图'</span>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'群类别'</span>)</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'平均年龄'</span>)</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制分组分布图</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">'群类别'</span>, y<span class="op">=</span>df.columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>], data<span class="op">=</span>df)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'群类别与平均年龄的分布图'</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'群类别'</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'平均年龄'</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1188,13 +1209,13 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </div>
 <p>可以感觉到他们的平均值还是有点差距的，现在我们尝试做ANOVA。 不过刚才3.b 我们发现ANOVA的假设并不成立，所以我们得分析结果未必准确。</p>
 <div id="cell-57" class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway <span class="co"># ANOVA 又称 F检验，所以scipy命名为f_oneway</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway <span class="co"># ANOVA 又称 F检验，所以scipy命名为f_oneway</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-58" class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> f_oneway(<span class="op">*</span>group_values_list)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Reject null hypothesis! There is a significant difference in the means between the groups."</span>)</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> f_oneway(<span class="op">*</span>group_values_list)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> res.pvalue <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Reject null hypothesis! There is a significant difference in the means between the groups."</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reject null hypothesis! There is a significant difference in the means between the groups.</code></pre>
 </div>
@@ -1206,14 +1227,14 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>我们的<strong>Conclusion</strong>就是不同群类别的平均年龄具有显著差异。</p>
 <p>我们课上学习的时候，ANOVA能得到一个较为详细的表格，包括 SS, df, MS, 不只是上面scipy输出的F和p。所以我们决定使用更加专业的统计库 statsmodels 再来进行一次 ANOVA，参考<a href="https://www.statsmodels.org/stable/anova.html">文档</a>。</p>
 <div id="cell-60" class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-61" class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols(<span class="ss">f'</span><span class="sc">{</span>df<span class="sc">.</span>columns[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> ~ C(</span><span class="sc">{</span>df<span class="sc">.</span>columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)'</span>, data<span class="op">=</span>df).fit()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols(<span class="ss">f'</span><span class="sc">{</span>df<span class="sc">.</span>columns[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> ~ C(</span><span class="sc">{</span>df<span class="sc">.</span>columns[<span class="dv">7</span><span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)'</span>, data<span class="op">=</span>df).fit()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-62" class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>model.f_pvalue</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model.f_pvalue</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="100">
 <pre><code>0.2481580545669197</code></pre>
 </div>
@@ -1221,8 +1242,8 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>首先ols是个缩写，全称是 ordinary least squares (OLS), 与之对应的方法是 weighted least squares (WLS), generalized least squares (GLS)。</p>
 <p>其中 C(x) 是 <a href="https://segmentfault.com/q/1010000012066946">R formula style 语法</a>。 具体来说， - ~：这是一个分隔符，用于区分因变量（响应变量）和自变量（解释变量或预测变量）。 - C(x)函数用于指定x变量应该被视为categorical variable。在R中，分类变量通常用于表示名义尺度或序数尺度的变量，比如性别、种族、国家等。 - 那么具体来说R语言是怎么处理C(x)的呢？在Python sklearn里面我们经常会用one hot编码，R也是使用one hot编码吗？ - 实际上，R语言单独有因子(Factor)类型，不是先处理为one hot再输入ols，而是直接输入ols让ols决定具体怎么处理。 - “Y ~ X1+X2” + 表示 X1 和 X2 都是自变量。 - 可以参考 http://www.sthda.com/english/articles/40-regression-analysis/163-regression-with-categorical-variables-dummy-coding-essentials-in-r/</p>
 <div id="cell-64" class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>anova_table <span class="op">=</span> sm.stats.anova_lm(model, test<span class="op">=</span><span class="st">'F'</span>, typ<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>anova_table</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>anova_table <span class="op">=</span> sm.stats.anova_lm(model, test<span class="op">=</span><span class="st">'F'</span>, typ<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>anova_table</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="76">
 <div>
 
@@ -1262,9 +1283,7 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>刚才调用的两个库其实都和我们课上学习的有点不一样，为了加深我们的理解，我们<strong>自己实现一下</strong>ANOVA。 根据课件上的顺序，我们逐一计算 - grand mean - between-group variation - within-group variation</p>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L12" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="anova_oneway" class="level3" data-number="4.4">
-<h3 data-number="4.4" class="anchored" data-anchor-id="anova_oneway"><span class="header-section-number">4.4</span> anova_oneway</h3>
+<p>anova_oneway</p>
 <blockquote class="blockquote">
 <pre><code> anova_oneway (*groups:numpy.ndarray)</code></pre>
 </blockquote>
@@ -1295,8 +1314,8 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </tbody>
 </table>
 <div id="cell-68" class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> anova_oneway(<span class="op">*</span>group_values_list)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> anova_oneway(<span class="op">*</span>group_values_list)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>res</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>其中我们F为什么叫做F呢？ - 其实是因为 F Value obeys Fisher Distribution， 这个分布是 Fisher大神提出的（ANOVA也是Fisher提出的），Fisher把自己的F命名进去。</p>
 <p>那p为什么叫做p呢？ - p 是 probabilty的缩写，表示事件发生的概率，什么事情呢？ - 如果null hypothesis是正确的，数据出现这件事情的概率。 - 所以p也是如果拒绝 null hypothesis，我们会犯错误的概率，也就是 Type I Error。</p>
@@ -1304,9 +1323,9 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>首先默认来说Excel没有开启分析功能。需要 “文件”-&gt;“选项”-&gt;“加载项”，在“管理”下拉菜单中选择“Excel加载项”，然后勾选“分析工具库”和“分析工具库 - VBA”来完成加载。</p>
 <p>第二，Excel的ANOVA对输入格式有要求，必须是分组之后矩阵的形式，我们原本的数据就是两列，所以不对，需要先把数据整理成分组之后的矩阵形式。 - 然而，在尝试了数据透视表、excel公式等方式之后，我放弃了，excel分个组太麻烦了。 - 我觉得直接python导出数据到excel，然后用excel的分析功能来做ANOVA。</p>
 <div id="cell-71" class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>group_values_df <span class="op">=</span> pd.DataFrame(group_values_list)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>group_values_df.to_excel(<span class="st">"group_values.xlsx"</span>)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>group_values_df</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>group_values_df <span class="op">=</span> pd.DataFrame(group_values_list)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>group_values_df.to_excel(<span class="st">"group_values.xlsx"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>group_values_df</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="93">
 <div>
 
@@ -1490,8 +1509,8 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </blockquote>
 <p>首先我们需要连续型随机变量，我们看看那些是</p>
 <div id="cell-74" class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>continuous_vars <span class="op">=</span> df.select_dtypes(include<span class="op">=</span>[<span class="st">'float'</span>])</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>continuous_vars.describe()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>continuous_vars <span class="op">=</span> df.select_dtypes(include<span class="op">=</span>[<span class="st">'float'</span>])</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>continuous_vars.describe()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="108">
 <div>
 
@@ -1617,13 +1636,13 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <p>注意 群人数 消息数 会话数 这几个变量是整数，但是不是类别型随机变量，大小是有意义的，不过我们暂时不考虑它们，也是忽略掉。</p>
 <p>现在我们随机选择三个</p>
 <div id="cell-76" class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-77" class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random.seed(5)</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">0</span>)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>chosen_cols <span class="op">=</span> random.choices(continuous_vars.columns, k<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>chosen_cols</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random.seed(5)</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">0</span>)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>chosen_cols <span class="op">=</span> random.choices(continuous_vars.columns, k<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>chosen_cols</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="171">
 <pre><code>['夜聊比例', '无回应比例', '年龄差']</code></pre>
 </div>
@@ -1632,15 +1651,13 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 <h3 data-number="5.1" class="anchored" data-anchor-id="经验分布"><span class="header-section-number">5.1</span> 经验分布</h3>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L90" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="draw_hist" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="draw_hist"><span class="header-section-number">5.2</span> draw_hist</h3>
+<p>draw_hist</p>
 <blockquote class="blockquote">
 <pre><code> draw_hist (df, chosen_cols, hue_col='群类别', transform=None,
             column_name_transform=None)</code></pre>
 </blockquote>
 <div id="cell-80" class="cell" data-execution_count="257">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>draw_hist(df, chosen_cols, hue_col<span class="op">=</span><span class="st">'群类别'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>draw_hist(df, chosen_cols, hue_col<span class="op">=</span><span class="st">'群类别'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1657,22 +1674,20 @@ Name: 平均年龄, Length: 2040, dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="正态性检验-2" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="正态性检验-2"><span class="header-section-number">5.3</span> 正态性检验</h3>
+<section id="正态性检验-2" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="正态性检验-2"><span class="header-section-number">5.2</span> 正态性检验</h3>
 <p>我们使用 for 循环来对每个变量进行多种正态性检验方法。 注意ANOVA的正态性是说分组的正态性。 如果每一组都是正态分布，而且零假设不成立，那合在一起其实是Gaussian Mixture Model。</p>
 <p>下面的代码我们引入log=False 参数，决定是对原始数据还是对log数据进行正态性检验。</p>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L115" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="test_normality_group" class="level3" data-number="5.4">
-<h3 data-number="5.4" class="anchored" data-anchor-id="test_normality_group"><span class="header-section-number">5.4</span> test_normality_group</h3>
+<p>test_normality_group</p>
 <blockquote class="blockquote">
 <pre><code> test_normality_group (df, interesting_col, hue_col='群类别', transform=None)</code></pre>
 </blockquote>
 <div id="cell-83" class="cell" data-execution_count="195">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Testing normality for column </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(test_normality_group(df, col))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Testing normality for column </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(test_normality_group(df, col))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Testing normality for column 夜聊比例
                              1           2           3           4           5
@@ -1694,17 +1709,17 @@ D'Agostino-Pearson  Not Normal      Normal  Not Normal  Not Normal  Not Normal</
 <p>可以看到除了 年龄差的第二组以外，其他的数据根本不满足正态分布。</p>
 <p>我们再尝试一下log后的正态性检验。</p>
 <div id="cell-85" class="cell" data-execution_count="215">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>log_transform <span class="op">=</span> <span class="kw">lambda</span> data_column: np.log(data_column<span class="op">+</span>np.<span class="bu">min</span>(data_column)<span class="op">+</span><span class="dv">1</span>)  <span class="co"># 保证 大于0 </span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># np.log(data_column) </span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>log_transform([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>])</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>log_transform <span class="op">=</span> <span class="kw">lambda</span> data_column: np.log(data_column<span class="op">+</span>np.<span class="bu">min</span>(data_column)<span class="op">+</span><span class="dv">1</span>)  <span class="co"># 保证 大于0 </span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># np.log(data_column) </span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>log_transform([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>])</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="215">
 <pre><code>array([1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015])</code></pre>
 </div>
 </div>
 <div id="cell-86" class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Testing normality for column log(</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(test_normality_group(df, col, transform<span class="op">=</span>log_transform))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Testing normality for column log(</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(test_normality_group(df, col, transform<span class="op">=</span>log_transform))</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Testing normality for column log(夜聊比例)
                              1           2           3           4           5
@@ -1724,24 +1739,21 @@ D'Agostino-Pearson  Not Normal  Not Normal      Normal  Not Normal  Not Normal</
 </div>
 </div>
 <p>看来并没有什么特别效果，还是不正态的多，年龄差的第二组反而变得不正态了，第三组正态了。</p>
-<section id="方差齐性检验-1" class="level4" data-number="5.4.1">
-<h4 data-number="5.4.1" class="anchored" data-anchor-id="方差齐性检验-1"><span class="header-section-number">5.4.1</span> 方差齐性检验</h4>
+<section id="方差齐性检验-1" class="level4" data-number="5.2.1">
+<h4 data-number="5.2.1" class="anchored" data-anchor-id="方差齐性检验-1"><span class="header-section-number">5.2.1</span> 方差齐性检验</h4>
 <p>我们首先使用 Rule of thumb 经验法则 和 bartlett 检验一起来看</p>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L139" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="homogeneity_of_variance" class="level3" data-number="5.5">
-<h3 data-number="5.5" class="anchored" data-anchor-id="homogeneity_of_variance"><span class="header-section-number">5.5</span> homogeneity_of_variance</h3>
+<p>homogeneity_of_variance</p>
 <blockquote class="blockquote">
 <pre><code> homogeneity_of_variance (df, interesting_col, hue_col='群类别',
                           transform=None)</code></pre>
 </blockquote>
 <div id="cell-90" class="cell" data-execution_count="213">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, chosen_col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Now testing variance_homogeneity of column: </span><span class="sc">{</span>chosen_col<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(homogeneity_of_variance(df, chosen_col, transform<span class="op">=</span><span class="va">None</span>))</span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, chosen_col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Now testing variance_homogeneity of column: </span><span class="sc">{</span>chosen_col<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(homogeneity_of_variance(df, chosen_col, transform<span class="op">=</span><span class="va">None</span>))</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Now testing variance_homogeneity of column: 夜聊比例
 The variances may be homogeneous, according to rule of thumb.
@@ -1761,10 +1773,10 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <div id="cell-91" class="cell" data-execution_count="216">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, chosen_col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Now testing variance_homogeneity of column: log(</span><span class="sc">{</span>chosen_col<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(homogeneity_of_variance(df, chosen_col, transform<span class="op">=</span>log_transform))</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, chosen_col <span class="kw">in</span> <span class="bu">enumerate</span>(chosen_cols):</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Now testing variance_homogeneity of column: log(</span><span class="sc">{</span>chosen_col<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(homogeneity_of_variance(df, chosen_col, transform<span class="op">=</span>log_transform))</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Now testing variance_homogeneity of column: log(夜聊比例)
 The variances may be homogeneous, according to rule of thumb.
@@ -1784,6 +1796,7 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <p>进行log之后反而年龄差连拇指法则都认为不满足方差齐性了，太可怕了。看来log变换对这三列数据不太有效果。</p>
+</section>
 </section>
 </section>
 <section id="how-to-do-one-way-anova-with-the-non-normal-data" class="level2" data-number="6">
@@ -1826,31 +1839,28 @@ Reject the null hypothesis of equal variances!
 <p>调用我们刚才自己编写的 <a href="https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_ANOVA/anova.html#anova_oneway"><code>anova_oneway</code></a> 函数，这里我们实现 <a href="https://Open-Book-Studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/coding_projects/P1_ANOVA/anova.html#auto_anova_for_df"><code>auto_anova_for_df</code></a> 提高API的易用性。</p>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L169" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="auto_anova_for_df" class="level3" data-number="6.3">
-<h3 data-number="6.3" class="anchored" data-anchor-id="auto_anova_for_df"><span class="header-section-number">6.3</span> auto_anova_for_df</h3>
+<p>auto_anova_for_df</p>
 <blockquote class="blockquote">
 <pre><code> auto_anova_for_df (df, interesting_col, hue_col='群类别', transform=None)</code></pre>
 </blockquote>
 <div id="cell-97" class="cell" data-execution_count="237">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print()</span></span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> auto_anova_for_df(df, chosen_col)</span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>    res_dfs.append(res)</span>
-<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="co"># index = pd.MultiIndex.from_tuples([(x, y) for x in chosen_cols for y in ["Between", "Within", "Total"]],</span></span>
-<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                             names=['Category', 'Source'])</span></span>
-<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a><span class="co"># df_combined = pd.DataFrame(index=index, columns=res_dfs[0].columns)</span></span>
-<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a><span class="co"># for i, source in enumerate(chosen_cols):</span></span>
-<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     # for s in ['Between', 'Within', 'Total']:</span></span>
-<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     #         df_combined.loc[(source, s)] = res_dfs[i].loc[res_dfs[i]['Source'] == s, :]</span></span>
-<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     df_combined.iloc[i] = res_dfs[i].values</span></span>
-<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a><span class="co"># df_combined</span></span>
-<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">0</span>])</span>
-<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">0</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print()</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> auto_anova_for_df(df, chosen_col)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    res_dfs.append(res)</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="co"># index = pd.MultiIndex.from_tuples([(x, y) for x in chosen_cols for y in ["Between", "Within", "Total"]],</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                             names=['Category', 'Source'])</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="co"># df_combined = pd.DataFrame(index=index, columns=res_dfs[0].columns)</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="co"># for i, source in enumerate(chosen_cols):</span></span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     # for s in ['Between', 'Within', 'Total']:</span></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     #         df_combined.loc[(source, s)] = res_dfs[i].loc[res_dfs[i]['Source'] == s, :]</span></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     df_combined.iloc[i] = res_dfs[i].values</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="co"># df_combined</span></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">0</span>])</span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">0</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>夜聊比例</code></pre>
 </div>
@@ -1909,8 +1919,8 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <div id="cell-98" class="cell" data-execution_count="238">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">1</span>])</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">1</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">1</span>])</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">1</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>无回应比例</code></pre>
 </div>
@@ -1969,8 +1979,8 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <div id="cell-99" class="cell" data-execution_count="239">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">2</span>])</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">2</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chosen_cols[<span class="dv">2</span>])</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>res_dfs[<span class="dv">2</span>]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>年龄差</code></pre>
 </div>
@@ -2031,15 +2041,13 @@ Reject the null hypothesis of equal variances!
 <p>看来这三个特征还是很明显会被群类别影响的！p值非常小！ 接下来可视化！</p>
 <hr>
 <p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L182" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="draw_box" class="level3" data-number="6.4">
-<h3 data-number="6.4" class="anchored" data-anchor-id="draw_box"><span class="header-section-number">6.4</span> draw_box</h3>
+<p>draw_box</p>
 <blockquote class="blockquote">
 <pre><code> draw_box (df, chosen_cols, hue_col='群类别', transform=None,
            column_name_transform=None)</code></pre>
 </blockquote>
 <div id="cell-102" class="cell" data-execution_count="248">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>draw_box(df, chosen_cols)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>draw_box(df, chosen_cols)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2048,61 +2056,56 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 </div>
-<section id="应用解决办法2采用不对数据要求那么严格的假设检验方法" class="level4" data-number="6.4.1">
-<h4 data-number="6.4.1" class="anchored" data-anchor-id="应用解决办法2采用不对数据要求那么严格的假设检验方法"><span class="header-section-number">6.4.1</span> 应用解决办法2——采用不对数据要求那么严格的假设检验方法</h4>
-<section id="friedman检验" class="level5" data-number="6.4.1.1">
-<h5 data-number="6.4.1.1" class="anchored" data-anchor-id="friedman检验"><span class="header-section-number">6.4.1.1</span> Friedman检验</h5>
+</section>
+<section id="应用解决办法2采用不对数据要求那么严格的假设检验方法" class="level4" data-number="6.2.2">
+<h4 data-number="6.2.2" class="anchored" data-anchor-id="应用解决办法2采用不对数据要求那么严格的假设检验方法"><span class="header-section-number">6.2.2</span> 应用解决办法2——采用不对数据要求那么严格的假设检验方法</h4>
+<section id="friedman检验" class="level5" data-number="6.2.2.1">
+<h5 data-number="6.2.2.1" class="anchored" data-anchor-id="friedman检验"><span class="header-section-number">6.2.2.1</span> Friedman检验</h5>
 <p><a href="https://www.jmlr.org/papers/volume7/demsar06a/demsar06a.pdf">机器学习经典的一篇万引论文</a>指出，多个数据集上对比不同的机器学习方法不应当使用ANOVA，因为正态性假设和方差齐性假设不一定成立，所以应当使用Friedman检验。</p>
 <p>这里我们采用Friedman检验尝试一下，看看是否如这篇论文说的那么适合。</p>
 <p>使用 scipy实现的 <code>friedmanchisquare</code></p>
 <hr>
-<p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L194" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-</section>
-<section id="auto_friedman_for_df" class="level3" data-number="6.5">
-<h3 data-number="6.5" class="anchored" data-anchor-id="auto_friedman_for_df"><span class="header-section-number">6.5</span> auto_friedman_for_df</h3>
+<p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L196" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p>auto_friedman_for_df</p>
 <blockquote class="blockquote">
 <pre><code> auto_friedman_for_df (df, interesting_col, hue_col='群类别', transform=None)</code></pre>
 </blockquote>
 <div id="cell-105" class="cell" data-execution_count="261">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
-<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
-<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print()</span></span>
-<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> auto_friedman_for_df(df, chosen_col)</span>
-<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>        res_dfs.append(res)</span>
-<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Friedman for col </span><span class="sc">{</span>chosen_cols[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print()</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> auto_friedman_for_df(df, chosen_col)</span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>        res_dfs.append(res)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Friedman for col </span><span class="sc">{</span>chosen_cols[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error: Unequal N in friedmanchisquare.  Aborting.</code></pre>
 </div>
 </div>
 <p>实践出真知，原来 Friedman 测试要求每个treatment有相同的数据量！这确实适合对比机器学习方法，因为这些方法都在N个数据集上做了实验，但是确实不适合我们这里的数据。</p>
-<section id="kruskal-wallis" class="level5" data-number="6.5.0.1">
-<h5 data-number="6.5.0.1" class="anchored" data-anchor-id="kruskal-wallis"><span class="header-section-number">6.5.0.1</span> Kruskal-Wallis</h5>
+</section>
+<section id="kruskal-wallis" class="level5" data-number="6.2.2.2">
+<h5 data-number="6.2.2.2" class="anchored" data-anchor-id="kruskal-wallis"><span class="header-section-number">6.2.2.2</span> Kruskal-Wallis</h5>
 <p>再来尝试一下 <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html">这个</a></p>
 <hr>
-<p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L210" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="auto_kruskal_for_df" class="level3" data-number="6.6">
-<h3 data-number="6.6" class="anchored" data-anchor-id="auto_kruskal_for_df"><span class="header-section-number">6.6</span> auto_kruskal_for_df</h3>
+<p><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L214" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p>auto_kruskal_for_df</p>
 <blockquote class="blockquote">
 <pre><code> auto_kruskal_for_df (df, interesting_col, hue_col='群类别', transform=None)</code></pre>
 </blockquote>
 <div id="cell-108" class="cell" data-execution_count="266">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print()</span></span>
-<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> auto_kruskal_for_df(df, chosen_col)</span>
-<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>    res_dfs.append(res)</span>
-<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>res_dfs <span class="op">=</span> []</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chosen_col <span class="kw">in</span> chosen_cols:</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Doing ANOVA for {chosen_col}")</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print()</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> auto_kruskal_for_df(df, chosen_col)</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>    res_dfs.append(res)</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Kruskal-Wallis for col 夜聊比例</code></pre>
 </div>
@@ -2111,9 +2114,9 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <div id="cell-109" class="cell" data-execution_count="267">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Kruskal-Wallis for col 无回应比例</code></pre>
 </div>
@@ -2122,9 +2125,9 @@ Reject the null hypothesis of equal variances!
 </div>
 </div>
 <div id="cell-110" class="cell" data-execution_count="268">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kruskal-Wallis for col </span><span class="sc">{</span>chosen_cols[k]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>res_dfs[k]</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Kruskal-Wallis for col 年龄差</code></pre>
 </div>
@@ -2135,6 +2138,8 @@ Reject the null hypothesis of equal variances!
 <p>Kruskal-Wallis H-test tests的零假设是 不同组的中位数之间没有显著差异。 看来我们对于我们选中的三列，p值都特别小，说明我们可以拒绝零假设，认为这三列都会被“群类型”影响，导致中位数不相同。</p>
 
 
+</section>
+</section>
 </section>
 </section>
 

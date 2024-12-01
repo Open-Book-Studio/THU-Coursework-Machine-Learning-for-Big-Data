@@ -39,18 +39,17 @@ toc: true
 
 我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。
 
-!!! important
+::: {.callout-important}
+可以通过以下命令安装我们实验的代码：
 
-    可以通过以下命令安装我们实验的代码：
-
-    ```shell
-    pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-    ```
-    我们的代码导出为了python模块形式，通过以下命令导入：
-    ```python
-    from thu_big_data_ml.svm import *
-    ```
-
+```shell
+pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+```
+我们的代码导出为了python模块形式，通过以下命令导入：
+```python
+from thu_big_data_ml.svm import *
+```
+:::
 
 https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git 是我们本次大数据机器学习课程实验的代码仓库地址，
 
@@ -67,12 +66,12 @@ from scholarly_infrastructure import *
 
 以上代码库开源在github，欢迎各位同学、老师们提出宝贵意见，或者加入我们的开发一起完善，构建更加优质的科研工具。
 
-!!! important
+::: {.callout-important}
+本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
-    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。
 
-    由于这次项目作业内容太多，为了便于管理，我们将项目文档和代码分为了不同几个部分。
-
+:::
 
 ## 实验目的与项目要求
 
@@ -177,7 +176,7 @@ dataset_dict_uci_digits.target_names
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/infra.py#L11){target="_blank" style="float:right; font-size:smaller"}
 
-### sklearn_to_X_y_categories
+ sklearn_to_X_y_categories
 
 >      sklearn_to_X_y_categories (dataset_dict)
 
@@ -265,7 +264,7 @@ X_full, y_full, categories_full = sklearn_to_X_y_categories(dataset_dict_full_mn
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/infra.py#L34){target="_blank" style="float:right; font-size:smaller"}
 
-### make_train_val_test
+ make_train_val_test
 
 >      make_train_val_test (X, y, val_size=0.1, test_size=0.2, random_state=42,
 >                           normalize=True)
@@ -349,7 +348,7 @@ X_train_full, X_val_full, X_test_full, y_train_full, y_val_full, y_test_full = m
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/infra.py#L54){target="_blank" style="float:right; font-size:smaller"}
 
-### get_torch_dataset
+ get_torch_dataset
 
 >      get_torch_dataset (X, y)
 
@@ -418,7 +417,7 @@ data_module_full = L.LightningDataModule.from_datasets(
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/infra.py#L66){target="_blank" style="float:right; font-size:smaller"}
 
-### process_sklearn_dataset_dict
+ process_sklearn_dataset_dict
 
 >      process_sklearn_dataset_dict (dataset_dict:dict,
 >                                    return_type:Literal['numpy','torch','lightn
@@ -592,10 +591,9 @@ Type:      function
 当然如果我们Project在此收尾，只能酌情被扣除分数。
 在本节之后，我们将使用 PyTorch 和 numpy 这样的基础科学计算库，来在GPU和CPU上实现SVM及其优化。
 
-!!! important
-
-    本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
-
+::: {.callout-important}
+本次Project首先展示了几个常用的SVM库的精度与速度，并且对其进行调参；随后本次Project基于基础科学计算库手写实现了SVM及其优化，和前面的库的精度与速度进行了对比。
+:::
 
 接下来的内容请见文件 [01sv_use_lib](./01sv_use_lib.html)
 

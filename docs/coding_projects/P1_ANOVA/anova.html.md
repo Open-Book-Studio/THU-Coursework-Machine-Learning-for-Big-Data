@@ -35,22 +35,22 @@ toc: true
 
 我们这样做的好处是，避免单独管理一堆 .py 文件，防止代码冗余和同步混乱，py文件和pdf文件都是从.ipynb文件导出的，可以保证实验文档和代码的一致性。
 
-!!! important
+::: {.callout-important}
+可以通过以下命令安装我们实验的代码：
 
-    可以通过以下命令安装我们实验的代码：
+```shell
+pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
+pip install matplotlib seaborn openpyxl scipy statsmodels
+```
+我们的代码导出为了python模块形式，通过以下命令导入：
+```python
+from thu_big_data_ml.big_data_analytics.anova import *
+```
+:::
 
-    ```shell
-    pip install git+https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data.git
-    pip install matplotlib seaborn openpyxl scipy statsmodels
-    ```
-    我们的代码导出为了python模块形式，通过以下命令导入：
-    ```python
-    from thu_big_data_ml.big_data_analytics.anova import *
-    ```
-
-!!! important
-
-    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+::: {.callout-important}
+本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+:::
 
 ## 1. Recall and write down the assumptions which one-way ANOVA are based on.
 
@@ -432,40 +432,55 @@ plt.show()
 Lilliefors and Anderson-Darling tests](https://www.nrc.gov/docs/ML1714/ML17143A100.pdf)，
 里面对各个检验都有介绍，结合其他网络资料，我整理了以下的思维导图：
 
-``` mermaid
-graph LR
-    A[正态性检验] --> B[Shapiro-Wilk 夏皮罗-威尔克 检验]
-    A --> C[Kolmogorov-Smirnov检验]
-    A --> D[Anderson-Darling 安德森-达令检验]
-    A --> E[D'Agostino-Pearson检验]
-    A --> Z[Lilliefors检验]
 
-    B --> F[零假设: 数据集来自于正态分布]
-    B --> G[使用条件: 小样本, 具体来说n<50]
-    B --> H[优点: 灵敏度高, 被认为是小样本情况下最强大的检验, 计算效率高]
-    B --> I[缺点: 不适用于大样本, 过度敏感, 可能数据稍微偏离就误判不符合正态分布 ] 
+::::::{.cell layout-align="default"}
 
-    C --> J[零假设: 样本来自的总体与指定的理论分布无显著差异]
-    C --> K[使用条件: 适用于连续分布, 大样本]
-    C --> L[优点: 无需分布假设, 可以两列样本直接比较, 不需要指定分布参数]
-    C --> M[缺点: 小样本上不够强大]
+:::::{.cell-output-display}
 
-    D --> N[零假设: 样本来自的总体与指定的理论分布无显著差异]
-    D --> O[使用条件: 适用于各种样本大小, 特别是当需要重视分布尾部差异时]
-    D --> P[优点: 更重视分布尾部, 某些情况下比KS强大]
-    D --> Q[缺点: 计算复杂, 每一个分布需要计算特定的临界值]
+::::{}
+`<figure class=''>`{=html}
 
-    E --> R[零假设: 数据集来自于正态分布]
-    E --> S[使用条件: 大多数情况都可以]
-    E --> T[优点: 基于偏度和峰度系数]
-    E --> U[缺点: 结果容易受到异常值的影响]
+:::{}
 
-    Z --> V[零假设: 数据集来自于正态分布]
-    Z --> W[使用条件: 适用于小样本数据]
-    Z --> X[优点: 虽然是检验正态性, 但是不用假设是来自于哪一个正态分布, 就是均值方差不用指定, 因为是KS检验的改进版]
-    Z --> Y[缺点: 对于非独立同分布的数据不适用]
+<pre class="mermaid mermaid-js">graph LR
+    A[正态性检验] --&gt; B[Shapiro-Wilk 夏皮罗-威尔克 检验]
+    A --&gt; C[Kolmogorov-Smirnov检验]
+    A --&gt; D[Anderson-Darling 安德森-达令检验]
+    A --&gt; E[D&#39;Agostino-Pearson检验]
+    A --&gt; Z[Lilliefors检验]
 
-```
+    B --&gt; F[零假设: 数据集来自于正态分布]
+    B --&gt; G[使用条件: 小样本, 具体来说n&lt;50]
+    B --&gt; H[优点: 灵敏度高, 被认为是小样本情况下最强大的检验, 计算效率高]
+    B --&gt; I[缺点: 不适用于大样本, 过度敏感, 可能数据稍微偏离就误判不符合正态分布 ] 
+
+    C --&gt; J[零假设: 样本来自的总体与指定的理论分布无显著差异]
+    C --&gt; K[使用条件: 适用于连续分布, 大样本]
+    C --&gt; L[优点: 无需分布假设, 可以两列样本直接比较, 不需要指定分布参数]
+    C --&gt; M[缺点: 小样本上不够强大]
+
+    D --&gt; N[零假设: 样本来自的总体与指定的理论分布无显著差异]
+    D --&gt; O[使用条件: 适用于各种样本大小, 特别是当需要重视分布尾部差异时]
+    D --&gt; P[优点: 更重视分布尾部, 某些情况下比KS强大]
+    D --&gt; Q[缺点: 计算复杂, 每一个分布需要计算特定的临界值]
+
+    E --&gt; R[零假设: 数据集来自于正态分布]
+    E --&gt; S[使用条件: 大多数情况都可以]
+    E --&gt; T[优点: 基于偏度和峰度系数]
+    E --&gt; U[缺点: 结果容易受到异常值的影响]
+
+    Z --&gt; V[零假设: 数据集来自于正态分布]
+    Z --&gt; W[使用条件: 适用于小样本数据]
+    Z --&gt; X[优点: 虽然是检验正态性, 但是不用假设是来自于哪一个正态分布, 就是均值方差不用指定, 因为是KS检验的改进版]
+    Z --&gt; Y[缺点: 对于非独立同分布的数据不适用]
+
+</pre>
+:::
+`</figure>`{=html}
+::::
+:::::
+::::::
+
 
 根据 https://www.lcgdbzz.org/custom/news/id/7951， 样本量大被认为是大于2000，
 而根据https://blog.csdn.net/book_dw5189/article/details/133475648， 样本量<50或者 <200就认为小。
@@ -983,7 +998,7 @@ anova_table
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L12){target="_blank" style="float:right; font-size:smaller"}
 
-### anova_oneway
+ anova_oneway
 
 >      anova_oneway (*groups:numpy.ndarray)
 
@@ -1404,7 +1419,7 @@ chosen_cols
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L90){target="_blank" style="float:right; font-size:smaller"}
 
-### draw_hist
+ draw_hist
 
 >      draw_hist (df, chosen_cols, hue_col='群类别', transform=None,
 >                 column_name_transform=None)
@@ -1437,7 +1452,7 @@ draw_hist(df, chosen_cols, hue_col='群类别')
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L115){target="_blank" style="float:right; font-size:smaller"}
 
-### test_normality_group
+ test_normality_group
 
 >      test_normality_group (df, interesting_col, hue_col='群类别', transform=None)
 
@@ -1528,7 +1543,7 @@ D'Agostino-Pearson  Not Normal  Not Normal      Normal  Not Normal  Not Normal
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L139){target="_blank" style="float:right; font-size:smaller"}
 
-### homogeneity_of_variance
+ homogeneity_of_variance
 
 >      homogeneity_of_variance (df, interesting_col, hue_col='群类别',
 >                               transform=None)
@@ -1628,7 +1643,7 @@ Reject the null hypothesis of equal variances!
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L169){target="_blank" style="float:right; font-size:smaller"}
 
-### auto_anova_for_df
+ auto_anova_for_df
 
 >      auto_anova_for_df (df, interesting_col, hue_col='群类别', transform=None)
 
@@ -1901,7 +1916,7 @@ res_dfs[2]
 
 [source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L182){target="_blank" style="float:right; font-size:smaller"}
 
-### draw_box
+ draw_box
 
 >      draw_box (df, chosen_cols, hue_col='群类别', transform=None,
 >                column_name_transform=None)
@@ -1931,9 +1946,9 @@ draw_box(df, chosen_cols)
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L194){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L196){target="_blank" style="float:right; font-size:smaller"}
 
-### auto_friedman_for_df
+ auto_friedman_for_df
 
 >      auto_friedman_for_df (df, interesting_col, hue_col='群类别', transform=None)
 
@@ -1968,9 +1983,9 @@ Error: Unequal N in friedmanchisquare.  Aborting.
 
 ---
 
-[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L210){target="_blank" style="float:right; font-size:smaller"}
+[source](https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/big_data_analytics/anova.py#L214){target="_blank" style="float:right; font-size:smaller"}
 
-### auto_kruskal_for_df
+ auto_kruskal_for_df
 
 >      auto_kruskal_for_df (df, interesting_col, hue_col='群类别', transform=None)
 

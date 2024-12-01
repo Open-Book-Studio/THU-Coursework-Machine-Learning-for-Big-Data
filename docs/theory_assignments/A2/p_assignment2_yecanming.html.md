@@ -15,9 +15,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-!!! important
-
-    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+> [!IMPORTANT]
+>
+> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题
 
@@ -25,10 +25,10 @@
 
 > Minsky与Papert指出：感知机因为是线性模型，所以不能表示复杂的函数，如异或(XOR)。验证感知机为什么不能表示异或。
 
-!!! note
-
-    TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
-    对于题目的证明，可以直接跳到解题部分@sec-proof。
+> [!NOTE]
+>
+> TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
+> 对于题目的证明，可以直接跳到解题部分@sec-proof。
 
 ``` mermaid
 graph LR
@@ -62,6 +62,7 @@ graph LR
     J---N
     J---O
 
+
 ```
 
 - 他们在什么时候，什么地方指出了上述观点？
@@ -69,9 +70,10 @@ graph LR
     (Marvin 和 Seymour
     1969)。这本书从理论上否定了神经网络的研究价值，并对神经网络的发展产生了深远的影响。
 
-!!! note
-
-    Minsky和Papert的观点导致了神经网络研究进入低迷期。而实际上Minsky本人并没有看衰神经网络，只是他的书被人误解以为神经网络一无是处。实际上他写书的时候，MLP的训练算法已经出现了，但是他在书中没有提及[@人民邮电出版社_2020]。
+> [!NOTE]
+>
+> Minsky和Papert的观点导致了神经网络研究进入低迷期。而实际上Minsky本人并没有看衰神经网络，只是他的书被人误解以为神经网络一无是处。实际上他写书的时候，MLP的训练算法已经出现了，但是他在书中没有提及(人民邮电出版社
+> 2020)。
 
 ### 解题
 
@@ -676,6 +678,7 @@ graph TD
     style A fill:#bbf,stroke:#f66,stroke-width:2px
     style C fill:#bbf,stroke:#f66,stroke-width:2px
     style N fill:#bbf,stroke:#f66,stroke-width:2px
+
 ```
 
 ### 题目扩展问题
@@ -717,6 +720,14 @@ MA: MIT Press* 6 (318-362): 7.
 Yao, X., 和 Y. Liu. 1997. 《A new evolutionary system for evolving
 artificial neural networks》. *IEEE Transactions on Neural Networks* 8
 (3): 694–713. <https://doi.org/10.1109/72.572107>.
+
+</div>
+
+<div id="ref-人民邮电出版社_2020" class="csl-entry">
+
+人民邮电出版社. 2020.
+《神经网络简史（上）——从〈极高的期待〉到〈极度的怀疑〉》. 知乎专栏文章.
+*漫谈人工智能*. <https://zhuanlan.zhihu.com/p/137004590>.
 
 </div>
 

@@ -6,40 +6,8 @@
   版本的 Soft Margin Linear
   SVM](#实现-hinge-losssgd-版本的-soft-margin-linear-svm)
 - [<span class="toc-section-number">0.2</span>
-  BinaryHingeLoss](#binaryhingeloss)
-- [<span class="toc-section-number">0.3</span>
-  MultiClassHingeLoss](#multiclasshingeloss)
-- [<span class="toc-section-number">0.4</span>
-  get_max_values_without_true](#get_max_values_without_true)
-- [<span class="toc-section-number">0.5</span>
-  MultiClassHingeLoss.forward_crammer_singer](#multiclasshingelossforward_crammer_singer)
-- [<span class="toc-section-number">0.6</span>
-  HingeSupportVectorClassifier](#hingesupportvectorclassifier)
-- [<span class="toc-section-number">0.7</span>
-  separate_weight_decay](#separate_weight_decay)
-- [<span class="toc-section-number">0.8</span>
-  HingeSupportVectorClassifier.configure_optimizers](#hingesupportvectorclassifierconfigure_optimizers)
-- [<span class="toc-section-number">0.9</span>
-  HingeSupportVectorClassifier.test_step](#hingesupportvectorclassifiertest_step)
-- [<span class="toc-section-number">0.10</span>
-  HingeSupportVectorClassifier.validation_step](#hingesupportvectorclassifiervalidation_step)
-- [<span class="toc-section-number">0.11</span>
-  HingeSupportVectorClassifier.on_test_epoch_end](#hingesupportvectorclassifieron_test_epoch_end)
-- [<span class="toc-section-number">0.12</span>
-  HingeSupportVectorClassifier.on_validation_epoch_end](#hingesupportvectorclassifieron_validation_epoch_end)
-- [<span class="toc-section-number">0.13</span>
-  HingeSupportVectorClassifier.on_test_epoch_start](#hingesupportvectorclassifieron_test_epoch_start)
-- [<span class="toc-section-number">0.14</span>
-  HingeSupportVectorClassifier.on_validation_epoch_start](#hingesupportvectorclassifieron_validation_epoch_start)
-- [<span class="toc-section-number">0.15</span>
-  HingeSupportVectorClassifier.on_evaluation_epoch_end](#hingesupportvectorclassifieron_evaluation_epoch_end)
-- [<span class="toc-section-number">0.16</span>
-  HingeSupportVectorClassifier.evaluation_step](#hingesupportvectorclassifierevaluation_step)
-- [<span class="toc-section-number">0.17</span>
-  HingeSupportVectorClassifier.on_evaluation_epoch_start](#hingesupportvectorclassifieron_evaluation_epoch_start)
-- [<span class="toc-section-number">0.18</span>
   对手动实现的SVM进行调参](#对手动实现的svm进行调参)
-- [<span class="toc-section-number">0.19</span> 附加题: 对比不同 kernel
+- [<span class="toc-section-number">0.3</span> 附加题: 对比不同 kernel
   方法下的 SVM 分类器
   （对完整SVM进行调参）](#附加题-对比不同-kernel-方法下的-svm-分类器-对完整svm进行调参)
 
@@ -104,7 +72,7 @@ weight 而非 bias 做 l2 regularization，从而满足 SVM 的要求。
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L19"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### BinaryHingeLoss
+BinaryHingeLoss
 
 >      BinaryHingeLoss (C=1.0, squared=False, margin=1.0)
 
@@ -223,7 +191,7 @@ $$L_i = \sum_{k=1}^{K} L_i^k \approx \left[ K - (\hat{y_i}^{t_i} - \sum_{k \neq 
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L53"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### MultiClassHingeLoss
+MultiClassHingeLoss
 
 >      MultiClassHingeLoss (C=1.0, squared=False, margin=1.0,
 >                           strategy:Literal['crammer_singer','one_vs_all']='cra
@@ -290,7 +258,7 @@ class MultiClassHingeLoss(nn.Module):
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L93"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### get_max_values_without_true
+get_max_values_without_true
 
 >      get_max_values_without_true (y_pred_logits, y_true)
 
@@ -385,7 +353,7 @@ fastcore 提供 `patch` 扩展了 Python 的能力，可以支持 Mixin
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L118"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### MultiClassHingeLoss.forward_crammer_singer
+MultiClassHingeLoss.forward_crammer_singer
 
 >      MultiClassHingeLoss.forward_crammer_singer (y_pred_logits:torch.Tensor,
 >                                                  y_true:torch.Tensor)
@@ -461,10 +429,10 @@ loss
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L146"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L148"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier
+HingeSupportVectorClassifier
 
 >      HingeSupportVectorClassifier (input_dim, num_classes, learning_rate=0.01,
 >                                    weight_decay=0.5, optimizer_type=<class
@@ -644,10 +612,10 @@ decay的重要性，但是在torch中实现这一点还是有一定的难度的�
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L204"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L206"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### separate_weight_decay
+separate_weight_decay
 
 >      separate_weight_decay (model:torch.nn.modules.module.Module,
 >                             weight_decay:float, otherwise_set_to:float=0.0,
@@ -689,10 +657,10 @@ pass
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L224"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L226"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.configure_optimizers
+HingeSupportVectorClassifier.configure_optimizers
 
 >      HingeSupportVectorClassifier.configure_optimizers ()
 
@@ -839,10 +807,10 @@ def configure_optimizers(self:HingeSupportVectorClassifier) -> OptimizerLRSchedu
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L329"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L331"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.test_step
+HingeSupportVectorClassifier.test_step
 
 >      HingeSupportVectorClassifier.test_step (batch, batch_idx=None, *args,
 >                                              **kwargs)
@@ -1000,10 +968,10 @@ def test_step(self:HingeSupportVectorClassifier, batch, batch_idx=None, *args, *
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L324"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L326"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.validation_step
+HingeSupportVectorClassifier.validation_step
 
 >      HingeSupportVectorClassifier.validation_step (batch, batch_idx=None,
 >                                                    *args, **kwargs)
@@ -1074,10 +1042,10 @@ enabled.\*
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L319"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L321"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_test_epoch_end
+HingeSupportVectorClassifier.on_test_epoch_end
 
 >      HingeSupportVectorClassifier.on_test_epoch_end ()
 
@@ -1086,10 +1054,10 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L314"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L316"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_validation_epoch_end
+HingeSupportVectorClassifier.on_validation_epoch_end
 
 >      HingeSupportVectorClassifier.on_validation_epoch_end ()
 
@@ -1098,10 +1066,10 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L309"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L311"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_test_epoch_start
+HingeSupportVectorClassifier.on_test_epoch_start
 
 >      HingeSupportVectorClassifier.on_test_epoch_start ()
 
@@ -1110,10 +1078,10 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L304"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L306"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_validation_epoch_start
+HingeSupportVectorClassifier.on_validation_epoch_start
 
 >      HingeSupportVectorClassifier.on_validation_epoch_start ()
 
@@ -1122,20 +1090,20 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L281"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L283"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_evaluation_epoch_end
+HingeSupportVectorClassifier.on_evaluation_epoch_end
 
 >      HingeSupportVectorClassifier.on_evaluation_epoch_end (stage:str='')
 
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L269"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L271"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.evaluation_step
+HingeSupportVectorClassifier.evaluation_step
 
 >      HingeSupportVectorClassifier.evaluation_step (batch, batch_idx=None,
 >                                                    stage:str='', *args:Any,
@@ -1144,10 +1112,10 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 ------------------------------------------------------------------------
 
 <a
-href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L262"
+href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/handy_crafted/linear.py#L264"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### HingeSupportVectorClassifier.on_evaluation_epoch_start
+HingeSupportVectorClassifier.on_evaluation_epoch_start
 
 >      HingeSupportVectorClassifier.on_evaluation_epoch_start (stage:str='')
 

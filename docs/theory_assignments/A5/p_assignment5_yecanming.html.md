@@ -5,15 +5,7 @@
 - [<span class="toc-section-number">1</span>
   第一题——一个例子理解支持向量机](#sec-1)
   - [<span class="toc-section-number">1.1</span> 审题](#sec-1-analysis)
-  - [<span class="toc-section-number">1.2</span>
-    plot_binary_classification_2d](#plot_binary_classification_2d)
-  - [<span class="toc-section-number">1.3</span> 解题](#sec-1-solution)
-  - [<span class="toc-section-number">1.4</span>
-    try_svm_and_plot_for_binary_2d](#try_svm_and_plot_for_binary_2d)
-  - [<span class="toc-section-number">1.5</span>
-    plot_contours](#plot_contours)
-  - [<span class="toc-section-number">1.6</span>
-    make_meshgrid](#make_meshgrid)
+  - [<span class="toc-section-number">1.2</span> 解题](#sec-1-solution)
 - [<span class="toc-section-number">2</span>
   第二题——理解软间隔支持向量机以及其对偶形式](#sec-2)
   - [<span class="toc-section-number">2.1</span> 审题](#sec-2-analysis)
@@ -25,9 +17,9 @@
 
 <img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;" />
 
-!!! important
-
-    本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
+> [!IMPORTANT]
+>
+> 本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。
 
 ## 第一题——一个例子理解支持向量机
 
@@ -101,7 +93,7 @@ y = np.array([1]*3 + [-1]*2)
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L13"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### plot_binary_classification_2d
+plot_binary_classification_2d
 
 >      plot_binary_classification_2d (X, y, labels=[1, -1], label_names=['正例',
 >                                     '负例'], label_colors=['blue', 'red'],
@@ -214,9 +206,9 @@ ax
 
 ![](P_Assignment5_yecanming_files/figure-commonmark/cell-6-output-1.png)
 
-!!! note
-
-    本解法不太好写在考试的解答题里面，可以写在选择题填空题里面加快速度。不对于AI研究而言，关键是无法适用于高维的情况自动求解。
+> [!NOTE]
+>
+> 本解法不太好写在考试的解答题里面，可以写在选择题填空题里面加快速度。不对于AI研究而言，关键是无法适用于高维的情况自动求解。
 
 #### 解法二：手算推导法（考试写解答题）
 
@@ -342,7 +334,7 @@ from sklearn import svm, datasets
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L72"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### try_svm_and_plot_for_binary_2d
+try_svm_and_plot_for_binary_2d
 
 >      try_svm_and_plot_for_binary_2d (X, y, C=1.0, x_names=['x(1)', 'x(2)'])
 
@@ -359,7 +351,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L66"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### plot_contours
+plot_contours
 
 >      plot_contours (ax, clf, xx, yy, **params)
 
@@ -369,7 +361,7 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/blob/main/thu_big_data_ml/svm/vis.py#L59"
 target="_blank" style="float:right; font-size:smaller">source</a>
 
-### make_meshgrid
+make_meshgrid
 
 >      make_meshgrid (x, y, h=0.02)
 
