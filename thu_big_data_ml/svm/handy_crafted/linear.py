@@ -5,17 +5,17 @@ __all__ = ['Strategy', 'scheduler_lmd_leon_bottou_sgd', 'scheduler_lmd_leon_bott
            'MultiClassHingeLoss', 'get_max_values_without_true', 'HingeSupportVectorClassifier',
            'separate_weight_decay']
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 5
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 6
 from scholarly_infrastructure.logging.nucleus import logger, print
 from sklearn.datasets import load_digits, fetch_openml
 from thu_big_data_ml.svm.infra import process_sklearn_dataset_dict, compute_classification_metrics
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 9
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 10
 import torch
 import torch.nn as nn
 from fastcore.all import store_attr
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 10
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 11
 class BinaryHingeLoss(nn.Module):
     """
     Binary Hinge Loss. 
@@ -44,11 +44,11 @@ class BinaryHingeLoss(nn.Module):
         return self.C * xi.sum()
 
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 16
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 17
 from fastcore.all import patch
 from typing import Literal
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 17
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 18
 Strategy = Literal['crammer_singer', 'one_vs_all']
 class MultiClassHingeLoss(nn.Module):
     """MultiClassHingeLoss"""
@@ -86,10 +86,10 @@ class MultiClassHingeLoss(nn.Module):
         return sum(losses)
     def forward_crammer_singer(self, y_pred_logits:torch.Tensor, y_true:torch.Tensor)->torch.Tensor: ...
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 18
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 19
 import torch
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 19
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 20
 def get_max_values_without_true(y_pred_logits, y_true):
     """
     获取去掉y_true对应元素后，y_pred_logits每行的最大值。
@@ -113,7 +113,7 @@ def get_max_values_without_true(y_pred_logits, y_true):
 
     return max_values
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 26
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 27
 @patch
 def forward_crammer_singer(self:MultiClassHingeLoss, y_pred_logits:torch.Tensor, y_true:torch.Tensor)->torch.Tensor:
     """L_i = \left[ 1 - (\hat{y_i}^{t_i} - \max_{k \neq t_i} \hat{y_i}^k)) \right]_+"""
@@ -135,14 +135,16 @@ def forward_crammer_singer(self:MultiClassHingeLoss, y_pred_logits:torch.Tensor,
         xi = xi ** 2
     return self.C * xi.sum()
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 34
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 35
 from overrides import override
 from lightning.pytorch.utilities.types import EVAL_DATALOADERS, TRAIN_DATALOADERS, STEP_OUTPUT, OptimizerLRScheduler
 import torch.optim as optim
-# lightning imports
 import lightning as L
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 35
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 36
+# lightning imports
+
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 37
 class HingeSupportVectorClassifier(L.LightningModule):
     def __init__(self, 
                 #  model related
@@ -195,12 +197,12 @@ class HingeSupportVectorClassifier(L.LightningModule):
         self.log("train_loss", loss, prog_bar=True)
         return loss
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 40
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 42
 scheduler_lmd_leon_bottou_sgd = lambda epoch, init_lr=0.1, lmd=0.001: init_lr / (1+ lmd*init_lr*epoch)
 scheduler_lmd_leon_bottou_asgd = lambda epoch, init_lr=0.1, lmd=0.001: init_lr / (1+ lmd*init_lr*epoch)**0.75
 
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 42
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 44
 def separate_weight_decay(model:nn.Module, weight_decay: float, otherwise_set_to:float=0.0, verbose:bool=False):
     decay = list() # 不能使用 set，由于Pytorch优化器需要顺序
     no_decay = list()
@@ -218,7 +220,7 @@ def separate_weight_decay(model:nn.Module, weight_decay: float, otherwise_set_to
                 dict(params=no_decay, weight_decay=otherwise_set_to)
             ]
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 44
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 46
 @override    
 @patch
 def configure_optimizers(self:HingeSupportVectorClassifier) -> OptimizerLRScheduler:
@@ -252,12 +254,12 @@ def configure_optimizers(self:HingeSupportVectorClassifier) -> OptimizerLRSchedu
     return ([optimizer], [scheduler])
 
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 46
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 48
 from namable_classify.infra import append_dict_list, ensure_array
 from typing import Any
 import numpy as np
 
-# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 47
+# %% ../../../notebooks/coding_projects/P2_SVM/02svm_handy_crafted_linear.ipynb 49
 @patch
 def on_evaluation_epoch_start(self:HingeSupportVectorClassifier, stage:str=""):
     self.evaluation_steps_outputs = dict()

@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['plot_binary_classification_2d', 'make_meshgrid', 'plot_contours', 'try_svm_and_plot_for_binary_2d']
 
-# %% ../../notebooks/theory_assignments/A5/P_Assignment5_yecanming.ipynb 9
+# %% ../../notebooks/theory_assignments/A5/P_Assignment5_yecanming.ipynb 11
 # 创建图表，
 # 需要有网格线，
 # 需要有文本标注点的名字和坐标
@@ -55,7 +55,7 @@ def plot_binary_classification_2d(X, y, labels = [1, -1], label_names=['正例',
     ax.set_aspect('equal', adjustable='box')
     return fig, ax
 
-# %% ../../notebooks/theory_assignments/A5/P_Assignment5_yecanming.ipynb 30
+# %% ../../notebooks/theory_assignments/A5/P_Assignment5_yecanming.ipynb 34
 def make_meshgrid(x, y, h=.02):
     x_min, x_max = x.min() - 1, x.max() + 1
     y_min, y_max = y.min() - 1, y.max() + 1

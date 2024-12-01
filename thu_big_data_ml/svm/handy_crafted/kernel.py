@@ -3,11 +3,11 @@
 # %% auto 0
 __all__ = ['KernelSupportVectorClassifier']
 
-# %% ../../../notebooks/coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb 5
+# %% ../../../notebooks/coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb 6
 from ..kernel_hpo import SupportVectorClassifierConfig
 from fastcore.all import patch, store_attr
 
-# %% ../../../notebooks/coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb 6
+# %% ../../../notebooks/coding_projects/P2_SVM/04svm_handy_crafted_kernel.ipynb 7
 class KernelSupportVectorClassifier:
     """自己实现的支持向量机分类器。需要支持多分类。
     """

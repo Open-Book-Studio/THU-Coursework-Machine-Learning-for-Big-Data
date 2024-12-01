@@ -3,14 +3,16 @@
 # %% auto 0
 __all__ = ['plot_binary_classification_3d', 'calculate_gini_index_for_subset', 'calculate_gini_index']
 
-# %% ../../notebooks/theory_assignments/A6/P_Assignment6_yecanming.ipynb 12
+# %% ../../notebooks/theory_assignments/A6/P_Assignment6_yecanming.ipynb 13
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# %% ../../notebooks/theory_assignments/A6/P_Assignment6_yecanming.ipynb 14
 # 创建图表，
 # 需要有网格线，
 # 需要有文本标注点的名字和坐标
 # 坐标轴名称和正负例的图例要和李航书的一样
 # 正负例的形状不同（黑白打印的审稿人），颜色不同
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 def plot_binary_classification_3d(X, y, labels=[1, -1], label_names=['正例', '负例'],
                                   label_colors=['blue', 'red'],
@@ -61,7 +63,7 @@ def plot_binary_classification_3d(X, y, labels=[1, -1], label_names=['正例', '
     
     return fig, ax
 
-# %% ../../notebooks/theory_assignments/A6/P_Assignment6_yecanming.ipynb 18
+# %% ../../notebooks/theory_assignments/A6/P_Assignment6_yecanming.ipynb 20
 def calculate_gini_index_for_subset(df_subset):
     """
     计算给定 DataFrame 子集的 Gini 指数。

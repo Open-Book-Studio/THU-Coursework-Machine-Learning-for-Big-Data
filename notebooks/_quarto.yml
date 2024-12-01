@@ -3,10 +3,17 @@ project:
   preview:
     port: 19370
     browser: false
+  output-dir: docs
 
+execute:
+  freeze: true  # never re-render during project render
+  cache: true  # use cache to avoid re-running slow cells
+  enabled: false # avoid running ipynb
+  
 format:
   html:
-    theme: Vapor
+    # theme: vapor
+    theme: pulse
     # theme: Pulse
 
     # theme: cosmo

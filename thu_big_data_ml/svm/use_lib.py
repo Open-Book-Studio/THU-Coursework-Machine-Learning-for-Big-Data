@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = []
 
-# %% ../../notebooks/coding_projects/P2_SVM/01svm_use_lib.ipynb 5
+# %% ../../notebooks/coding_projects/P2_SVM/01svm_use_lib.ipynb 6
 from scholarly_infrastructure.logging.nucleus import logger, print
 from sklearn.datasets import load_digits, fetch_openml
 from thu_big_data_ml.svm.infra import process_sklearn_dataset_dict, compute_classification_metrics

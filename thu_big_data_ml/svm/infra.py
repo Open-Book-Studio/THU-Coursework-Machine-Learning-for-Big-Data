@@ -3,11 +3,11 @@
 # %% auto 0
 __all__ = ['ReturnType', 'sklearn_to_X_y_categories', 'make_train_val_test', 'get_torch_dataset', 'process_sklearn_dataset_dict']
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 15
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 17
 import pandas as pd
 import numpy as np
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 16
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 18
 def sklearn_to_X_y_categories(dataset_dict):
     X = dataset_dict['data']
     y = dataset_dict['target']
@@ -26,11 +26,11 @@ def sklearn_to_X_y_categories(dataset_dict):
     return X, y, categories
 
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 19
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 21
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 20
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 22
 def make_train_val_test(X, y, val_size=0.1, test_size=0.2, random_state=42, normalize=True):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, 
                                                         stratify=y)
@@ -46,21 +46,21 @@ def make_train_val_test(X, y, val_size=0.1, test_size=0.2, random_state=42, norm
     return X_train, X_val, X_test, y_train, y_val, y_test
 
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 23
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 25
 import torch
 import lightning as L
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 24
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 26
 def get_torch_dataset(X, y):
     X_tensor = torch.tensor(X, dtype=torch.float32)
     y_tensor = torch.tensor(y, dtype=torch.long)
     dataset = torch.utils.data.TensorDataset(X_tensor, y_tensor)
     return dataset
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 28
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 30
 from typing import Literal
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 29
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 31
 ReturnType = Literal['numpy', 'torch', 'lightning', 'pandas', 'all']
 
 def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
@@ -90,5 +90,5 @@ def process_sklearn_dataset_dict(dataset_dict:dict, return_type:ReturnType):
     else:
         raise ValueError(f"Invalid return_type: {return_type}")
 
-# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 34
+# %% ../../notebooks/coding_projects/P2_SVM/00svm.ipynb 36
 from namable_classify.metrics import compute_classification_metrics

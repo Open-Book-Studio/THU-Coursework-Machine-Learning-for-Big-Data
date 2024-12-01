@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn">
+
+<title>大数据机器学习课程第二次作业 – THU-Coursework-Machine-Learning-for-Big-Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../thu_logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="大数据机器学习课程第二次作业 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta property="og:description" content="这是本人学习清华大学70240403-200大数据机器学习课程的开源工作，包括对往期Assignment的实现、对Lecture的笔记与理解、对即将来的Project的实现等，欢迎各位同学一起学习一起讨论，对知识取得更好的理解。">
+<meta property="og:site_name" content="THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:title" content="大数据机器学习课程第二次作业 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:description" content="这是本人学习清华大学70240403-200大数据机器学习课程的开源工作，包括对往期Assignment的实现、对Lecture的笔记与理解、对即将来的Project的实现等，欢迎各位同学一起学习一起讨论，对知识取得更好的理解。">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">THU-Coursework-Machine-Learning-for-Big-Data</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../theory_assignments/index.html" aria-current="page"> 
+<span class="menu-text">理论作业 Theory Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding_projects/index.html"> 
+<span class="menu-text">代码项目 Coding Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.xuetangx.com/course/THU08091001026/1515437"> 
+<span class="menu-text">关于课程 Course Information</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> 
+<span class="menu-text">关于我们 About Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-discuss-with-us" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">和我们一起讨论 Discuss with Us</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-discuss-with-us">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">你的作业有地方写错了 Report an Issue on Assignments</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="http://qm.qq.com/cgi-bin/qm/qr?wv=1027&amp;k=v0Vpqbr4pScRi4IkFK3dsDUCzvu-BtX&amp;authKey=vyojwISealVovwzm6TQR7bkawm4oj6Wgbe4YBheQjRU5XOllK9pQ57eQjaG30dlq&amp;noverify=0&amp;group_code=935310031"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">X9高校人工智能技术讨论 X9 AI Tech Discussion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/2catycm"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">联系我们 Contact Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/THU-CVML"> <i class="bi bi-github" role="img" aria-label="THU-CVML 课题组">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A2/p_assignment2_yecanming.html">A2</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A2/p_assignment2_yecanming.html">大数据机器学习课程第二次作业</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">THU-Coursework-Machine-Learning-for-Big-Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../help (library information).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Library Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding_projects/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">coding_projects</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_ANOVA</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_ANOVA/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索方差分析 (Analysis of Variance, ANOVA)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_KNN</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_KNN/kd_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索KD树数据结构实现的KNN算法及其在手写数字识别中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_SVM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/00svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——00绪论</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/use_lib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——01调库实现SVM手写数字识别</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_linear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——02手动实现SGD优化的软间隔线性SVM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/kernel_hpo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——03不同Kernel的SVM超参数优化</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_kernel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——04手动实现使用SMO的Kernel SVM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">big_data_analytics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_Matrix-Decomposition</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/big_data_analytics/P2_Matrix-Decomposition/decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索基于矩阵分解和协同过滤的个性化推荐系统及其在Netflix电影推荐中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../theory_assignments/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">theory_assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">A1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A1/p_assignment1_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">从数据集中进行分布参数估计: 以伯努利分布为例</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">A2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A2/p_assignment2_yecanming.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">大数据机器学习课程第二次作业</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">A3</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A3/p_assignment3_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">朴素贝叶斯与决策树的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">A4</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A4/p_assignment4_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">最大熵模型以及对数几率分类模型的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">A5</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A5/p_assignment5_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">支持向量机的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">A6</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A6/p_assignment6_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AdaBoost算法的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">A7</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A7/p_assignment7_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Expectation–maximization 算法的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">该页面内容</h2>
+   
+  <ul>
+  <li><a href="#sec-1" id="toc-sec-1" class="nav-link active" data-scroll-target="#sec-1"><span class="header-section-number">1</span> 第一题</a>
+  <ul>
+  <li><a href="#解题" id="toc-解题" class="nav-link" data-scroll-target="#解题"><span class="header-section-number">1.1</span> 解题</a>
+  <ul class="collapse">
+  <li><a href="#感知机是什么感知机是线性模型吗" id="toc-感知机是什么感知机是线性模型吗" class="nav-link" data-scroll-target="#感知机是什么感知机是线性模型吗"><span class="header-section-number">1.1.1</span> 感知机是什么？感知机是线性模型吗？</a></li>
+  <li><a href="#异或函数是什么呢" id="toc-异或函数是什么呢" class="nav-link" data-scroll-target="#异或函数是什么呢"><span class="header-section-number">1.1.2</span> 异或函数是什么呢？</a></li>
+  <li><a href="#异或函数和分类问题的关系" id="toc-异或函数和分类问题的关系" class="nav-link" data-scroll-target="#异或函数和分类问题的关系"><span class="header-section-number">1.1.3</span> 异或函数和分类问题的关系？</a></li>
+  <li><a href="#sec-proof" id="toc-sec-proof" class="nav-link" data-scroll-target="#sec-proof"><span class="header-section-number">1.1.4</span> 验证感知机为什么不能表示异或</a></li>
+  </ul></li>
+  <li><a href="#题目扩展问题" id="toc-题目扩展问题" class="nav-link" data-scroll-target="#题目扩展问题"><span class="header-section-number">1.2</span> 题目扩展问题</a>
+  <ul class="collapse">
+  <li><a href="#异或的高级版奇偶校验问题-parity-check" id="toc-异或的高级版奇偶校验问题-parity-check" class="nav-link" data-scroll-target="#异或的高级版奇偶校验问题-parity-check"><span class="header-section-number">1.2.1</span> 异或的“高级版”：奇偶校验问题 Parity Check</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sec-2" id="toc-sec-2" class="nav-link" data-scroll-target="#sec-2"><span class="header-section-number">2</span> 第二题</a>
+  <ul>
+  <li><a href="#审题" id="toc-审题" class="nav-link" data-scroll-target="#审题"><span class="header-section-number">2.1</span> 审题</a>
+  <ul class="collapse">
+  <li><a href="#解题-1" id="toc-解题-1" class="nav-link" data-scroll-target="#解题-1"><span class="header-section-number">2.1.1</span> 解题</a></li>
+  </ul></li>
+  <li><a href="#题目扩展问题-1" id="toc-题目扩展问题-1" class="nav-link" data-scroll-target="#题目扩展问题-1"><span class="header-section-number">2.2</span> 题目扩展问题</a>
+  <ul class="collapse">
+  <li><a href="#在k1时kd树和红黑树avl树等平衡搜索树的关系是什么" id="toc-在k1时kd树和红黑树avl树等平衡搜索树的关系是什么" class="nav-link" data-scroll-target="#在k1时kd树和红黑树avl树等平衡搜索树的关系是什么"><span class="header-section-number">2.2.1</span> 在K=1时，KD树和红黑树、AVL树等平衡搜索树的关系是什么?</a></li>
+  <li><a href="#怎么证明刚才的过程就找到了最近邻点" id="toc-怎么证明刚才的过程就找到了最近邻点" class="nav-link" data-scroll-target="#怎么证明刚才的过程就找到了最近邻点"><span class="header-section-number">2.2.2</span> 怎么证明刚才的过程就找到了最近邻点？</a></li>
+  <li><a href="#刚才我们只找到了最近邻点如果需要返回q个最近邻点应该如何修改代码" id="toc-刚才我们只找到了最近邻点如果需要返回q个最近邻点应该如何修改代码" class="nav-link" data-scroll-target="#刚才我们只找到了最近邻点如果需要返回q个最近邻点应该如何修改代码"><span class="header-section-number">2.2.3</span> 刚才我们只找到了最近邻点，如果需要返回q个最近邻点，应该如何修改代码？</a></li>
+  <li><a href="#kd树构建过程搜索过程的平均算法复杂度最坏情况算法复杂度分别都是多少" id="toc-kd树构建过程搜索过程的平均算法复杂度最坏情况算法复杂度分别都是多少" class="nav-link" data-scroll-target="#kd树构建过程搜索过程的平均算法复杂度最坏情况算法复杂度分别都是多少"><span class="header-section-number">2.2.4</span> KD树构建过程、搜索过程的平均算法复杂度、最坏情况算法复杂度分别都是多少？</a></li>
+  <li><a href="#目前前沿的向量数据库中实际上做knn是用什么数据结构支持gpu加速吗" id="toc-目前前沿的向量数据库中实际上做knn是用什么数据结构支持gpu加速吗" class="nav-link" data-scroll-target="#目前前沿的向量数据库中实际上做knn是用什么数据结构支持gpu加速吗"><span class="header-section-number">2.2.5</span> 目前前沿的向量数据库中实际上做KNN是用什么数据结构？支持GPU加速吗？</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div><div class="quarto-alternate-formats"><h2>其他格式</h2><ul><li><a href="p_assignment2_yecanming.html.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A2/p_assignment2_yecanming.html">A2</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A2/p_assignment2_yecanming.html">大数据机器学习课程第二次作业</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">大数据机器学习课程第二次作业</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p>叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2024年10月8日星期二</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p><img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;"></p>
+<p>!!! important</p>
+<pre><code>本文档具有一定的交互性，建议使用浏览器打开html文件，这样比pdf文件阅读体验更佳。</code></pre>
+<section id="sec-1" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sec-1"><span class="header-section-number">1</span> 第一题</h2>
+<p>题目如下</p>
+<blockquote class="blockquote">
+<p>Minsky与Papert指出：感知机因为是线性模型，所以不能表示复杂的函数，如异或(XOR)。验证感知机为什么不能表示异或。</p>
+</blockquote>
+<p>!!! note</p>
+<pre><code>TL; DR 前面审题内容较长，学习了一些这道题的一些背景知识方便理解。
+对于题目的证明，可以直接跳到解题部分@sec-proof。</code></pre>
+<pre class="mermaid"><code>graph LR
+    A[马文-明斯基]
+    B[美国科学家]
+    C[人工智能之父]
+    D[专长于认知科学]
+    E[与麦卡锡共同发起达特茅斯会议]
+    F[提出人工智能概念]
+    G[框架理论创立者]
+    H[出生-1927年8月9日]
+    I[逝世-2016年1月24日]
+    J[西蒙-派珀特]
+    K[美国麻省理工学院终身教授]
+    L[教育信息化奠基人]
+    M[数学家-计算机科学家-心理学家-教育家]
+    N[近代人工智能领域先驱者之一]
+    O[逝世-2016年7月31日]
+
+    A---B
+    A---C
+    A---D
+    A---E
+    A---F
+    A---G
+    A---H
+    A---I
+    J---K
+    J---L
+    J---M
+    J---N
+    J---O
+
+</code></pre>
+<ul>
+<li>他们在什么时候，什么地方指出了上述观点？
+<ul>
+<li>在1969年，Minsky和Papert发表了《Perceptrons》一书，探讨了单层感知器的局限性，特别是无法解决线性不可分问题，例如异或问题。 <span class="citation" data-cites="marvin1969perceptrons">(<a href="#ref-marvin1969perceptrons" role="doc-biblioref">Marvin 和 Seymour 1969</a>)</span>。这本书从理论上否定了神经网络的研究价值，并对神经网络的发展产生了深远的影响。</li>
+</ul></li>
+</ul>
+<p>!!! note</p>
+<pre><code>Minsky和Papert的观点导致了神经网络研究进入低迷期。而实际上Minsky本人并没有看衰神经网络，只是他的书被人误解以为神经网络一无是处。实际上他写书的时候，MLP的训练算法已经出现了，但是他在书中没有提及[@人民邮电出版社_2020]。</code></pre>
+<section id="解题" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="解题"><span class="header-section-number">1.1</span> 解题</h3>
+<section id="感知机是什么感知机是线性模型吗" class="level4" data-number="1.1.1">
+<h4 data-number="1.1.1" class="anchored" data-anchor-id="感知机是什么感知机是线性模型吗"><span class="header-section-number">1.1.1</span> 感知机是什么？感知机是线性模型吗？</h4>
+<p>根据李航课本内容<span class="citation" data-cites="LiHang_2019">(<a href="#ref-LiHang_2019" role="doc-biblioref">李航 2019</a>)</span>，感知机是一种简单的线性二分类模型，由Rosenblatt在1957年提出。它的数学形式可以表示为：</p>
+<p><span id="eq-perceptron"><span class="math display">\[ f(x) = sign(w \cdot x + b)
+\tag{1}\]</span></span></p>
+<p>在 <a href="#eq-perceptron" class="quarto-xref">式&nbsp;1</a> 中，<span class="math inline">\(w\)</span> 和 <span class="math inline">\(b\)</span> 是模型参数，<span class="math inline">\(x\)</span> 是输入向量，<span class="math inline">\(sign\)</span> 是符号函数，<span class="math inline">\(f(x)\)</span> 是模型输出, f就是感知机。</p>
+<p><span class="math inline">\(f(x)\)</span> 本身当然不是一个线性函数，因为他输出的是一个决策。 我们换一个角度思考，我们有线性方程<a href="#eq-linear" class="quarto-xref">式&nbsp;2</a> <span id="eq-linear"><span class="math display">\[  w \cdot x + b =0
+\tag{2}\]</span></span> <a href="#eq-linear" class="quarto-xref">式&nbsp;2</a>表示了输入空间中的一个超平面， <span class="math inline">\(w\)</span> 和 <span class="math inline">\(b\)</span> 是该超平面的法向量和截距。 这个超平面能把输入空间划分为两部分，分为正类和负类，称为分离超平面。 线性方程表示了超平面，所以我们说感知机是线性模型。</p>
+<div id="cell-10" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Perceptron</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-11" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'default'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成线性可分的数据集</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples<span class="op">=</span><span class="dv">100</span>, centers<span class="op">=</span><span class="dv">2</span>, n_features<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用感知机模型进行学习</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> Perceptron(random_state<span class="op">=</span><span class="dv">42</span>, max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>clf.fit(X, y)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 获取感知机的权重和偏置</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> clf.coef_[<span class="dv">0</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> clf.intercept_[<span class="dv">0</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建一个3D图形来展示数据和感知机超平面</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制数据点</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[y <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], X[y <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], X[y <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">2</span>], color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Class 0'</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[y <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], X[y <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], X[y <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">2</span>], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Class 1'</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算超平面上的两个点用于绘制超平面</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(<span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">11</span>), <span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">11</span>))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>zz <span class="op">=</span> (<span class="op">-</span>b <span class="op">-</span> w[<span class="dv">0</span>] <span class="op">*</span> xx <span class="op">-</span> w[<span class="dv">1</span>] <span class="op">*</span> yy) <span class="op">/</span> w[<span class="dv">2</span>]</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制感知机超平面</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(xx, yy, zz, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置图形属性</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'X1'</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'X2'</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="st">'X3'</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="P_Assignment2_yecanming_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="异或函数是什么呢" class="level4" data-number="1.1.2">
+<h4 data-number="1.1.2" class="anchored" data-anchor-id="异或函数是什么呢"><span class="header-section-number">1.1.2</span> 异或函数是什么呢？</h4>
+<p>异或（XOR）是一个布尔函数，它返回两个输入值不同则为真（1），相同则为假（0）。 数理逻辑中分为模型论和证明论，我们从模型论的角度来说异或函数可以直接真值表表示如下：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 82%">
+<col style="width: 5%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th>XOR(A, B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="异或函数和分类问题的关系" class="level4" data-number="1.1.3">
+<h4 data-number="1.1.3" class="anchored" data-anchor-id="异或函数和分类问题的关系"><span class="header-section-number">1.1.3</span> 异或函数和分类问题的关系？</h4>
+<p>这里我们在关注感知机能不能表示异或函数。所以我们要先把异或问题广义化为二分类问题，输入的A、B两个特征，原本AB的类型是bool，现在我们扩展一下认为异或的输入AB可以是任何实数。而原本输出的0和1正好对应正例和负例，感知机的<span class="math inline">\(sign\)</span>也是输出0或者1，所以我们可以把异或问题转化为感知机的二分类问题。 其他实数上异或的结果仍然是0或者1，但是无论模型输出什么都认为是正确的就好。 我们可以可视化一下现在的异或问题</p>
+<div id="cell-13" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制异或（XOR）函数的图像</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># XOR函数的数据点</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>]])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 创建图形和轴</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制数据点</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.scatter(x[y <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">0</span>], x[y <span class="op">==</span> <span class="dv">0</span>][:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'0'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.scatter(x[y <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">0</span>], x[y <span class="op">==</span> <span class="dv">1</span>][:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'1'</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置图形属性</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'X1'</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'X2'</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'XOR Function'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 显示图形</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="P_Assignment2_yecanming_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-proof" class="level4" data-number="1.1.4">
+<h4 data-number="1.1.4" class="anchored" data-anchor-id="sec-proof"><span class="header-section-number">1.1.4</span> 验证感知机为什么不能表示异或</h4>
+<p>要验证感知机不能表示异或，我们需要证明： &gt; 不<span class="math inline">\(\exists\)</span>一个<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>, 使得<span class="math inline">\(f(x) = \text{sign}(w^Tx + b)\)</span>可以完美分离异或二分类问题的正负实例。</p>
+<p>我们可以使用反证法来证明这个结论。 假设存在权重 $ w_1, w_2 $ 和偏置 $ b $ 可以表示异或函数，那么对于异或函数的每个输入组合，感知机的输出应该满足以下条件：</p>
+<ul>
+<li>$ w_1 + w_2 + b $ （对应于点（0,0），输出应为0，sign里面的值应该小于0）</li>
+<li>$ w_1 + w_2 + b &gt; 0 $ （对应于点（0,1），输出应为+1）</li>
+<li>$ w_1 + w_2 + b &gt; 0 $ （对应于点（1,0），输出应为+1）</li>
+<li>$ w_1 + w_2 + b $ （对应于点（1,1），输出应为0）</li>
+</ul>
+<p>我们来化简一下这些不等式，我们使用sympy库来进行符号运算：</p>
+<div id="cell-15" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Latex</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-16" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义变量</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>w1, w2, b, x1, x2 <span class="op">=</span> sp.symbols(<span class="st">'w_1 w_2 b x_1 x_2'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># XOR函数的四个点</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> [(<span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 建立不等式</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>inequalities <span class="op">=</span> []</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x1_val, x2_val, y_val <span class="kw">in</span> points:</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 感知机模型: sign(w1*x1 + w2*x2 + b)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 对于每个点，根据y_val的正负建立不等式</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> y_val <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        inequalities.append(w1<span class="op">*</span>x1_val <span class="op">+</span> w2<span class="op">*</span>x2_val <span class="op">+</span> b <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        inequalities.append(w1<span class="op">*</span>x1_val <span class="op">+</span> w2<span class="op">*</span>x2_val <span class="op">+</span> b <span class="op">&lt;=</span> <span class="dv">0</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 化简不等式</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>simplified_inequalities <span class="op">=</span> [sp.simplify(ineq) <span class="cf">for</span> ineq <span class="kw">in</span> inequalities]</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># for ineq in simplified_inequalities:</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     # display(Latex(sp.latex(ineq)))</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(sp.latex(ineq))</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>simplified_inequalities</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>[b &lt;= 0, b &gt; -w_2, b &gt; -w_1, b &lt;= -w_1 - w_2]</code></pre>
+</div>
+</div>
+<p>我们进一步化简，观察b这个变量</p>
+<div id="cell-18" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>solutions <span class="op">=</span> sp.solve(simplified_inequalities, b)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>solutions</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle b \leq 0 \wedge b \leq - w_{1} - w_{2} \wedge b &gt; - w_{1} \wedge b &gt; - w_{2} \wedge -\infty &lt; b\)</span></p>
+</div>
+</div>
+<p>而由于</p>
+<div id="cell-20" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.logic.boolalg <span class="im">import</span> simplify_logic</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-21" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>therom <span class="op">=</span> (simplified_inequalities[<span class="dv">0</span>] <span class="op">&amp;</span> simplified_inequalities[<span class="dv">1</span>] <span class="op">&amp;</span> simplified_inequalities[<span class="dv">2</span>])<span class="op">&gt;&gt;</span>(<span class="op">~</span>simplified_inequalities[<span class="dv">3</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>therom</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle \left(b \leq 0 \wedge b &gt; - w_{1} \wedge b &gt; - w_{2}\right) \Rightarrow b &gt; - w_{1} - w_{2}\)</span></p>
+</div>
+</div>
+<p>与 <span class="math inline">\(b \leq -w_1-w_2\)</span> 矛盾，所以假设不成立，原命题成立，即感知机不能表示异或。</p>
+<p>注意上面的逻辑表达式需要一定的推导，直接看是不一定能发现前3式和第4式的矛盾。 1. 首先发现<span class="math inline">\(w_1, w_2 \geq 0\)</span> 2. 然后发现<span class="math inline">\(w_1+b \gt 0\)</span> 3. 所以 <span class="math inline">\(w_1+w_2+b \gt 0\)</span> 4. 所以矛盾。</p>
+<p>因为人工观察不等式其实是启发式地去找矛盾，如果我们一开始不知道异或问题表达不了，我们可能一时看不出来这个问题。 我们可以使用人工智能的一个分支——逻辑智能体（Logical Agent）来进行自动定理发现，能够在形式系统中发现矛盾。</p>
+<p>具体来说，我们要把问题转化为约束可满足问题，然后使用forward/backward chaining、DPLL等算法求解。</p>
+<p>我们先试一下sympy的satisfiable函数，看看能不能求解出这个逻辑表达式。</p>
+<div id="cell-25" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> symbols, And, Not, Implies</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.logic.boolalg <span class="im">import</span> to_cnf</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.logic.inference <span class="im">import</span> satisfiable</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-26" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 将表达式转换为 CNF</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cnf_expr <span class="op">=</span> to_cnf(And(<span class="op">*</span>[Not(x) <span class="cf">for</span> x <span class="kw">in</span> simplified_inequalities]))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 检查逻辑表达式的可满足性</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> satisfiable(cnf_expr)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)  <span class="co"># 如果表达式不可满足，输出 False</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{Q.gt(b, -w_1 - w_2): True, Q.le(b, -w_1): True, Q.le(b, -w_2): True, Q.gt(b, 0): True}</code></pre>
+</div>
+</div>
+<p>看来不行，我们换一个库<a href="https://github.com/Z3Prover/z3">Z3 Theorem Prover</a>，它由Microsoft开发，可以处理多种逻辑，包括线性不等式。</p>
+<p>首先要安装一下这个库，非常简单</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install z3-solver</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> z3 <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-29" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>set_param(proof<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ctx <span class="op">=</span> Context()</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> Solver(ctx<span class="op">=</span>ctx, logFile<span class="op">=</span><span class="st">"log_theorem_prover.txt"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>b, w_1, w_2 <span class="op">=</span> Real(<span class="st">'b'</span>, ctx<span class="op">=</span>ctx), Real(<span class="st">'w_1'</span>, ctx<span class="op">=</span>ctx), Real(<span class="st">'w_2'</span>, ctx<span class="op">=</span>ctx)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>s.add(b <span class="op">&lt;=</span> <span class="dv">0</span>)  </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>s.add(b <span class="op">&gt;</span> <span class="op">-</span>w_2)  </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>s.add(b <span class="op">&gt;</span> <span class="op">-</span>w_1)  </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>s.add(b <span class="op">&lt;=</span> <span class="op">-</span>w_1<span class="op">-</span>w_2)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> s.check()</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> result <span class="op">==</span> sat: <span class="co"># 三种可能，sat, unsat, unknown</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> s.model()</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(model[x])  <span class="co"># 打印出 x 的解</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No solution"</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>unsat
+No solution</code></pre>
+</div>
+</div>
+<div id="cell-30" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>s.proof()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+th-lemma(mp(mp(asserted(b &gt; -w_2),
+               trans(monotonicity(rewrite(-w_2 = -1·w_2),
+                                  (b &gt; -w_2) = (b &gt; -1·w_2)),
+                     rewrite((b &gt; -1·w_2) = ¬(b ≤ -1·w_2)),
+                     (b &gt; -w_2) = ¬(b ≤ -1·w_2)),
+               ¬(b ≤ -1·w_2)),
+            rewrite(¬(b ≤ -1·w_2) = ¬(b + w_2 ≤ 0)),
+            ¬(b + w_2 ≤ 0)),
+         mp(mp(asserted(b ≤ -w_1 - w_2),
+               rewrite((b ≤ -w_1 - w_2) =
+                       (b ≤ -1·w_1 + -1·w_2)),
+               b ≤ -1·w_1 + -1·w_2),
+            rewrite((b ≤ -1·w_1 + -1·w_2) =
+                    (b + w_1 + w_2 ≤ 0)),
+            b + w_1 + w_2 ≤ 0),
+         asserted(b ≤ 0),
+         mp(mp(asserted(b &gt; -w_1),
+               trans(monotonicity(rewrite(-w_1 = -1·w_1),
+                                  (b &gt; -w_1) = (b &gt; -1·w_1)),
+                     rewrite((b &gt; -1·w_1) = ¬(b ≤ -1·w_1)),
+                     (b &gt; -w_1) = ¬(b ≤ -1·w_1)),
+               ¬(b ≤ -1·w_1)),
+            rewrite(¬(b ≤ -1·w_1) = ¬(b + w_1 ≤ 0)),
+            ¬(b + w_1 ≤ 0)),
+         False)
+</div>
+</div>
+<div id="cell-31" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># s.proof()</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>s.unsat_core()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+[]
+</div>
+</div>
+<p>我们可以看到中间的过程</p>
+<div id="cell-33" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'log_theorem_prover.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    content <span class="op">=</span> f.read()</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(content)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>(declare-fun b () Real)
+(assert (&lt;= b 0.0))
+(declare-fun w_2 () Real)
+(assert (&gt; b (- w_2)))
+(declare-fun w_1 () Real)
+(assert (&gt; b (- w_1)))
+(assert (&lt;= b (- (- w_1) w_2)))
+(check-sat)
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="题目扩展问题" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="题目扩展问题"><span class="header-section-number">1.2</span> 题目扩展问题</h3>
+<section id="异或的高级版奇偶校验问题-parity-check" class="level4" data-number="1.2.1">
+<h4 data-number="1.2.1" class="anchored" data-anchor-id="异或的高级版奇偶校验问题-parity-check"><span class="header-section-number">1.2.1</span> 异或的“高级版”：奇偶校验问题 Parity Check</h4>
+<p>刚才我们只说明了2维情况下感知机有局限性，现在假如我们是当年的Minsky和Papert，我们想要说明更高维度上线性不可分函数有多重要， 而感知机无法解决，我们就能崭露头角，告诉大家神经网络不行。 那么，我们就来看看异或的“高级版”：奇偶校验 Parity Check，这个问题非常重要，比如在早期的神经架构搜索研究中会经常使用<span class="citation" data-cites="Yao_Liu_1997">(<a href="#ref-Yao_Liu_1997" role="doc-biblioref">Yao 和 Liu 1997</a>)</span>。 奇偶校验问题的定义是根据被传输的一组二进制代码中“1”的个数是奇数或偶数来进行校验的一种方法。奇偶校验问题本质上是一个非线性问题，因为它涉及到对二进制数据中“1”的个数进行奇偶判断，这超出了感知机模型的线性决策边界能力。</p>
+<p>刚才我们一个个地去看不等式推导矛盾，很低效，现在我们引入线性代数的视角去看待这个问题。 我们要说明的问题其实是， 对于 <span class="math display">\[
+Ax \leq b
+\]</span> 其中 <span class="math inline">\(A\)</span> 是一个 <span class="math inline">\(m \times n\)</span> 的矩阵，<span class="math inline">\(x\)</span> 是一个 <span class="math inline">\(n \times 1\)</span> 的向量，<span class="math inline">\(b\)</span> 是一个 <span class="math inline">\(m \times 1\)</span> 的向量。这个不等式组表示的是 <span class="math inline">\(x\)</span> 需要满足的所有线性不等式条件。 在<span class="math inline">\(A\)</span>和<span class="math inline">\(b\)</span>满足什么条件的时候不等式不可能成立，而Parity check是否满足这个条件呢？</p>
+<p>实际上，这是简单版的线性规划问题，可以使用单纯形法来求解。</p>
+</section>
+</section>
+</section>
+<section id="sec-2" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-2"><span class="header-section-number">2</span> 第二题</h2>
+<p>题目如下</p>
+<blockquote class="blockquote">
+<p>利用课本例题3.2构造的kd树求点<span class="math inline">\(x=(3,4.5)^{T}\)</span> 的最近邻点。</p>
+</blockquote>
+<section id="审题" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="审题"><span class="header-section-number">2.1</span> 审题</h3>
+<p>例题3.2的内容如下 &gt; 给定二维空间的数据集T，构造一个平衡kd树，并给出其构造过程。</p>
+<div id="cell-40" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-41" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.array([</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">5</span>, <span class="dv">4</span>],</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">9</span>, <span class="dv">6</span>],</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">4</span>, <span class="dv">7</span>],</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">8</span>, <span class="dv">1</span>],</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">7</span>, <span class="dv">2</span>],</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>T</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>array([[2, 3],
+       [5, 4],
+       [9, 6],
+       [4, 7],
+       [8, 1],
+       [7, 2]])</code></pre>
+</div>
+</div>
+<p>我们使用代码来表示一下构造的过程，并且可视化出来分界线。 首先我们要定义节点类，并且写一个验证函数，维持KD树的性质。</p>
+<div id="cell-43" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-44" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'default'</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义KD树的节点类和构建函数</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Node:</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 一个简单的二叉树</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, point:np.ndarray, <span class="co"># 点的坐标，是k维向量</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                 left:<span class="st">'Node'</span><span class="op">=</span><span class="va">None</span>, <span class="co"># 左子树</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                 right:<span class="st">'Node'</span><span class="op">=</span><span class="va">None</span>, <span class="co"># 右子树</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                 axis:<span class="bu">int</span><span class="op">=</span><span class="va">None</span> <span class="co"># 划分的轴</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                 ):</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 维持的性质：在axis这个轴上，左子树的点坐标都小于等于point，右子树的点坐标都大于等于point</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.point <span class="op">=</span> point</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.left <span class="op">=</span> left</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right <span class="op">=</span> right</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.axis <span class="op">=</span> axis</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> validate(<span class="va">self</span>):</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 检验性质：左子树的点坐标都小于等于point，右子树的点坐标都大于等于point</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.left <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> <span class="va">self</span>.left.point[<span class="va">self</span>.axis] <span class="op">&lt;=</span> <span class="va">self</span>.point[<span class="va">self</span>.axis]:</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.right <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> <span class="va">self</span>.right.point[<span class="va">self</span>.axis] <span class="op">&gt;=</span> <span class="va">self</span>.point[<span class="va">self</span>.axis]:</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>Node</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>__main__.Node</code></pre>
+</div>
+</div>
+<p>我们直接使用递归的方式来构建KD树</p>
+<div id="cell-46" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_kdtree(points, depth<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> points:</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">len</span>(points[<span class="dv">0</span>])  <span class="co"># 假设所有点都有相同的维度</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    axis <span class="op">=</span> depth <span class="op">%</span> k <span class="co"># 轮着划分轴</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    points.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x[axis])</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    median <span class="op">=</span> <span class="bu">len</span>(points) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\t</span><span class="st">"</span><span class="op">*</span>depth<span class="op">+</span><span class="ss">f"我在构建第</span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">层的KD树， 我需要处理的数据量是</span><span class="sc">{</span><span class="bu">len</span>(points)<span class="sc">}</span><span class="ss">。我对第</span><span class="sc">{</span>axis<span class="sc">}</span><span class="ss">维进行划分，在</span><span class="sc">{</span>points[median][axis]<span class="sc">}</span><span class="ss">处分割。"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    node <span class="op">=</span> Node(</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        point<span class="op">=</span>points[median],</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        left<span class="op">=</span>build_kdtree(points[:median], depth <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>        right<span class="op">=</span>build_kdtree(points[median <span class="op">+</span> <span class="dv">1</span>:], depth <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span>axis</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> node</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义可视化函数</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> draw_kdtree(ax, node, depth, min_x, max_x, min_y, max_y, more<span class="op">=</span><span class="fl">0.1</span>):</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> node <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 绘制分割线</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> node.axis <span class="op">==</span> <span class="dv">0</span>:  <span class="co"># x轴分割</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>        ax.plot([node.point[node.axis], node.point[node.axis]], [min_y, max_y], color<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.5</span> <span class="op">-</span> <span class="fl">0.1</span> <span class="op">*</span> depth)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>        draw_kdtree(ax, node.left, depth <span class="op">+</span> <span class="dv">1</span>, min_x, node.point[node.axis], min_y, max_y)</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>        draw_kdtree(ax, node.right, depth <span class="op">+</span> <span class="dv">1</span>, node.point[node.axis], max_x, min_y, max_y)</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># y轴分割</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>        ax.plot([min_x, max_x], [node.point[node.axis], node.point[node.axis]], color<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.5</span> <span class="op">-</span> <span class="fl">0.1</span> <span class="op">*</span> depth)</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>        draw_kdtree(ax, node.left, depth <span class="op">+</span> <span class="dv">1</span>, min_x, max_x, min_y, node.point[node.axis])</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>        draw_kdtree(ax, node.right, depth <span class="op">+</span> <span class="dv">1</span>, min_x, max_x, node.point[node.axis], max_y)</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 设置绘图限制</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> depth <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>        ax.set_xlim(min_x <span class="op">-</span> more, max_x <span class="op">+</span> more)</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>        ax.set_ylim(min_y <span class="op">-</span> more, max_y <span class="op">+</span> more)</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 数据准备</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> T</span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 构建KD树</span></span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> build_kdtree(points.tolist())</span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 可视化KD树</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>ax.scatter(points[:, <span class="dv">0</span>], points[:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'blue'</span>, zorder<span class="op">=</span><span class="dv">10</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制KD树的分割线</span></span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>draw_kdtree(ax, root, <span class="dv">0</span>, np.<span class="bu">min</span>(points[:, <span class="dv">0</span>]), np.<span class="bu">max</span>(points[:, <span class="dv">0</span>]), np.<span class="bu">min</span>(points[:, <span class="dv">1</span>]), np.<span class="bu">max</span>(points[:, <span class="dv">1</span>]), more <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>我在构建第0层的KD树， 我需要处理的数据量是6。我对第0维进行划分，在7处分割。
+    我在构建第1层的KD树， 我需要处理的数据量是3。我对第1维进行划分，在4处分割。
+        我在构建第2层的KD树， 我需要处理的数据量是1。我对第0维进行划分，在2处分割。
+        我在构建第2层的KD树， 我需要处理的数据量是1。我对第0维进行划分，在4处分割。
+    我在构建第1层的KD树， 我需要处理的数据量是2。我对第1维进行划分，在6处分割。
+        我在构建第2层的KD树， 我需要处理的数据量是1。我对第0维进行划分，在8处分割。</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="P_Assignment2_yecanming_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="解题-1" class="level4" data-number="2.1.1">
+<h4 data-number="2.1.1" class="anchored" data-anchor-id="解题-1"><span class="header-section-number">2.1.1</span> 解题</h4>
+<p>例题已经告诉我们KD树的建立过程，现在本题我们来学习一下KD树的搜索是怎么做的。</p>
+<div id="cell-49" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="fl">4.5</span>])</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>array([3. , 4.5])</code></pre>
+</div>
+</div>
+<div id="cell-50" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 可视化KD树</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(points[:, <span class="dv">0</span>], points[:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'blue'</span>, zorder<span class="op">=</span><span class="dv">10</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘制KD树的分割线</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>draw_kdtree(ax, root, <span class="dv">0</span>, np.<span class="bu">min</span>(points[:, <span class="dv">0</span>]), np.<span class="bu">max</span>(points[:, <span class="dv">0</span>]), np.<span class="bu">min</span>(points[:, <span class="dv">1</span>]), np.<span class="bu">max</span>(points[:, <span class="dv">1</span>]), more <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax.scatter(x[<span class="dv">0</span>], x[<span class="dv">1</span>], color<span class="op">=</span><span class="st">'red'</span>, zorder<span class="op">=</span><span class="dv">10</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>ax.text(x[<span class="dv">0</span>], x[<span class="dv">1</span>], <span class="ss">f'(</span><span class="sc">{</span>x[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">)'</span>, verticalalignment<span class="op">=</span><span class="st">'bottom'</span>, horizontalalignment<span class="op">=</span><span class="st">'right'</span>)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>Text(3.0, 4.5, '(3.0, 4.5)')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="P_Assignment2_yecanming_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>李航书上的KD树的搜索算法我理解如下：</p>
+<ul>
+<li>首先我们肯定能快速找到目标点所在的最小超矩形区域。这一步就是二叉搜索树，我们按照axis去分割。</li>
+<li>刚才那个区域的那个点认为是目前最近的点。</li>
+<li>我们再考虑那个点的父节点，这个父节点有两个子树，一个是刚才的刚才的目前最近点。
+<ul>
+<li>这个父节点和当前最近点可以比较，如果更近可以替代掉。</li>
+<li>检查另一个子树的时候很复杂，需要看球是否相交。</li>
+</ul></li>
+</ul>
+<p>实际上我们有更好理解的思路，书上讲了球的相交非常复杂，实际上没那么难。</p>
+<ul>
+<li>我们本来的目标是遍历整个树，找到所有点里面和目标点最小的。</li>
+<li>现在我们本来可以从root开始递归所有节点，通过先序遍历之类的方法来找到所有点。</li>
+<li>然后我们就发现，左子树和右子树，有一个子树整体来说是更加有希望的，那就是被划分点划分到左边还是右边。</li>
+<li>所以我们优先考虑被搜索点被划分的那个子树，然后再考虑另一个子树。</li>
+<li>父树的最短距离就是左子树的最短距离和右子树的最短距离的最小值。如果我们发现第一次查看的子树的最短距离已经比当前坐标轴上的最短距离要小，我们偶尔就可以跳过这个子树，从而提高效率。</li>
+</ul>
+<p>这个思路和书上的是等价的。 我们据此写Python代码</p>
+<div id="cell-52" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义最近邻点搜索函数</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_nearest_neighbor(node, point, depth<span class="op">=</span><span class="dv">0</span>, best<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> node <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> best</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 初始化最佳点</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> best <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        best <span class="op">=</span> node.point, <span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 计算当前点到查询点的距离</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    dist <span class="op">=</span> np.linalg.norm(np.array(point) <span class="op">-</span> np.array(node.point))</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dist <span class="op">&lt;</span> best[<span class="dv">1</span>]:</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        best <span class="op">=</span> (node.point, dist)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 确定分割轴</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    axis <span class="op">=</span> depth <span class="op">%</span> <span class="dv">2</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    log <span class="op">=</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span><span class="op">*</span>depth<span class="op">+</span><span class="ss">f"我在第</span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">层，我现在在</span><span class="sc">{</span>node<span class="sc">.</span>point<span class="sc">}</span><span class="ss">，对比我现在的位置之后，我目前发现最好的点是</span><span class="sc">{</span>best[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">，距离是</span><span class="sc">{</span>best[<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">。"</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 沿着正确的子树进行搜索</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    next_branch <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>    opposite_branch <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> point[axis] <span class="op">&lt;</span> node.point[axis]:</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>        next_branch <span class="op">=</span> node.left</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>        opposite_branch <span class="op">=</span> node.right</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        log <span class="op">+=</span> <span class="ss">f"我觉得左子树更有希望, 因为在</span><span class="sc">{</span>axis<span class="sc">}</span><span class="ss">维度上，我们被划分到左边了。"</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>        next_branch <span class="op">=</span> node.right</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        opposite_branch <span class="op">=</span> node.left</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>        log <span class="op">+=</span> <span class="ss">f"我觉得右子树更有希望, 因为在</span><span class="sc">{</span>axis<span class="sc">}</span><span class="ss">维度上，我们被划分到右边了。"</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(log)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 递归搜索</span></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>    best <span class="op">=</span> find_nearest_neighbor(next_branch, point, depth <span class="op">+</span> <span class="dv">1</span>, best)</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\t</span><span class="st">"</span><span class="op">*</span>depth<span class="op">+</span><span class="ss">f"我在第</span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">层，我现在在</span><span class="sc">{</span>node<span class="sc">.</span>point<span class="sc">}</span><span class="ss">，对比第一个子树之后，我目前发现最好的点是</span><span class="sc">{</span>best[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">，距离是</span><span class="sc">{</span>best[<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 如果分割线与查询点的距离小于最佳距离，则搜索另一边的子树</span></span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(point[axis] <span class="op">-</span> node.point[axis]) <span class="op">&lt;</span> best[<span class="dv">1</span>]:</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>        best <span class="op">=</span> find_nearest_neighbor(opposite_branch, point, depth <span class="op">+</span> <span class="dv">1</span>, best)</span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="ch">\t</span><span class="st">"</span><span class="op">*</span>depth<span class="op">+</span><span class="ss">f"我在第</span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">层，我现在在</span><span class="sc">{</span>node<span class="sc">.</span>point<span class="sc">}</span><span class="ss">，对比第二个子树之后，我目前发现最好的点是</span><span class="sc">{</span>best[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">，距离是</span><span class="sc">{</span>best[<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"另一边的子树在现在这个维度</span><span class="sc">{</span>axis<span class="sc">}</span><span class="ss">上的距离</span><span class="sc">{</span><span class="bu">abs</span>(point[axis] <span class="op">-</span> node.point[axis])<span class="sc">}</span><span class="ss">大于最佳距离</span><span class="sc">{</span>best[<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">，我不用继续搜索。"</span>)</span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best</span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 找到点 (3, 4.5) 的最近邻点</span></span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>input_point <span class="op">=</span> [<span class="dv">3</span>, <span class="fl">4.5</span>]</span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>nearest_point, distance <span class="op">=</span> find_nearest_neighbor(root, input_point)</span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a>nearest_point</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>我在第0层，我现在在[7, 2]，对比我现在的位置之后，我目前发现最好的点是[7, 2]，距离是4.72。我觉得左子树更有希望, 因为在0维度上，我们被划分到左边了。
+    我在第1层，我现在在[5, 4]，对比我现在的位置之后，我目前发现最好的点是[5, 4]，距离是2.06。我觉得右子树更有希望, 因为在1维度上，我们被划分到右边了。
+        我在第2层，我现在在[4, 7]，对比我现在的位置之后，我目前发现最好的点是[5, 4]，距离是2.06。我觉得左子树更有希望, 因为在0维度上，我们被划分到左边了。
+        我在第2层，我现在在[4, 7]，对比第一个子树之后，我目前发现最好的点是[5, 4]，距离是2.06
+        我在第2层，我现在在[4, 7]，对比第二个子树之后，我目前发现最好的点是[5, 4]，距离是2.06
+    我在第1层，我现在在[5, 4]，对比第一个子树之后，我目前发现最好的点是[5, 4]，距离是2.06
+        我在第2层，我现在在[2, 3]，对比我现在的位置之后，我目前发现最好的点是[2, 3]，距离是1.80。我觉得右子树更有希望, 因为在0维度上，我们被划分到右边了。
+        我在第2层，我现在在[2, 3]，对比第一个子树之后，我目前发现最好的点是[2, 3]，距离是1.80
+        我在第2层，我现在在[2, 3]，对比第二个子树之后，我目前发现最好的点是[2, 3]，距离是1.80
+    我在第1层，我现在在[5, 4]，对比第二个子树之后，我目前发现最好的点是[2, 3]，距离是1.80
+我在第0层，我现在在[7, 2]，对比第一个子树之后，我目前发现最好的点是[2, 3]，距离是1.80
+另一边的子树在现在这个维度0上的距离4大于最佳距离1.80，我不用继续搜索。</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>[2, 3]</code></pre>
+</div>
+</div>
+<p>上述算法的流程图如下：</p>
+<pre class="mermaid"><code>graph TD
+    A[开始] --&gt; B[检查node是否为None]
+    B --&gt;|是| C[返回best]
+    B --&gt;|否| D[初始化best]
+    D --&gt; E[计算dist]
+    E --&gt; F[更新best]
+    F --&gt; G[确定分割轴axis]
+    G --&gt; H[判断搜索方向]
+    H --&gt;|左子树| I[递归搜索左子树]
+    H --&gt;|右子树| J[递归搜索右子树]
+    I --&gt; K[检查是否需要搜索另一边子树]
+    J --&gt; K
+    K --&gt;|需要| L[递归搜索另一边子树]
+    K --&gt;|不需要| M[结束递归]
+    L --&gt; M
+    M --&gt; N[返回best]
+    N --&gt; C
+
+    style A fill:#bbf,stroke:#f66,stroke-width:2px
+    style C fill:#bbf,stroke:#f66,stroke-width:2px
+    style N fill:#bbf,stroke:#f66,stroke-width:2px
+</code></pre>
+</section>
+</section>
+<section id="题目扩展问题-1" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="题目扩展问题-1"><span class="header-section-number">2.2</span> 题目扩展问题</h3>
+<section id="在k1时kd树和红黑树avl树等平衡搜索树的关系是什么" class="level4" data-number="2.2.1">
+<h4 data-number="2.2.1" class="anchored" data-anchor-id="在k1时kd树和红黑树avl树等平衡搜索树的关系是什么"><span class="header-section-number">2.2.1</span> 在K=1时，KD树和红黑树、AVL树等平衡搜索树的关系是什么?</h4>
+<p>关系在于KD树没有考虑新增加节点的算法复杂度，每次新增加节点都要重新构造。 KD树建树的时候直接算中位数，强行平衡。</p>
+</section>
+<section id="怎么证明刚才的过程就找到了最近邻点" class="level4" data-number="2.2.2">
+<h4 data-number="2.2.2" class="anchored" data-anchor-id="怎么证明刚才的过程就找到了最近邻点"><span class="header-section-number">2.2.2</span> 怎么证明刚才的过程就找到了最近邻点？</h4>
+</section>
+<section id="刚才我们只找到了最近邻点如果需要返回q个最近邻点应该如何修改代码" class="level4" data-number="2.2.3">
+<h4 data-number="2.2.3" class="anchored" data-anchor-id="刚才我们只找到了最近邻点如果需要返回q个最近邻点应该如何修改代码"><span class="header-section-number">2.2.3</span> 刚才我们只找到了最近邻点，如果需要返回q个最近邻点，应该如何修改代码？</h4>
+</section>
+<section id="kd树构建过程搜索过程的平均算法复杂度最坏情况算法复杂度分别都是多少" class="level4" data-number="2.2.4">
+<h4 data-number="2.2.4" class="anchored" data-anchor-id="kd树构建过程搜索过程的平均算法复杂度最坏情况算法复杂度分别都是多少"><span class="header-section-number">2.2.4</span> KD树构建过程、搜索过程的平均算法复杂度、最坏情况算法复杂度分别都是多少？</h4>
+<p>平均复杂度 搜索是O(logN)， N是点的数量<span class="citation" data-cites="LiHang_2019">(<a href="#ref-LiHang_2019" role="doc-biblioref">李航 2019</a>)</span>。</p>
+</section>
+<section id="目前前沿的向量数据库中实际上做knn是用什么数据结构支持gpu加速吗" class="level4" data-number="2.2.5">
+<h4 data-number="2.2.5" class="anchored" data-anchor-id="目前前沿的向量数据库中实际上做knn是用什么数据结构支持gpu加速吗"><span class="header-section-number">2.2.5</span> 目前前沿的向量数据库中实际上做KNN是用什么数据结构？支持GPU加速吗？</h4>
+<p>目前前沿的向量数据库中，实际上做KNN（K-Nearest Neighbor，最近邻搜索）通常使用的数据结构除了KD-Tree，还有HNSW（Hierarchical Navigable Small World） 以及 Ball Tree、 FLANN、局部敏感哈希（LSH）。</p>
+<p>NVIDIA cuVS库用于GPU加速的向量搜索和聚类，使用CAGRA（CUDA-Accelerated Graph Index for Vector Retrieval）技术。</p>
+
+
+
+</section>
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">参考文献</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-marvin1969perceptrons" class="csl-entry" role="listitem">
+Marvin, Minsky, 和 A Papert Seymour. 1969. <span>《Perceptrons》</span>. <em>Cambridge, MA: MIT Press</em> 6 (318-362): 7.
+</div>
+<div id="ref-Yao_Liu_1997" class="csl-entry" role="listitem">
+Yao, X., 和 Y. Liu. 1997. <span>《A new evolutionary system for evolving artificial neural networks》</span>. <em>IEEE Transactions on Neural Networks</em> 8 (3): 694–713. <a href="https://doi.org/10.1109/72.572107">https://doi.org/10.1109/72.572107</a>.
+</div>
+<div id="ref-LiHang_2019" class="csl-entry" role="listitem">
+李航. 2019. <em>统计学习方法 (第2版)</em>. &lt;a href="https://book.douban.com/press/2562"&gt;清华大学出版社&lt;/a&gt; &lt;br&gt; &lt;span class="pl"&gt;出版年:&lt;/span&gt; 2019-5. <a href="https://book.douban.com/subject/33437381/">https://book.douban.com/subject/33437381/</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Open-Book-Studio\.github\.io\/THU-Coursework-Machine-Learning-for-Big-Data");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div></div></div></footer></body></html>

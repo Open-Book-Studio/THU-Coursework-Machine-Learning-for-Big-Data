@@ -1,5 +1,5 @@
 project:
-  output-dir: _docs
+  output-dir: docs
 
 website:
   title: "THU-Coursework-Machine-Learning-for-Big-Data"

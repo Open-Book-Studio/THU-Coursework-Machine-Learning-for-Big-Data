@@ -4,7 +4,7 @@
 __all__ = ['search_space', 'verbose', 'Node', 'build_kd_tree', 'euclidean_distance', 'search_kd_tree', 'knn_classifier',
            'evaluate_knn', 'objective', 'regplot', 'fast_build_kd_tree', 'fast_search_kd_tree', 'FastKDTree']
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 16
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 21
 # 定义KD树节点类
 class Node:
     def __init__(self, data, left=None, right=None):
@@ -27,10 +27,10 @@ def build_kd_tree(X, depth=0):
 def euclidean_distance(x1, x2):
     return np.sqrt(np.sum((x1 - x2) ** 2))
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 17
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 22
 from queue import PriorityQueue
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 19
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 24
 # 搜索KD树
 def search_kd_tree(tree, target, k=3):
     if tree is None:
@@ -109,9 +109,11 @@ def knn_classifier(X_train, y_train, X_test, k=3):
     return y_pred
 
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 30
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 36
 from sklearn.metrics.pairwise import distance_metrics
 from ray import train, tune
+
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 37
 # https://docs.ray.io/en/latest/tune/tutorials/tune-search-spaces.html
 search_space = dict(
     # weights = tune.grid_search(["uniform", "distance"]) 
@@ -121,11 +123,13 @@ search_space = dict(
     ,distance_metric = tune.choice([k for k in distance_metrics().keys() if k not in ['precomputed', 'haversine']]) # grid_search 是要求必须遍历的，而choice是随机选择。
 )
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 33
-# from sklearn.model_selection import cross_val_score
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 40
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
-def evaluate_knn(weights:str, n_neighbors:int, distance_metric:str, random_seed:int = 42):
+
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 41
+# from sklearn.model_selection import cross_val_score
+def evaluate_knn(X_train, weights:str, n_neighbors:int, distance_metric:str, random_seed:int = 42):
     knn = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, metric=distance_metric)
 
     # 使用k fold交叉验证，相当于做了5次独立实验。
@@ -153,19 +157,17 @@ def evaluate_knn(weights:str, n_neighbors:int, distance_metric:str, random_seed:
         score = accuracy_score(y_test_fold, y_pred)
         scores.append(score)
     return scores
-# 测试下函数能不能跑
-evaluate_knn(random_seed=43, weights='uniform', n_neighbors=5, distance_metric='euclidean')
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 34
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 43
 # 符合optuna接口
 def objective(meta_parameters):
-    scores = evaluate_knn(**meta_parameters)
+    scores = evaluate_knn(X_train, **meta_parameters)
     return dict(
         mean_score=sum(scores)/len(scores),
         std_score=np.std(scores),
                 )|{f"score_{i}":score for i,score in enumerate(scores)}
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 61
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 72
 # 为了解决seaborn开发者不愿意支持用户看到拟合曲线参数的问题，我们查找到了下面的解决方案
 # 本代码参考 https://stackoverflow.com/questions/22852244/how-to-get-the-numerical-fitting-results-when-plotting-a-regression-in-seaborn
 def regplot(
@@ -197,10 +199,10 @@ def regplot(
     intercept = yhat[0] - slope * grid[0]
     return slope, intercept
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 72
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 83
 from typing import Callable
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 73
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 84
 verbose = False
 def fast_build_kd_tree(X, axis_order_list:list, strategy = "median", depth=0):
     if len(X) == 0:
@@ -235,10 +237,10 @@ def fast_build_kd_tree(X, axis_order_list:list, strategy = "median", depth=0):
         return Node(data=X[closest_point_to_middle], left=fast_build_kd_tree(left_points, axis_order_list,strategy, depth + 1), right=fast_build_kd_tree(right_points, axis_order_list, strategy, depth + 1))
     
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 74
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 85
 from queue import PriorityQueue
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 75
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 86
 def fast_search_kd_tree(tree, target, axis_order_list:list, k=3):
     if tree is None:
         return []
@@ -306,7 +308,7 @@ def fast_search_kd_tree(tree, target, axis_order_list:list, k=3):
     # return [data for _, data in k_nearest] #返回遍历完的kd树后的k_nearest
     return [k_nearest_pq.get()[-1].data for i in range(k_nearest_pq.qsize())] #返回遍历完的kd树后的k_nearest
 
-# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 76
+# %% ../notebooks/coding_projects/P1_KNN/kd_tree.ipynb 87
 # 由于我们需要记录axis_order， 所以要写成类
 class FastKDTree:
     def __init__(self, X, split_value_strategy='median', axis_order_strategy='range') -> None:

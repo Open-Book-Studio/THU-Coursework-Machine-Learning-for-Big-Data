@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn">
+
+<title>从数据集中进行分布参数估计: 以伯努利分布为例 – THU-Coursework-Machine-Learning-for-Big-Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../thu_logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="从数据集中进行分布参数估计: 以伯努利分布为例 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta property="og:description" content="大数据机器学习课程第一次作业">
+<meta property="og:site_name" content="THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:title" content="从数据集中进行分布参数估计: 以伯努利分布为例 – THU-Coursework-Machine-Learning-for-Big-Data">
+<meta name="twitter:description" content="大数据机器学习课程第一次作业">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">THU-Coursework-Machine-Learning-for-Big-Data</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../theory_assignments/index.html" aria-current="page"> 
+<span class="menu-text">理论作业 Theory Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding_projects/index.html"> 
+<span class="menu-text">代码项目 Coding Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.xuetangx.com/course/THU08091001026/1515437"> 
+<span class="menu-text">关于课程 Course Information</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> 
+<span class="menu-text">关于我们 About Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-discuss-with-us" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">和我们一起讨论 Discuss with Us</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-discuss-with-us">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">你的作业有地方写错了 Report an Issue on Assignments</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="http://qm.qq.com/cgi-bin/qm/qr?wv=1027&amp;k=v0Vpqbr4pScRi4IkFK3dsDUCzvu-BtX&amp;authKey=vyojwISealVovwzm6TQR7bkawm4oj6Wgbe4YBheQjRU5XOllK9pQ57eQjaG30dlq&amp;noverify=0&amp;group_code=935310031"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">X9高校人工智能技术讨论 X9 AI Tech Discussion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/2catycm"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">联系我们 Contact Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Open-Book-Studio"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/THU-CVML"> <i class="bi bi-github" role="img" aria-label="THU-CVML 课题组">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A1/p_assignment1_yecanming.html">A1</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A1/p_assignment1_yecanming.html">从数据集中进行分布参数估计: 以伯努利分布为例</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">THU-Coursework-Machine-Learning-for-Big-Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../help (library information).html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Library Information</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding_projects/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">coding_projects</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_ANOVA</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_ANOVA/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索方差分析 (Analysis of Variance, ANOVA)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">P1_KNN</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P1_KNN/kd_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索KD树数据结构实现的KNN算法及其在手写数字识别中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_SVM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/00svm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——00绪论</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/use_lib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——01调库实现SVM手写数字识别</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_linear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——02手动实现SGD优化的软间隔线性SVM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/kernel_hpo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——03不同Kernel的SVM超参数优化</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/P2_SVM/handy_crafted_kernel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">更高效的支持向量机算法实现及其在手写数字识别中的应用——04手动实现使用SMO的Kernel SVM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">big_data_analytics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">P2_Matrix-Decomposition</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding_projects/big_data_analytics/P2_Matrix-Decomposition/decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">深入探索基于矩阵分解和协同过滤的个性化推荐系统及其在Netflix电影推荐中的应用</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../theory_assignments/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">theory_assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">A1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A1/p_assignment1_yecanming.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">从数据集中进行分布参数估计: 以伯努利分布为例</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">A2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A2/p_assignment2_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">大数据机器学习课程第二次作业</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">A3</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A3/p_assignment3_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">朴素贝叶斯与决策树的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">A4</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A4/p_assignment4_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">最大熵模型以及对数几率分类模型的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">A5</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A5/p_assignment5_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">支持向量机的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">A6</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A6/p_assignment6_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AdaBoost算法的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">A7</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theory_assignments/A7/p_assignment7_yecanming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Expectation–maximization 算法的深入理解</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">该页面内容</h2>
+   
+  <ul>
+  <li><a href="#第一题" id="toc-第一题" class="nav-link active" data-scroll-target="#第一题">第一题</a>
+  <ul>
+  <li><a href="#审题" id="toc-审题" class="nav-link" data-scroll-target="#审题">审题</a></li>
+  <li><a href="#解题" id="toc-解题" class="nav-link" data-scroll-target="#解题">解题</a>
+  <ul class="collapse">
+  <li><a href="#伯努利模型的极大似然估计" id="toc-伯努利模型的极大似然估计" class="nav-link" data-scroll-target="#伯努利模型的极大似然估计">1. 伯努利模型的极大似然估计</a></li>
+  <li><a href="#伯努利模型的贝叶斯估计" id="toc-伯努利模型的贝叶斯估计" class="nav-link" data-scroll-target="#伯努利模型的贝叶斯估计">2. 伯努利模型的贝叶斯估计</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#第二题" id="toc-第二题" class="nav-link" data-scroll-target="#第二题">第二题</a>
+  <ul>
+  <li><a href="#审题-1" id="toc-审题-1" class="nav-link" data-scroll-target="#审题-1">审题</a></li>
+  <li><a href="#解题-1" id="toc-解题-1" class="nav-link" data-scroll-target="#解题-1">解题</a></li>
+  </ul></li>
+  <li><a href="#附加题" id="toc-附加题" class="nav-link" data-scroll-target="#附加题">附加题</a>
+  <ul>
+  <li><a href="#审题-2" id="toc-审题-2" class="nav-link" data-scroll-target="#审题-2">审题</a></li>
+  <li><a href="#解题-2" id="toc-解题-2" class="nav-link" data-scroll-target="#解题-2">解题</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div><div class="quarto-alternate-formats"><h2>其他格式</h2><ul><li><a href="p_assignment1_yecanming.html.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../theory_assignments/index.html">theory_assignments</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A1/p_assignment1_yecanming.html">A1</a></li><li class="breadcrumb-item"><a href="../../theory_assignments/A1/p_assignment1_yecanming.html">从数据集中进行分布参数估计: 以伯努利分布为例</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">从数据集中进行分布参数估计: 以伯努利分布为例</h1>
+<p class="subtitle lead">大数据机器学习课程第一次作业</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p>叶璨铭 (2024214500) ycm24@mails.tsinghua.edu.cn </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2024年10月20日星期日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p><img src="../../thu_sigs_logo.png" alt="清华深研院-横" style="zoom:50%;"></p>
+<section id="第一题" class="level2">
+<h2 class="anchored" data-anchor-id="第一题">第一题</h2>
+<p>题目如下</p>
+<blockquote class="blockquote">
+<p>说明伯努利模型的极大似然估计以及贝叶斯估计中的统计学习方法三要素。伯努利模型是定义在取值为0与1的随机变量上的概率分布。假设观测到伯努利模型n次独立的数据生成结果，其中k次的结果为1，这时可以用极大似然估计或贝叶斯估计来估计结果为1的概率。</p>
+</blockquote>
+<section id="审题" class="level3">
+<h3 class="anchored" data-anchor-id="审题">审题</h3>
+<ul>
+<li>题目出处？（题目中的概念是哪一本书的定义？）
+<ul>
+<li>李航《统计学习方法》</li>
+</ul></li>
+<li>李航对于“模型”的定义是什么？
+<ul>
+<li>见下一个疑问</li>
+</ul></li>
+<li>李航的书里是怎么定义“统计学习方法三要素”的？
+<ul>
+<li>方法=模型+策略+算法</li>
+<li>模型 model
+<ul>
+<li>书上定义：所要学习的<strong>条件概率分布</strong>或者<strong>决策函数</strong>；需要给出一个假设空间来包括所有可能的这个分布或者函数。</li>
+<li>相当于定义了输入输出，定义搜索的空间</li>
+<li>这一道题中“伯努利模型”意思是这个模型要学习的就是一个不知道参数的伯努利分布</li>
+</ul></li>
+<li>策略 strategy
+<ul>
+<li>书上定义：按照什么样的准则从假设空间中学习或者选择最优的模型。损失函数度量一次预测的好坏，风险函数度量平均意义下的好坏。</li>
+<li>相当于定义了“How to measure?”</li>
+<li>风险函数是联合分布下期望的损失函数值</li>
+</ul></li>
+<li>算法 algorithm
+<ul>
+<li>书上定义：根据策略，通过计算方法求解最优模型，通过不同的最优化算法，比如解析解或者数值计算。</li>
+<li>相当于定义了How to search/Optimize“</li>
+</ul></li>
+</ul></li>
+<li>伯努利分布 <em>Bernoulli distribution</em> 复习
+<ul>
+<li>=两点分布=0-1分布</li>
+<li>伯努利试验：单次实验的结果或1或0；与泊松实验不同</li>
+</ul></li>
+</ul>
+</section>
+<section id="解题" class="level3">
+<h3 class="anchored" data-anchor-id="解题">解题</h3>
+<section id="伯努利模型的极大似然估计" class="level4">
+<h4 class="anchored" data-anchor-id="伯努利模型的极大似然估计">1. 伯努利模型的极大似然估计</h4>
+<section id="三要素的识别" class="level5">
+<h5 class="anchored" data-anchor-id="三要素的识别">1.1 三要素的识别</h5>
+<ul>
+<li><p>模型</p>
+<ul>
+<li>所要学习的分布：<span class="math inline">\(X\sim Bern(p)\)</span>
+<ul>
+<li>P(X=1) = p, P(X=0) = 1-p</li>
+<li>统一一下形式: <span class="math inline">\(P(x) = p^x(1-p)^{(1-x)}\)</span>， <span class="math inline">\(x\in\set{0, 1}\)</span>
+<ul>
+<li>注：如果p=1或者0，这个式子定义不良，我们需要补充规定<span class="math inline">\(0^0=1\)</span>。</li>
+</ul></li>
+</ul></li>
+<li>参数空间: <span class="math inline">\(p\in[0, 1]\)</span></li>
+<li>假设空间：<span class="math inline">\(\mathcal{F}=\{P_p|P_p(x)=p^x(1-p)^{(1-x)}, p\in [0, 1]\}\)</span>
+<ul>
+<li>注：李航书16页中的集合表示是错误的
+<ul>
+<li>如果按照李航书中的表示，这里我们会写成<span class="math inline">\(\mathcal{F}=\{P|P_p(x)=p^x(1-p)^{(1-x)}, p\in [0, 1]\}\)</span></li>
+<li>然而，这个集合只有一个元素“P”，P是固定的单一函数（是关于p和x的二元函数），形式已经完全确定了（就是上面的伯努利分布的形式）。</li>
+<li>只有一个元素自然不能表示“所有可能的条件概率分布或决策函数”，我们必须用<span class="math inline">\(P_p\)</span>写在左边，右边指出了p具有取值范围，这才正确地用集合表示法获得了所有分布的一个集合。</li>
+</ul></li>
+</ul></li>
+<li>注：这里条件概率分布没有条件（或者说条件为空），因为我们是在做density estimation</li>
+</ul></li>
+<li><p>策略</p>
+<ul>
+<li>策略是说，给定一个猜测的参数p，还有观测数据<span class="math inline">\(x_{1:n}\)</span>，可以评价p猜测的是否合理。</li>
+<li>最大似然估计用似然概率的大小来评价</li>
+<li>似然概率是指，给定p之后，观测数据出现的概率</li>
+<li><span class="math inline">\(Like(p) = P(x_{1:n} | p)\)</span>， 由于数据i.i.d.,</li>
+<li><span class="math inline">\(Like(p) =\prod_{i=1}^n P(x_i|p) = \prod_{i=1}^n p^{x_i}(1-p)^{(1-x_i)}\)</span></li>
+<li>题目中，没有告诉我们每个<span class="math inline">\(x_i\)</span>是多少，只是告诉我们<span class="math inline">\(\sum_{i=1}^{n}x_i = k\)</span></li>
+<li>不过这个也足够我们化简上式为<span class="math inline">\(Like(p) = p^{k}(1-p)^{(n-k)}\)</span></li>
+<li>注：<span class="math inline">\(\binom{n}{k}p^k(1-p)^{(n-k)}\)</span>是典型的错误答案，虽然不影响求解的结果
+<ul>
+<li>。错误答案中的概率表示做n次伯努利实验得到k次正例的所有情况</li>
+<li>但是本题中我们只进行了一次“n次伯努利实验”，有具体的实验结果<span class="math inline">\(x_{1:n}\)</span>， 不是进行了多次”n次伯努利实验”然后统计<span class="math inline">\(k_{1:m}\)</span>，是其中具体的一次情况。</li>
+<li>那样的话我们的模型就变成了二项分布，而不是本题的伯努利分布模型。</li>
+</ul></li>
+</ul></li>
+<li><p>算法</p>
+<ul>
+<li>极大似然估计的算法就是找到<span class="math inline">\(p\)</span>让似然概率最大化。</li>
+<li><span class="math inline">\(\displaystyle \mathop{\arg\max}_{p} Like(p)= p^{k}(1-p)^{(n-k)}\)</span></li>
+<li>对于本模型可以获得解析解，具体1.2所示。</li>
+</ul></li>
+</ul>
+</section>
+<section id="具体的求解" class="level5">
+<h5 class="anchored" data-anchor-id="具体的求解">1.2 具体的求解</h5>
+<p>求函数<span class="math inline">\(Like(p)\)</span>的最小值，首先显然<span class="math inline">\(Like(p)\)</span>是连续可导的，所以最小值一定在critical point或者边缘0, 1上。</p>
+<p><span class="math inline">\(Like^\prime(p)= kp^{k-1}(1-p)^{(n-k)}-(n-k)p^k(1-p)^{(n-k-1)}\)</span></p>
+<p>我们还可以学习一下python的sympy库辅助我们求导，防止人工求导抄错了</p>
+<div id="cell-6" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> <span class="op">*</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-7" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p, n, k <span class="op">=</span> symbols(<span class="st">'p n k'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>like <span class="op">=</span> p<span class="op">**</span>k <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>p)<span class="op">**</span>(n<span class="op">-</span>k)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>like_prime <span class="op">=</span> diff(like, p)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>like_prime</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle \frac{k p^{k} \left(1 - p\right)^{- k + n}}{p} + \frac{p^{k} \left(1 - p\right)^{- k + n} \left(k - n\right)}{1 - p}\)</span></p>
+</div>
+</div>
+<p>令<span class="math inline">\(Like^{\prime}(p) = 0\)</span> 。这些p称为critical point，这些点可能是极值点可能不是。</p>
+<p><span class="math inline">\(kp^{k-1}(1-p)^{(n-k)}=(n-k)p^k(1-p)^{(n-k-1)}\)</span></p>
+<p><span class="math inline">\(k(1-p) = (n-k)p\)</span></p>
+<p><span class="math inline">\(k-kp = (n-k)p\)</span></p>
+<p><span class="math inline">\(k = np\)</span></p>
+<p><span class="math inline">\(p=\frac{n}{k}\)</span> 为唯一解</p>
+<p>同样的，我们可以用Python做验证</p>
+<div id="cell-10" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> Eq(like_prime, <span class="dv">0</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>solutions:<span class="bu">list</span> <span class="op">=</span> solve(eq, p) </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(solutions)<span class="op">!=</span><span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>po <span class="op">=</span> solutions[<span class="dv">0</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>po</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle \frac{k}{n}\)</span></p>
+</div>
+</div>
+<p>代入并且比较Like(0), Like(1)和Like(p)， 发现<span class="math inline">\(Like(p)\ge Like(1)\and Like(p)\ge Like(0)\)</span>，所以<span class="math inline">\(Like(p)\)</span>就是最小值（之一，如果n=k或者k=0）。</p>
+<p>此时，<span class="math inline">\(Like(p) = \left(\frac{k}{n}\right)^{k} \left(\frac{- k + n}{n}\right)^{- k + n}\)</span></p>
+<p>Python可以代入p为求解出来的p，得到上面的表达式。</p>
+<div id="cell-13" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>like_po <span class="op">=</span> like.subs(p, po)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>like_po</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle \left(\frac{k}{n}\right)^{k} \left(- \frac{k}{n} + 1\right)^{- k + n}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="伯努利模型的贝叶斯估计" class="level4">
+<h4 class="anchored" data-anchor-id="伯努利模型的贝叶斯估计">2. 伯努利模型的贝叶斯估计</h4>
+<p>注：在PRML书中，贝叶斯估计也叫做Maximum a Posterior(MAP, 极大后验估计)</p>
+<section id="三要素的识别-1" class="level5">
+<h5 class="anchored" data-anchor-id="三要素的识别-1">2.1 三要素的识别</h5>
+<ul>
+<li>模型
+<ul>
+<li>与上文1.1一致，都是伯努利模型，不再赘述。</li>
+</ul></li>
+<li>策略
+<ul>
+<li>策略是说，给定一个猜测的参数p，还有观测数据<span class="math inline">\(x_{1:n}\)</span>，可以评价p猜测的是否合理。</li>
+<li>最大似然估计用p的似然概率（实际上是观测数据的出现概率）来估计，而贝叶斯估计用p的后验概率来估计。</li>
+<li>后验概率是<span class="math inline">\(P(p|x_{1:n})\)</span>, 根据贝叶斯公式</li>
+<li><span class="math inline">\(P(p|x_{1:n}) =\frac{P(x_{1:n}|p)*P(p)}{P(x_{1:n})} = \frac{likelihood*prior}{evidence}\)</span></li>
+</ul></li>
+<li>算法
+<ul>
+<li>极大后验估计的算法就是找到<span class="math inline">\(p\)</span>让后验概率最大化。</li>
+<li><span class="math inline">\(\displaystyle \mathop{\arg\max}_{p} P(p|x_{1:n})= \frac{P(x_{1:n}|p)*P(p)}{P(x_{1:n})}\)</span></li>
+<li>对于本模型，对于不同的先验概率P(p)会有不同的情况，有一些可以获得解析解，具体2.2所示。</li>
+</ul></li>
+</ul>
+</section>
+<section id="具体的求解-1" class="level5">
+<h5 class="anchored" data-anchor-id="具体的求解-1">2.2 具体的求解</h5>
+<p>由于题目中没有给出p的先验概率分布，</p>
+<section id="不妨认为参数p服从均匀分布psim-u0-1-也就是说p的先验概率为均匀分布那么pp-1p" class="level6">
+<h6 class="anchored" data-anchor-id="不妨认为参数p服从均匀分布psim-u0-1-也就是说p的先验概率为均匀分布那么pp-1p">2.2.1 不妨认为参数p服从均匀分布，<span class="math inline">\(p\sim U[0, 1]\)</span>, 也就是说p的先验概率为均匀分布，那么$P(p) = =1,p$</h6>
+<ul>
+<li>注，这P是连续随机变量的概率密度函数</li>
+</ul>
+<p><span class="math inline">\(P(p|x_{1:n})\)</span>的分母是一个正的相对于p的常数，对于求最大值而言可以去除。</p>
+<p>那么此时原优化目标变为 <span class="math inline">\(\displaystyle \mathop{\arg\max}_{p} P(x_{1:n}|p)*P(p) = P(x_{1:n}|p)\)</span>， 贝叶斯估计退化为极大似然估计，我们得到的结论和过程与上文1.2所述完全一致。</p>
+</section>
+<section id="如果认为参数p服从beta分布我们能获得更加有意思的结果这个在prml书中有讲到" class="level6">
+<h6 class="anchored" data-anchor-id="如果认为参数p服从beta分布我们能获得更加有意思的结果这个在prml书中有讲到">2.2.2 如果认为参数p服从<span class="math inline">\(\beta\)</span>分布，我们能获得更加有意思的结果，这个在PRML书中有讲到。</h6>
+<p><span class="math inline">\(\beta\)</span>分布的密度函数是这样的<span class="math inline">\(P(p) = \beta(p;a,b) = \frac{p^{a-1}(1-p)^{b-1}}{C}\)</span>, a和b是这个分布的参数，C是使得概率密度函数积分为1的一个常数，在这里不重要。</p>
+<p><span class="math inline">\(\displaystyle \mathop{\arg\max}_{p} P(x_{1:n}|p)*P(p) = P(x_{1:n}|p)*\beta(p;a,b)\)</span></p>
+<p>求解极值问题等价于求解log之后的极值问题。</p>
+<div id="cell-15" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> symbols(<span class="st">'a b'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> p<span class="op">**</span>(a<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>p)<span class="op">**</span>(b<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> like<span class="op">*</span>beta</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> log(posterior)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>posterior</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math inline">\(\displaystyle \log{\left(p^{k} p^{a - 1} \left(1 - p\right)^{b - 1} \left(1 - p\right)^{- k + n} \right)}\)</span></p>
+</div>
+</div>
+<p>类似于1.2，我们来求导数。</p>
+<div id="cell-17" class="cell">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>posterior_prime <span class="op">=</span> diff(posterior, p)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> Eq(posterior_prime, <span class="dv">0</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>solutions:<span class="bu">list</span> <span class="op">=</span> solve(eq, p) </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>solutions</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<pre><code>[0**(1/(a + k - 1)),
+ (a + k - 1)/(a + b + n - 2),
+ 1 - 0**(1/(k - n)),
+ 1 - 0**(1/(b - k + n - 1))]</code></pre>
+</div>
+</div>
+<p>可以得到critical point为0, 1和 <span class="math inline">\(\frac{a + k - 1}{a + b + n - 2}\)</span>，同样的可以发现第三个解比较通用，涵盖了前两个解的情况，所以贝叶斯估计的结果是<span class="math inline">\(p = \frac{a + k - 1}{a + b + n - 2}\)</span>。如果a=b=1,那么和最大似然估计的结果一样。</p>
+</section>
+</section>
+</section>
+</section>
+</section>
+<section id="第二题" class="level2">
+<h2 class="anchored" data-anchor-id="第二题">第二题</h2>
+<blockquote class="blockquote">
+<p>通过经验风险最小化推导极大似然估计。证明模型是条件概率分布，当损</p>
+<p>失函数是对数损失函数时，经验风险最小化等价于极大似然估计。</p>
+</blockquote>
+<section id="审题-1" class="level3">
+<h3 class="anchored" data-anchor-id="审题-1">审题</h3>
+<ul>
+<li>题目出处？（题目中的概念是哪一本书的定义？）
+<ul>
+<li>李航《统计学习方法》</li>
+</ul></li>
+<li>李航书中“经验风险”和“对数损失函数”是怎么定义的？
+<ul>
+<li>经验风险<span class="math inline">\(R_{emp}(f)=\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))\)</span></li>
+<li>对数损失函数<span class="math inline">\(Loss(Y, P(Y|X)) = -logP(Y|X)\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="解题-1" class="level3">
+<h3 class="anchored" data-anchor-id="解题-1">解题</h3>
+<p>根据题意，当损失函数是对数损失函数时，经验风险为</p>
+<p><span class="math inline">\(R_{emp}(f)=\frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))=\frac{1}{N}\sum_{i=1}^{N}-logP(y_i|x_i)\)</span></p>
+<p>经验风险最小化是指</p>
+<p><span class="math inline">\(f = \mathop{\arg\min}_{f} R_{emp}(f) = \mathop{\arg\min}_{f} -\sum_{i=1}^{N}logP(y_i|x_i)=\mathop{\arg\max}_{f}\sum_{i=1}^{N}logP(y_i|x_i)\)</span></p>
+<p>由于log函数的性质，</p>
+<p><span class="math inline">\(f = \mathop{\arg\max}_{f}\prod_{i=1}^{N}P(y_i|x_i) = \mathop{\arg\max}_{f}\prod_{i=1}^{N}\frac{P(y_i, x_i)}{P(x_i)}\)</span>，由于evidence概率<span class="math inline">\(P(x_i)\)</span>与模型的参数无关，可以认为是一个常数，所以在优化中可以去除，注意这是重要的一个推导。</p>
+<p><span class="math inline">\(f = \mathop{\arg\max}_{f}\prod_{i=1}^{N}P(y_i, x_i) = \mathop{\arg\max}_{f}\prod_{i=1}^{N}P(y_i, x_i| f)\)</span>， 注意，在上文中李航书中的条件概率省略了f（而PRML书是没有省略的），比如上文的<span class="math inline">\(P(Y|X)\)</span>实际上是<span class="math inline">\(P(Y|X, f)\)</span>，这里我们为了和似然做比较，显式地加回来。</p>
+<p>由于数据i.i.d.</p>
+<p><span class="math inline">\(f = \mathop{\arg\max}_{f}P(Y,X|f)\)</span>, 而这就是极大似然估计，给定一个f，求出现这个数据集中的(X, Y)的出现概率，这个叫做似然。因此得证。</p>
+</section>
+</section>
+<section id="附加题" class="level2">
+<h2 class="anchored" data-anchor-id="附加题">附加题</h2>
+<blockquote class="blockquote">
+<p>考虑一个回归模型 $ f <span class="math inline">\(,它的目标变量为\)</span>t=f(x,w,^2)+$，其中 <span class="math inline">\(\varepsilon\)</span> 是一个随机噪声，<span class="math inline">\(\varepsilon\)</span> 的概率密度为： <span class="math display">\[p(x)=\frac{q}{2(2\sigma ^2)^{\frac{1}{q}}\Gamma (\frac{1}{q})}\exp(-\frac{|x|^q}{2\sigma ^2})\]</span> 给定观测数据集 <span class="math inline">\(Data=\{(X,t)\}= \{(x_1,t_1)...(x_N,t_N)\}\)</span>,求f 关于参数 w 和 <span class="math inline">\(\sigma^2\)</span> 的对数似然函数。</p>
+</blockquote>
+<section id="审题-2" class="level3">
+<h3 class="anchored" data-anchor-id="审题-2">审题</h3>
+<ul>
+<li>题目出处？
+<ul>
+<li>推测是PRML上的</li>
+</ul></li>
+<li><span class="math inline">\(\Gamma\)</span>是什么函数？
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/Γ函数">Γ函数 - 维基百科，自由的百科全书 (wikipedia.org)</a></li>
+<li>是阶乘函数的一个扩展</li>
+</ul></li>
+</ul>
+</section>
+<section id="解题-2" class="level3">
+<h3 class="anchored" data-anchor-id="解题-2">解题</h3>
+<p>本题我们不知道f的形式，但是题目告诉了我们ground truth，也就是t的真实情况是一个已知的f函数加上一个噪声，f函数的未知参数需要我们根据极大似然估计来求出。</p>
+<p>似然函数本来是问我们，假如已知了<span class="math inline">\(w,\sigma^2\)</span>，对应数据集Data出现的概率是多少，也就是<span class="math inline">\(P(Data|w,\sigma^2)\)</span>。</p>
+<p>如果有了<span class="math inline">\(w,\sigma^2\)</span>, f也知道，我们算出来的预测<span class="math inline">\(\hat{t}=f(x,w,\sigma^2)\)</span>与t之间有差值，如果我们<span class="math inline">\(w,\sigma^2\)</span>就是真相，那么对应的差值就是真正的<span class="math inline">\(\varepsilon\)</span>，那么它就应该服从题目描述的那个分布，这个情况下，我们就能算出来<span class="math inline">\(P(\varepsilon)\)</span>，这个<span class="math inline">\(P(\varepsilon)\)</span>就是我们给定<span class="math inline">\(w,\sigma^2\)</span>情况下数据出现的概率。</p>
+<p><span class="math inline">\(LogLike(w,\sigma^2) = logP(Data|w,\sigma^2) = \sum_{i=1}^{N}logP(\varepsilon_i|w,\sigma^2)) = \sum_{i=1}^{N}log p(t_i-f(x_i, w,\sigma^2); w,\sigma^2)\)</span></p>
+<p>带入题目给的概率密度p，这个式子变为</p>
+<p>$LogLike(w,^2) = _{i=1}^{N} ( (-) ) $</p>
+<p>利用log的性质</p>
+<p><span class="math inline">\(LogLike(w,\sigma^2) = \sum_{i=1}^{N} \left( \log(q) - \log(2(2\sigma^2)^{\frac{1}{q}}\Gamma(\frac{1}{q})) - \frac{|t_i - f(x_i, w, \sigma^2)|^q}{2\sigma^2} \right)\)</span></p>
+<p>最后一项和求和有关，其他都没有关系</p>
+<p><span class="math inline">\(LogLike(w,\sigma^2) = N \log(q) - N \log(2(2\sigma^2)^{\frac{1}{q}}\Gamma(\frac{1}{q})) - \frac{1}{2\sigma^2} \sum_{i=1}^{N} |t_i - f(x_i, w, \sigma^2)|^q\)</span></p>
+<p>由于没法继续进行化简，这个式子就是我们给出的答案。</p>
+<p>当我们做极大似然估计的时候，q和N是常数，所以损失函数为</p>
+<p><span class="math inline">\(Loss(w,\sigma^2) = \frac{1}{2\sigma^2} \sum_{i=1}^{N} |t_i - f(x_i, w, \sigma^2)|^q + N \log(2(2\sigma^2)^{\frac{1}{q}}\Gamma(\frac{1}{q}))\)</span></p>
+<p>我们可以看到，这是用了误差绝对值的q次方来惩罚，然后后面增加了一个正则项防止<span class="math inline">\(\sigma^2\)</span>的值太大。</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Open-Book-Studio\.github\.io\/THU-Coursework-Machine-Learning-for-Big-Data");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Open-Book-Studio/THU-Coursework-Machine-Learning-for-Big-Data/issues/new" class="toc-action"><i class="bi bi-github"></i>反馈问题</a></li></ul></div></div></div></footer></body></html>

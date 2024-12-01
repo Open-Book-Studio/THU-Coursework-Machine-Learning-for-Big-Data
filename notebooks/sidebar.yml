@@ -44,4 +44,7 @@ website:
           - section: A6
             contents:
               - theory_assignments/A6/P_Assignment6_yecanming.ipynb
+          - section: A7
+            contents:
+              - theory_assignments/A7/P_Assignment7_yecanming.ipynb
         href: theory_assignments/index.ipynb

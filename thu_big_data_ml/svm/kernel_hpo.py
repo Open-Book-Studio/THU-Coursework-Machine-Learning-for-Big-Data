@@ -4,17 +4,17 @@
 __all__ = ['fixed_meta_params', 'frozen_rvs', 'study_path', 'sqlite_url', 'study', 'SupportVectorClassifierConfig',
            'evaluate_svm', 'objective_svm', 'dict_to_dataclass', 'draw_probs']
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 5
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 6
 from scholarly_infrastructure.logging.nucleus import logger, print
 from sklearn.datasets import load_digits, fetch_openml
 from thu_big_data_ml.svm.infra import process_sklearn_dataset_dict, compute_classification_metrics
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 11
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 12
 from scholarly_infrastructure.rv_args.nucleus import RandomVariable, experiment_setting
 from optuna.distributions import IntDistribution, FloatDistribution, CategoricalDistribution
 from typing import Optional, Union
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 12
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 13
 @experiment_setting
 class SupportVectorClassifierConfig:
     # 惩罚系数 C
@@ -124,14 +124,15 @@ class SupportVectorClassifierConfig:
         distribution=IntDistribution(0, 100)  # 根据需求设置范围
     )
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 14
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 15
 from dataclasses import asdict
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 16
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 17
 import optuna
 from sklearn.svm import SVC
 from sklearn.model_selection import KFold
 
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 18
 def evaluate_svm(config:SupportVectorClassifierConfig, X_train, y_train,
                  trial:optuna.Trial = None, 
                  critical_metric="acc1_pred", num_of_repeated=5):
@@ -178,7 +179,7 @@ def evaluate_svm(config:SupportVectorClassifierConfig, X_train, y_train,
         trial.set_user_attr(f"num_of_repeated", num_of_repeated)
     return result_dict
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 21
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 23
 fixed_meta_params = SupportVectorClassifierConfig(
     probability = False, # 暂时不研究，只关注 acc1_pred
     # 与性能无关
@@ -188,7 +189,7 @@ fixed_meta_params = SupportVectorClassifierConfig(
 )
 frozen_rvs = {"probability", "cache_size", "verbose", "random_state"}
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 22
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 24
 def objective_svm(trial:optuna.Trial, X_train_val, y_train_val, num_of_repeated=5, critical_metric="acc1_pred", critical_reduction="mean"):
     config:SupportVectorClassifierConfig = SupportVectorClassifierConfig.optuna_suggest(
         trial, fixed_meta_params, frozen_rvs=frozen_rvs)
@@ -204,19 +205,19 @@ def objective_svm(trial:optuna.Trial, X_train_val, y_train_val, num_of_repeated=
         raise optuna.exceptions.TrialPruned()
     return critical_result
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 24
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 26
 from ..help import runs_path
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 25
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 27
 study_path = runs_path / "optuna_studies.db"
 sqlite_url = f"sqlite:///{study_path}"
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 26
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 28
 from optuna.samplers import *
 from optuna.pruners import *
 import json
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 27
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 29
 study = optuna.create_study(
     study_name="svm kernel hpo 11.17 3.0", 
     storage=sqlite_url, 
@@ -227,11 +228,11 @@ study = optuna.create_study(
 study.set_user_attr("contributors", ["Ye Canming"])
 study.set_user_attr("fixed_meta_parameters", json.dumps(asdict(fixed_meta_params)))
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 76
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 78
 import scikit_posthocs as sp
 from scikit_posthocs import posthoc_dunn
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 111
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 113
 def dict_to_dataclass(dataclass_type, data_dict):
     converted_dict = {}
     for field in fields(dataclass_type):
@@ -255,10 +256,10 @@ def dict_to_dataclass(dataclass_type, data_dict):
                 converted_dict[field_name] = field_type(value)
     return dataclass_type(**converted_dict)
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 125
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 127
 import seaborn as sns
 
-# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 126
+# %% ../../notebooks/coding_projects/P2_SVM/03svm_kernel_hpo.ipynb 128
 def draw_probs(y_pred_prob, y_test, interested_class:int):
     sns.scatterplot(y_pred_prob[y_test!=interested_class][:, interested_class], label=f"is not {interested_class}")
     sns.scatterplot(y_pred_prob[y_test==interested_class][:, interested_class], label=f"is {interested_class}", color="red")
