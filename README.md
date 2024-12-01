@@ -80,8 +80,9 @@ $ pip install thu_big_data_ml
 ### Documentation
 
 Documentation can be found hosted on this
-https://thu-coursework-machine-learning-for-big-data-docs.vercel.app/ .
-Additionally you can find package manager specific guidelines on
+https://open-book-studio.github.io/THU-Coursework-Machine-Learning-for-Big-Data/
+or https://thu-coursework-machine-learning-for-big-data-docs.vercel.app/
+. Additionally you can find package manager specific guidelines on
 [pypi](https://pypi.org/project/THU-Coursework-Machine-Learning-for-Big-Data/)
 respectively.
 
