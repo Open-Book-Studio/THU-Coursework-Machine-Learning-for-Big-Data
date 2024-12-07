@@ -23,6 +23,11 @@ website:
               - section: P2_Matrix-Decomposition
                 contents:
                   - coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb
+          - section: digital_processing_of_speech_signals
+            contents:
+              - section: P2_HMM
+                contents:
+                  - coding_projects/digital_processing_of_speech_signals/P2_HMM/00hidden_markov_model.ipynb
         href: coding_projects/index.ipynb
       - section: theory_assignments
         contents:
@@ -47,4 +52,7 @@ website:
           - section: A7
             contents:
               - theory_assignments/A7/P_Assignment7_yecanming.ipynb
+          - section: A8
+            contents:
+              - theory_assignments/A8/P_Assignment8_yecanming.ipynb
         href: theory_assignments/index.ipynb

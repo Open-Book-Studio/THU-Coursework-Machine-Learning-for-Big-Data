@@ -126,6 +126,7 @@ def jax_masked_mse_loss(reconstructed:jnp.ndarray, matrix:jnp.ndarray)->jnp.ndar
 
 # %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 135
 import lightning as L # PyTorch Lightning库，这里我们只是用它来固定随机数种子
+from tqdm import tqdm # 进度条库
 
 # %% ../../notebooks/coding_projects/big_data_analytics/P2_Matrix-Decomposition/00matrix_decomposition.ipynb 136
 def train_matrix_factorization(X_train_dense:np.array, X_test_dense:np.array, k:int = 50, 
